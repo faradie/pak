@@ -32,9 +32,13 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="#page-top">Kementerian Agama RI</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        @if(Route::has('login'))
+            @auth
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            @endauth
+        @endif
         <div class="collapse navbar-collapse" id="navbarResponsive">
             @if (Route::has('login'))
                 <ul class="navbar-nav ml-auto">
@@ -85,15 +89,23 @@
           <div class="col-lg-8 mx-auto">
             <p class="text-faded mb-5">Ini adalah website resmi Kementerian Agama RI dengan template dan desain baru. Anda dapat menemukan informasi lebih lanjut tentang Kementerian Agama RI di website ini.</p>
             <div class="container">
-                    <div class="row">
-                            <div class="col">
-                                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="{{ route('register') }}">Daftar</a>
-                            </div>
-                            <div class="col">
-                                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="{{ route('login') }}">Masuk</a>
-                            </div>
-                            
-                    </div>
+                @if (Route::has('login'))
+                  @auth
+                  
+                    @else
+                      <div class="row">
+                        <div class="col">
+                                <a class="btn btn-primary btn-xl js-scroll-trigger" href="{{ route('register') }}">Daftar</a>
+                        </div>
+                        <div class="col">
+                                <a class="btn btn-primary btn-xl js-scroll-trigger" href="{{ route('login') }}">Masuk</a>
+                        </div>
+                        
+                      </div>
+                  @endauth
+                @endif
+            
+                    
             </div>
             
           </div>
