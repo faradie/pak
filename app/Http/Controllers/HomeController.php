@@ -25,4 +25,14 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function kelolaIjin()
+    {
+        return view('home');
+    }
+    
+    // public function guest_index()
+    // {
+    //     return view('auth.login');
+    // }
 }
