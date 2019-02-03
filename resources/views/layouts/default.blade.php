@@ -9,8 +9,10 @@
 
   <body id="page-top">
 
-      @include('includes.navbar')
+      <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
+          @include('includes.navbar')
+      </nav>
     <div id="wrapper">
 
       <!-- Sidebar -->
