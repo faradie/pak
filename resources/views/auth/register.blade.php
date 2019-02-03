@@ -1,4 +1,4 @@
-@extends('layouts.log')
+@extends('layouts.authlayout')
 
 @section('content')
 <h4 class="card-title">Register</h4>

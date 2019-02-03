@@ -23,12 +23,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('pages.home');
     }
 
-    public function kelolaIjin()
+    public function about()
     {
-        return view('home');
+        // return View::make('pages.about');
+        return view('pages.about');
     }
     
     // public function guest_index()

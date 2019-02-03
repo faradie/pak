@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="author" content="Kodinger">
-	<title>My Login Page &mdash; Bootstrap 4 Login Page Snippet</title>
+	<title>DUPAK &mdash; {{ config('app.name', 'Laravel') }}</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/my-login.css') }}">
 </head>

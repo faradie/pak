@@ -12,12 +12,39 @@
 */
 Route::get('/', ['middleware' => 'auth', 'uses' => 'HomeController@index']);
 
+
+// Route::get('/', function()
+// {
+//     return View::make('pages.home');
+// });
+
+Route::get('/about', 'HomeController@about')->name('about');
+
+
+
+// Route::get('about', function()
+// {
+//     return View::make('pages.about');
+// });
+Route::get('projects', function()
+{
+    return View::make('pages.projects');
+});
+Route::get('contact', function()
+{
+    return View::make('pages.contact');
+});
+
+
 // Route::get('/', function () {
-//     if(session()->has('package_id')){
+
+//     return View::make('pages.home');
+
+//     // if(session()->has('package_id')){
         
-//     }
-//     return view('auth.login');
-//     // auth()->user()->assignRole('admin');
+//     // }
+//     // return view('auth.login');
+//     // // auth()->user()->assignRole('admin');
 // });
 
 // Route::group(['prefix' => '/'], function()
@@ -34,11 +61,11 @@ Route::get('/main', function () {
     return view('home');
 });
 
-Route::get('/log', function () {
-    return view('log');
-});
+// Route::get('/log', function () {
+//     return view('log');
+// });
 
-Route::get('ijin/', 'HomeController@kelolaIjin')->name('ijin');
+// Route::get('ijin/', 'HomeController@kelolaIjin')->name('ijin');
 
 Auth::routes();
 
