@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('alamat');
             $table->bigInteger('kredit');
+            $table->string('is_approved')->default('0');
             $table->rememberToken();
             $table->timestamps();
         });

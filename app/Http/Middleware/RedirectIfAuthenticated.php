@@ -21,7 +21,7 @@ class RedirectIfAuthenticated
             return redirect()->intended('/home');
             // return redirect('/home');
         }
-
+        // && Auth::user()->is_approved == '1'
         return $next($request);
     }
 }

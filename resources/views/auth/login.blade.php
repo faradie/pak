@@ -2,6 +2,11 @@
 
 @section('content')
 <h4 class="card-title">Login</h4>
+@if(session()->has('erro_login'))
+    <div class="alert alert-danger">
+        {{ session()->get('erro_login') }}
+    </div>
+@endif
 <form method="POST" action="{{ route('login') }}">
     @csrf
     <div class="form-group">
@@ -48,4 +53,5 @@
 
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
 	<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-	<script src="{{ asset('assets/vendor/bootstrap/js/my-login.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/my-login.js') }}"></script>
+    
