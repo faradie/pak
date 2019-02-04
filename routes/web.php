@@ -18,7 +18,7 @@ Route::get('/', ['middleware' => 'auth', 'uses' => 'HomeController@index']);
 //     return View::make('pages.home');
 // });
 
-Route::get('/about', 'HomeController@about')->name('about');
+
 
 
 
@@ -38,13 +38,13 @@ Route::get('contact', function()
 
 // Route::get('/', function () {
 
-//     return View::make('pages.home');
+//     // return View::make('pages.home');
 
 //     // if(session()->has('package_id')){
         
 //     // }
 //     // return view('auth.login');
-//     // // auth()->user()->assignRole('admin');
+//     auth()->user()->assignRole('applicant');
 // });
 
 // Route::group(['prefix' => '/'], function()
@@ -68,5 +68,6 @@ Route::get('/main', function () {
 // Route::get('ijin/', 'HomeController@kelolaIjin')->name('ijin');
 
 Auth::routes();
-
+Route::get('/about', 'HomeController@about')->name('about');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/manageusers', 'UserController@fetch')->name('manageusers');

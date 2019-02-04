@@ -31,6 +31,8 @@ class HomeController extends Controller
         // return View::make('pages.about');
         return view('pages.about');
     }
+
+    
     
     // public function guest_index()
     // {

@@ -1,4 +1,8 @@
 @extends('layouts.default')
 @section('content')
-    i am the home page
+    @if(auth()->user()->hasRole('admin'))
+        Dashboard Admin
+    @else
+        Dashboard Pemohon
+    @endif
 @stop

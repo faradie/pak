@@ -24,13 +24,13 @@
       <span class="badge badge-danger">9+</span>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-      <a class="dropdown-item" href="#">Action</a>
-      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#">Permberitahuan 1</a>
+      <a class="dropdown-item" href="#">Permberitahuan 2 asdas dasdas dasdasd</a>
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#">Something else here</a>
+      <a class="dropdown-item" href="#">Permberitahuan 3</a>
     </div>
   </li>
-  <li class="nav-item dropdown no-arrow mx-1">
+  {{-- <li class="nav-item dropdown no-arrow mx-1">
     <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="fas fa-envelope fa-fw"></i>
       <span class="badge badge-danger">7</span>
@@ -41,14 +41,14 @@
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="#">Something else here</a>
     </div>
-  </li>
+  </li> --}}
   <li class="nav-item dropdown no-arrow">
     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="fas fa-user-circle fa-fw"></i>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-      <a class="dropdown-item" href="#">Settings</a>
-      <a class="dropdown-item" href="#">Activity Log</a>
+      <a class="dropdown-item" href="#">Profil</a>
+      <a class="dropdown-item" href="#">Riwayat Pengajuan</a>
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
     </div>
