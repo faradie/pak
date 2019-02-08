@@ -28,12 +28,12 @@
                           <th  scope="row">{{$i}}</th >
                           <td>{{$user->id}}</td>
                           <td>{{$user->nama}}</td>
-                          <td>{{$user->credit}}</td>
+                          <td>{{$user->kredit}}</td>
                           <td>{{$user->getRoleNames()}}</td>
                           <td align="center">
-                                  <button type="button" class="btn btn-secondary">Detail</button>
-                                  <button type="button" class="btn btn-primary">Edit</em></button>
-                                  <button type="button" class="btn btn-danger">Hapus</em></button>
+                                  
+                                  <button type="button" class="btn btn-primary">Terima</em></button>
+                                  <button type="button" class="btn btn-danger">Tolak</em></button>
                                 </td>
                     </tr>
                     <?php $i++;?>

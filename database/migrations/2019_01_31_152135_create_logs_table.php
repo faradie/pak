@@ -16,8 +16,10 @@ class CreateLogsTable extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->string('submission_id');
             $table->string('position_log');
+            $table->string('nip');
             $table->timestamps();
 
+            $table->foreign('nip')->references('id')->on('users')->onDelete('CASCADE');
             $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('CASCADE');
         });
     }

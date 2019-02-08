@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -11,6 +12,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        // create role dan admin ketika menjalankan aplikasi
+        $this->call(RoleTableSeeder::class);
+        $this->call(AdminUserSeeder::class);
     }
 }

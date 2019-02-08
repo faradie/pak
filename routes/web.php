@@ -48,7 +48,7 @@ Route::get('contact', function()
         
 //     // }
 //     // return view('auth.login');
-//     auth()->user()->assignRole('applicant');
+//     auth()->user()->assignRole('admin');
 // });
 
 // Route::group(['prefix' => '/'], function()
@@ -120,3 +120,4 @@ Route::get('login', [
 Route::get('/about', 'HomeController@about')->name('about');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/manageusers', 'UserController@fetch')->name('manageusers');
+Route::get('/newapplicant', 'UserController@fetchnewapplicant')->name('newapplicant');

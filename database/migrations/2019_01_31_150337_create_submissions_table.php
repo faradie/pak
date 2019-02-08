@@ -14,11 +14,13 @@ class CreateSubmissionsTable extends Migration
     public function up()
     {
         Schema::create('submissions', function (Blueprint $table) {
-            $table->string('id')->unique();
+            $table->string('id')->unique()->primary();
             $table->string('nip');
-            $table->string('submission_status');
-            $table->string('series_number');
-            $table->bigInteger('submission_score');
+            $table->string('submission_position');
+            $table->string('submission_status')->nullable();
+            $table->string('series_number')->nullable();
+            $table->bigInteger('submission_score')->nullable();
+            $table->bigInteger('team_score')->nullable();
             $table->timestamps();
 
             $table->foreign('nip')->references('id')->on('users')->onDelete('CASCADE');

@@ -2,6 +2,11 @@
 
 @section('content')
 <h4 class="card-title">Register</h4>
+@if(session()->has('erro_login'))
+    <div class="alert alert-danger">
+        {{ session()->get('erro_login') }}
+    </div>
+@endif
 <form method="POST" class="daftar" action="{{ route('register') }}">
     @csrf
 								<div class="form-group">

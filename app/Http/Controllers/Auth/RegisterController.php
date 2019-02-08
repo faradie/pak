@@ -29,7 +29,12 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
-
+//     protected function redirectTo()
+// {
+//     // $userName = Auth::user()->name;
+//     // //use your own route
+//     return redirect('/login')->with('erro_login', 'Registrasi berhasil. Mohon tunggu persetujuan dari admin');
+// }
     /**
      * Create a new controller instance.
      *
@@ -74,8 +79,8 @@ class RegisterController extends Controller
             'nama' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'alamat' => $data['address'],
-            'kredit' => $data['credit'],    
+            'address' => $data['address'],
+            'credit' => $data['credit'],    
         ]);
     }
 }

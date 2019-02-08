@@ -47,6 +47,7 @@
       <i class="fas fa-user-circle fa-fw"></i>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+        <a class="dropdown-item">{{auth()->user()->nama}}</a>
       <a class="dropdown-item" href="#">Profil</a>
       <a class="dropdown-item" href="#">Riwayat Pengajuan</a>
       <div class="dropdown-divider"></div>

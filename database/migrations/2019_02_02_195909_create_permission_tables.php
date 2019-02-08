@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreatePermissionTables extends Migration
 {
+    // 
     /**
      * Run the migrations.
      *
@@ -34,7 +35,7 @@ class CreatePermissionTables extends Migration
             $table->unsignedInteger('permission_id');
 
             $table->string('model_type');
-            $table->unsignedBigInteger($columnNames['model_morph_key']);
+            $table->string($columnNames['model_morph_key']);
             $table->index([$columnNames['model_morph_key'], 'model_type', ]);
 
             $table->foreign('permission_id')
@@ -42,21 +43,31 @@ class CreatePermissionTables extends Migration
                 ->on($tableNames['permissions'])
                 ->onDelete('cascade');
 
+                // $table->foreign($columnNames['model_morph_key'])
+                // ->references('id')
+                // ->on('users')
+                // ->onDelete('cascade');
+
             $table->primary(['permission_id', $columnNames['model_morph_key'], 'model_type'],
                     'model_has_permissions_permission_model_type_primary');
         });
 
         Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames) {
             $table->unsignedInteger('role_id');
-
+            // unsignedBigInteger
             $table->string('model_type');
-            $table->unsignedBigInteger($columnNames['model_morph_key']);
+            $table->string($columnNames['model_morph_key']);
             $table->index([$columnNames['model_morph_key'], 'model_type', ]);
 
             $table->foreign('role_id')
                 ->references('id')
                 ->on($tableNames['roles'])
                 ->onDelete('cascade');
+
+                // $table->foreign($columnNames['model_morph_key'])
+                // ->references('id')
+                // ->on('users')
+                // ->onDelete('cascade');
 
             $table->primary(['role_id', $columnNames['model_morph_key'], 'model_type'],
                     'model_has_roles_role_model_type_primary');

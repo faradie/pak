@@ -14,6 +14,7 @@ class CreateFilesTable extends Migration
     public function up()
     {
         Schema::create('files', function (Blueprint $table) {
+            $table->string('item_id')->primary();
             $table->string('submission_id');
             $table->string('file_name');
             $table->decimal('file_size',8,2);
@@ -21,6 +22,7 @@ class CreateFilesTable extends Migration
             $table->timestamps();
 
             $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('CASCADE');
+            $table->foreign('item_id')->references('id')->on('items')->onDelete('CASCADE');
         });
     }
 

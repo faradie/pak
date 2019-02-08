@@ -12,6 +12,7 @@ class User extends Authenticatable
     use Notifiable, HasRoles;
 
     protected $primaryKey ="id";
+    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id','nama', 'email', 'password','alamat','kredit'
+        'id','nama', 'email', 'password','address','credit'
     ];
 
     /**
