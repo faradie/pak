@@ -8,8 +8,8 @@
   </head>
 
   <body id="page-top">
-
-      <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+    {{-- fixed-top --}}
+      <nav class="navbar navbar-expand navbar-dark bg-dark sticky-top">
           @include('includes.navbar')
       </nav>
     <div id="wrapper">

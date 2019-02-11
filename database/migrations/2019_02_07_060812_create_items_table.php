@@ -16,7 +16,8 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->string('id')->unique()->primary();
             $table->string('item_name');
-            $table->bigInteger('point');
+            $table->decimal('point', 8, 4);
+            $table->string('jenis');
         });
     }
 

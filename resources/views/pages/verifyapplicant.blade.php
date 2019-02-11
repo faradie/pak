@@ -28,7 +28,7 @@
                           <th  scope="row">{{$i}}</th >
                           <td>{{$user->id}}</td>
                           <td>{{$user->nama}}</td>
-                          <td>{{$user->kredit}}</td>
+                          <td>{{$user->credit}}</td>
                           <td>{{$user->getRoleNames()}}</td>
                           <td align="center">
                                   

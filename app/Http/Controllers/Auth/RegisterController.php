@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 //     protected function redirectTo()
 // {
 //     // $userName = Auth::user()->name;

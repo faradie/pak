@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function fetch(){
         $users = User::all()->where('is_approved','1');
         // $users = DB::table('users')->where('is_approved', '=', 1)->get();

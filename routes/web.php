@@ -121,3 +121,10 @@ Route::get('/about', 'HomeController@about')->name('about');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/manageusers', 'UserController@fetch')->name('manageusers');
 Route::get('/newapplicant', 'UserController@fetchnewapplicant')->name('newapplicant');
+
+//terampil submission route
+Route::get('/submission/terampil/create', 'SubmissionController@createTerampil')->name('terampil_create');
+
+
+//ahli submission route
+Route::get('/submission/ahli/create', 'SubmissionController@createAhli')->name('ahli_create');

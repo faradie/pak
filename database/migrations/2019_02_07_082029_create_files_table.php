@@ -19,6 +19,7 @@ class CreateFilesTable extends Migration
             $table->string('file_name');
             $table->decimal('file_size',8,2);
             $table->string('data_status');
+            $table->string('type');
             $table->timestamps();
 
             $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('CASCADE');

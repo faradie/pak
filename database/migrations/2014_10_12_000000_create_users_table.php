@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->date('birth_date')->nullable();
             $table->string('gender')->nullable();
             $table->bigInteger('credit');
+            $table->string('photoUrl')->nullable();
             $table->string('is_approved')->default('0');
             $table->rememberToken();
             $table->timestamps();
