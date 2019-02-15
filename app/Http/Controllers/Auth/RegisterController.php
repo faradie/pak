@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Unit;
+use App\sk;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Webpatser\Uuid\Uuid;
 
 class RegisterController extends Controller
 {
@@ -58,9 +61,16 @@ class RegisterController extends Controller
             'credit' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
+            'pkPosition' => ['required', 'string', 'max:255'],
+            'workUnit' => ['required', 'string', 'max:255'],
+            'serialCard' => ['required', 'string', 'max:255'],
+            'inputGender' => ['required', 'string', 'max:255'],
+            'inputPlace' => ['required', 'string', 'max:255'],
+            'inputDate' => ['required', 'date'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
-            
+            'lastSKUpload' => ['required','max:10000'],
+            'photoUpload' => ['required','max:2000'],
         ]);
     }
 
@@ -74,6 +84,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        
+            $request = request();
+            $sk = $request->file('lastSKUpload')->store('SK');
+            $photo = $request->file('photoUpload')->store('profil');
+            // $profileImageSaveAsName = time() . Auth::id() . "-profile." . 
+            //                           $profileImage->getClientOriginalExtension();
+
+            // $upload_path = 'profile_images/';
+            // $profile_image_url = $upload_path . $profileImageSaveAsName;
+            // $success = $profileImage->move($upload_path, $profileImageSaveAsName);
+
+        // $sk = $data->file('lastSKUpload')->store('lastSK');
+           
+        $uid = Uuid::generate();
+        sk::create([
+            'id' => $uid,
+            'nip' => $data['nip'],
+            'skUrl' => $sk,
+        ]);
         return User::create([
             'id' => $data['nip'],
             'nama' => $data['name'],
@@ -81,6 +110,20 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'address' => $data['address'],
             'credit' => $data['credit'],    
+            'pkPosition' => $data['pkPosition'],    
+            'unit' => $data['workUnit'],    
+            'CardSerialNumber' => $data['serialCard'],    
+            'gender' => $data['inputGender'],    
+            'birth_place' => $data['inputPlace'],    
+            'birth_date' => $data['inputDate'],    
+            'photoUrl' => $photo,    
+            'lastSKUrl' => $uid,
         ]);
+
+    }
+
+    public function showRegistrationForm(){
+        $units = Unit::all();
+        return view('auth.register', compact('units'));
     }
 }

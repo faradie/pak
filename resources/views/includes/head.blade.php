@@ -21,8 +21,13 @@
 
     <!-- Page level plugin CSS-->
     <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/dropzone.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin.css') }}" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dropzone.js') }}" type="text/javascript"></script>
+    

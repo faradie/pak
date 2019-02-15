@@ -1,7 +1,6 @@
 @extends('layouts.default')
 @section('content')
 
-<?php $i=1;?>
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari dengan nama..">
 <div class="table-responsive">
 <table id="myTable" class="table table-striped">
@@ -23,20 +22,21 @@
               </thead>
               <tbody>
                     @foreach ($users as $user)
- 
                     <tr>
-                          <th  scope="row">{{$i}}</th >
+                          <th  scope="row">{{$loop->iteration}}</th >
                           <td>{{$user->id}}</td>
                           <td>{{$user->nama}}</td>
                           <td>{{$user->credit}}</td>
                           <td>{{$user->getRoleNames()}}</td>
-                          <td align="center">
-                                  <button type="button" class="btn btn-secondary">Detail</button>
-                                  <button type="button" class="btn btn-primary">Edit</em></button>
-                                  <button type="button" class="btn btn-danger">Hapus</em></button>
-                                </td>
+                          <td >
+
+                            <div class="btn-group" role="group" aria-label="...">
+                              <button type="button" class="btn btn-info">Detail</button>
+                              <button type="button" class="btn btn-dark">Edit</button>
+                              <button type="button" class="btn btn-danger">Hapus</button>
+                            </div>
+                          </td>
                     </tr>
-                    <?php $i++;?>
                     @endforeach
                   </tbody>
   

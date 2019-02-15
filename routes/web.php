@@ -61,9 +61,6 @@ Route::get('contact', function()
 //     }
 // });
 
-Route::get('/main', function () {
-    return view('home');
-});
 
 // Route::get('/log', function () {
 //     return view('log');
@@ -122,9 +119,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/manageusers', 'UserController@fetch')->name('manageusers');
 Route::get('/newapplicant', 'UserController@fetchnewapplicant')->name('newapplicant');
 
+Route::get('/newapplicant/detail/{id}', 'UserController@detailAplicant')->name('detail_Aplicant');
+Route::patch('/newapplicant/detail/{id}', 'UserController@acccept_applicant')->name('acccept_applicant');
+
+
 //terampil submission route
 Route::get('/submission/terampil/create', 'SubmissionController@createTerampil')->name('terampil_create');
 
 
 //ahli submission route
 Route::get('/submission/ahli/create', 'SubmissionController@createAhli')->name('ahli_create');
+
+// edit settings user
+Route::get('/user/{id}/settings','UserController@settings')->name('user.settings');
+Route::patch('/user/{id}/settings','UserController@edit')->name('user.edit');

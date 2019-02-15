@@ -24,9 +24,9 @@
       </div>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="{{ route('about') }}">
+      <a class="nav-link" href="{{ route('user.settings',auth()->user()->id) }}">
         {{-- <i class="fas fa-fw fa-user"></i> --}}
-        <span>Profil</span></a>
+        <span>Pengaturan</span></a>
     </li>
     {{-- <li class="nav-item">
       <a class="nav-link" href="tables.html">

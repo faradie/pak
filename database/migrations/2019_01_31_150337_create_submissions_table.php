@@ -16,11 +16,12 @@ class CreateSubmissionsTable extends Migration
         Schema::create('submissions', function (Blueprint $table) {
             $table->string('id')->unique()->primary();
             $table->string('nip');
-            $table->string('submission_position');
-            $table->string('submission_status')->nullable();
-            $table->string('series_number')->nullable();
-            $table->bigInteger('submission_score')->nullable();
-            $table->bigInteger('team_score')->nullable();
+            $table->string('submission_position');              //posisi file pengajuan
+            $table->string('submission_status')->nullable();        //hold or done
+            $table->string('series_number')->nullable();              //nomor seri pengajuan
+            $table->bigInteger('submission_score')->nullable();     //nilai dupak sebelum dikoreksi tim penilai
+            $table->bigInteger('team_score')->nullable();   //penilaian dari tim sesudah dikoreksi
+            $table->string('SKFileUrl')->nullable();     //untuk link SK per pengajuan
             $table->timestamps();
 
             $table->foreign('nip')->references('id')->on('users')->onDelete('CASCADE');

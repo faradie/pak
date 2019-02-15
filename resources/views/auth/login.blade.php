@@ -33,12 +33,12 @@
                                     </span>
                                 @endif
     </div>
-
+{{-- 
     <div class="form-group">
         <label>
             <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Ingat saya
         </label>
-    </div>
+    </div> --}}
 
     <div class="form-group no-margin">
         <button type="submit" class="btn btn-primary btn-block">

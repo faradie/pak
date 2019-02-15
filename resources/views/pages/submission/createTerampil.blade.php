@@ -50,7 +50,7 @@
           <div class="card-header" id="headingOne">
             <h2 class="mb-0">
               <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                Pendidikan
+                I . Pendidikan
               </button>
             </h2>
           </div>
@@ -60,7 +60,7 @@
                     {{-- Table A --}}
                     <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Pendidikan sekolah dan memperoleh ijazah/gelar</li>
+                        <li class="breadcrumb-item active" aria-current="page">A . Pendidikan sekolah dan memperoleh ijazah/gelar</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -69,8 +69,13 @@
                                             <tr>
                                               <th scope="col">No</th>
                                               <th scope="col">Butir Kegiatan</th>
+                                              <th scope="col">Satuan Hasil</th>
                                               <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
+                                              <th scope="col">Batas Penilaian</th>
+                                              <th scope="col">Pelaksana</th>
+                                              <th scope="col">Bukti Fisik</th>
+                                              <th class="text-center" scope="col">File</th>
+                                              <th class="text-center" scope="col">Info</th>
                                             </tr>
                                           </thead>
                                     <tbody>
@@ -78,8 +83,17 @@
                                       <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
@@ -88,7 +102,7 @@
                     {{-- akhir --}}
                     <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item active" aria-current="page">Pendidikan dan Pelatihan fungsional dibidang kepranataan komputer dan memperoleh surat tanda tamat pendidikan dan pelatihan</li>
+                                <li class="breadcrumb-item active" aria-current="page">B . Pendidikan dan Pelatihan fungsional dibidang kepranataan komputer dan memperoleh surat tanda tamat pendidikan dan pelatihan</li>
                             </ol>
                             </nav>
                             <div class="table-responsive">
@@ -120,7 +134,7 @@
           <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
               <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Operasi Teknologi Informasi
+                II . Operasi Teknologi Informasi
               </button>
             </h2>
           </div>
@@ -129,7 +143,7 @@
               {{-- Table A --}}
               <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Pengoperasian Komputer</li>
+                        <li class="breadcrumb-item active" aria-current="page">A . Pengoperasian Komputer</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -158,7 +172,7 @@
                     {{-- Table B --}}
               <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Perekaman Data</li>
+                        <li class="breadcrumb-item active" aria-current="page">B . Perekaman Data</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -187,7 +201,7 @@
                      {{-- Table C --}}
               <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Pemasangan dan Pemeliharaan Sistem Komputer dan Sistem Jaringan Komputer</li>
+                        <li class="breadcrumb-item active" aria-current="page">C . Pemasangan dan Pemeliharaan Sistem Komputer dan Sistem Jaringan Komputer</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -221,7 +235,7 @@
           <div class="card-header" id="headingThree">
             <h2 class="mb-0">
               <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                Implementasi Teknologi Informasi
+                III . Implementasi Teknologi Informasi
               </button>
             </h2>
           </div>
@@ -230,7 +244,7 @@
               {{-- Table A --}}
               <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Pemrograman Dasar</li>
+                        <li class="breadcrumb-item active" aria-current="page">A . Pemrograman Dasar</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -259,7 +273,7 @@
                     {{-- Table B --}}
               <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Pemrograman Menengah</li>
+                        <li class="breadcrumb-item active" aria-current="page">B . Pemrograman Menengah</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -288,7 +302,7 @@
                     {{-- Table C --}}
               <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Pemrograman Lanjutan</li>
+                        <li class="breadcrumb-item active" aria-current="page">C . Pemrograman Lanjutan</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -317,7 +331,7 @@
                     {{-- Table D --}}
               <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Penerapan Sistem Komputer</li>
+                        <li class="breadcrumb-item active" aria-current="page">D . Penerapan Sistem Komputer</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -350,7 +364,7 @@
           <div class="card-header" id="headingFour">
             <h2 class="mb-0">
               <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                Pengembangan Profesi
+                IV . Pengembangan Profesi
               </button>
             </h2>
           </div>
@@ -359,7 +373,7 @@
                {{-- Table A --}}
                <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Pembuatan Karya Tulis / Karya Ilmiah dibidang Teknologi Informasi</li>
+                        <li class="breadcrumb-item active" aria-current="page">A . Pembuatan Karya Tulis / Karya Ilmiah dibidang Teknologi Informasi</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -388,7 +402,7 @@
                     {{-- Table B --}}
                <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Penyusunan Petunjuk Teknis Pelaksanaan Pengelolaan Kegiatan Teknologi Informasi</li>
+                        <li class="breadcrumb-item active" aria-current="page">B . Penyusunan Petunjuk Teknis Pelaksanaan Pengelolaan Kegiatan Teknologi Informasi</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -417,7 +431,7 @@
                      {{-- Table C --}}
                <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Penyusunan Petunjuk Teknis Pelaksanaan Pengelolaan Kegiatan Teknologi Informasi</li>
+                        <li class="breadcrumb-item active" aria-current="page">C . Penerjemahan / Penyaduran Buku dan Bahan-Bahan Lain di Bidang Kegiatan Teknologi Informasi</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -450,7 +464,7 @@
           <div class="card-header" id="headingFive">
             <h2 class="mb-0">
               <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                Pendukung Kegiatan Pranata Komputer
+                V . Pendukung Kegiatan Pranata Komputer
               </button>
             </h2>
           </div>
@@ -459,7 +473,7 @@
                {{-- Table A --}}
                <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Mengajar atau Melatih dibidang Teknologi Informasi</li>
+                        <li class="breadcrumb-item active" aria-current="page">A . Mengajar atau Melatih dibidang Teknologi Informasi</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -488,7 +502,7 @@
                      {{-- Table B --}}
                <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Peran serta dalam Seminar / Lokakarya / Konferensi</li>
+                        <li class="breadcrumb-item active" aria-current="page">B . Peran serta dalam Seminar / Lokakarya / Konferensi</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -517,7 +531,7 @@
                      {{-- Table C --}}
                <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Keanggotaan dalam Tim Penilai JFPK</li>
+                        <li class="breadcrumb-item active" aria-current="page">C . Keanggotaan dalam Tim Penilai JFPK</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -546,7 +560,7 @@
                      {{-- Table D --}}
                <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Keanggotaan dalam Organisasi Profesi</li>
+                        <li class="breadcrumb-item active" aria-current="page">D . Keanggotaan dalam Organisasi Profesi</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -575,7 +589,7 @@
                       {{-- Table E --}}
                <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Perolehan Piagam Kehormatan</li>
+                        <li class="breadcrumb-item active" aria-current="page">E . Perolehan Piagam Kehormatan</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">
@@ -604,7 +618,7 @@
                     {{-- Table F --}}
                <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Perolehan Gelar Kesarjanaan lainnya</li>
+                        <li class="breadcrumb-item active" aria-current="page">F . Perolehan Gelar Kesarjanaan lainnya</li>
                     </ol>
                     </nav>
                     <div class="table-responsive">

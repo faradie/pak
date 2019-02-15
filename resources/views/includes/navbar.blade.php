@@ -47,9 +47,9 @@
       <i class="fas fa-user-circle fa-fw"></i>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-        <a class="dropdown-item">{{auth()->user()->nama}}</a>
-      <a class="dropdown-item" href="#">Profil</a>
+        <a class="dropdown-item">{{auth()->user()->nama}}</a>      
       <a class="dropdown-item" href="#">Riwayat Pengajuan</a>
+      <a class="dropdown-item" href="{{ route('user.settings',auth()->user()->id) }}">Pengaturan</a>
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
     </div>

@@ -16,8 +16,12 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->string('id')->unique()->primary();
             $table->string('item_name');
+            $table->string('unitResult');
             $table->decimal('point', 8, 4);
-            $table->string('jenis');
+            $table->string('assessmentLimits');
+            $table->string('executor');
+            $table->string('physicalEvidence');
+            $table->string('type');
         });
     }
 

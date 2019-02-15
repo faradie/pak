@@ -1,7 +1,5 @@
 @extends('layouts.default')
 @section('content')
-
-<?php $i=1;?>
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari dengan nama..">
 <div class="table-responsive">
 <table id="myTable" class="table table-striped">
@@ -13,9 +11,9 @@
                             </th>
                             <th scope="col">Nama
                             </th>
-                            <th scope="col">Angka Kredit
+                            <th scope="col">Email
                             </th>
-                            <th scope="col">Role
+                            <th scope="col">Angka Kredit
                                 </th>
                             <th scope="col">Action
                             </th>
@@ -25,18 +23,15 @@
                     @foreach ($users as $user)
  
                     <tr>
-                          <th  scope="row">{{$i}}</th >
+                          <th  scope="row">{{$loop->iteration}}</th >
                           <td>{{$user->id}}</td>
                           <td>{{$user->nama}}</td>
+                          <td>{{$user->email}}</td>
                           <td>{{$user->credit}}</td>
-                          <td>{{$user->getRoleNames()}}</td>
-                          <td align="center">
-                                  
-                                  <button type="button" class="btn btn-primary">Terima</em></button>
-                                  <button type="button" class="btn btn-danger">Tolak</em></button>
-                                </td>
+                          <td align="center">  
+                              <form action="{{ route('detail_Aplicant',$user->id) }}"><input class="btn btn-info" type="submit" value="Detail" /></form>
+                          </td>
                     </tr>
-                    <?php $i++;?>
                     @endforeach
                   </tbody>
   

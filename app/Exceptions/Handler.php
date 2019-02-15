@@ -46,6 +46,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof PostTooLargeException) {
+            return redirect('/#my_form')
+                ->withInput()
+                ->withErrors('Your file is too large, try exporting a smaller');
+        }
         return parent::render($request, $exception);
     }
 }

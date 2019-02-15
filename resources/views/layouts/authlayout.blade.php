@@ -28,8 +28,8 @@
 		</div>
 	</section>
 
-	<script src="js/jquery.min.js"></script>
-	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="js/my-login.js"></script>
+	<script src="{{ asset('assets/vendor/jquery/jquery.min.js')}}"></script>
+	<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+	<script src="{{ asset('assets/vendor/bootstrap/js/my-login.js')}}"></script>
 </body>
 </html>
