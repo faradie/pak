@@ -7,6 +7,7 @@ use App\Item;
 
 class SubmissionController extends Controller
 {
+    
     /**
      * Create a new controller instance.
      *

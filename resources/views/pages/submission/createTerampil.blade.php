@@ -1,5 +1,7 @@
 @extends('layouts.default')
 @section('content')
+<form method="POST" class="daftar" action="{{ route('register') }}" enctype="multipart/form-data">
+  {{ csrf_field() }}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item active" aria-current="page">Berkas Pengajuan Terampil</li>
@@ -9,6 +11,7 @@
     <div class="card-header">
             <h3>Berkas Administrasi</small></h3>   
     </div>
+    {{-- {{ dd($butir_terampil1A) }} --}}
     <table class="table">
                 <tbody>
                   <tr>
@@ -89,9 +92,16 @@
                                         <td scope="row">{{$butir->executor}}</td>
                                         <td scope="row">{{$butir->physicalEvidence}}</td>
                                         <td scope="row">
+                                          <div class="form-group">
                                             <label class="btn btn-dark">
                                                 <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
                                             </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
                                         </td>
                                         <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
@@ -99,6 +109,7 @@
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                     <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
@@ -107,26 +118,48 @@
                             </nav>
                             <div class="table-responsive">
                                     <table class="table table-hover">
-                                            <thead>
-                                                    <tr>
-                                                      <th scope="col">No</th>
-                                                      <th scope="col">Butir Kegiatan</th>
-                                                      <th class="text-right" scope="col">Angka Kredit</th>
-                                                      <th  class="text-right" scope="col">Action</th>
-                                                    </tr>
-                                                  </thead>
+                                        <thead>
+                                            <tr>
+                                              <th scope="col">No</th>
+                                              <th scope="col">Butir Kegiatan</th>
+                                              <th scope="col">Satuan Hasil</th>
+                                              <th class="text-right" scope="col">Angka Kredit</th>
+                                              <th scope="col">Batas Penilaian</th>
+                                              <th scope="col">Pelaksana</th>
+                                              <th scope="col">Bukti Fisik</th>
+                                              <th class="text-center" scope="col">File</th>
+                                              <th class="text-center" scope="col">Info</th>
+                                            </tr>
+                                          </thead>
                                             <tbody>
-                                            @foreach ($butir_terampil1B as $butirB)
-                                              <tr>
+                                            @foreach ($butir_terampil1B as $butir)
+                                            <tr>
                                                 <td>{{$loop->iteration}}</td>
-                                                <th scope="row">{{$butirB->item_name}}</th>
-                                                <td class="text-right">{{$butirB->point}}</td>
-                                                <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                                <th scope="row">{{$butir->item_name}}</th>
+                                                <td scope="row">{{$butir->unitResult}}</td>
+                                                <td class="text-right">{{$butir->point}}</td>
+                                                <td scope="row">{{$butir->assessmentLimits}}</td>
+                                                <td scope="row">{{$butir->executor}}</td>
+                                                <td scope="row">{{$butir->physicalEvidence}}</td>
+                                                <td scope="row">
+                                                  <div class="form-group">
+                                                    <label class="btn btn-dark">
+                                                        <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                                    </label>
+                                                      @if ($errors->has('{{$butir->id}}'))
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $errors->first($butir->id) }}</strong>
+                                                        </span>
+                                                      @endif
+                                                  </div>
+                                                </td>
+                                                <td scope="row"><button class="btn btn-dark">Info</button></td>
                                               </tr>
                                             @endforeach
                                             </tbody>
                                           </table>
                                     </div>
+                                    <br>
             </div>
           </div>
         </div>
@@ -148,26 +181,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil2A as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                     {{-- Table B --}}
               <nav aria-label="breadcrumb">
@@ -177,26 +232,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil2B as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                      {{-- Table C --}}
               <nav aria-label="breadcrumb">
@@ -206,26 +283,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil2C as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                    
             </div>
@@ -249,26 +348,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil3A as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                     {{-- Table B --}}
               <nav aria-label="breadcrumb">
@@ -278,26 +399,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil3B as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                     {{-- Table C --}}
               <nav aria-label="breadcrumb">
@@ -307,26 +450,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil3C as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                     {{-- Table D --}}
               <nav aria-label="breadcrumb">
@@ -336,26 +501,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil3D as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
             </div>
           </div>
@@ -378,26 +565,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil4A as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                     {{-- Table B --}}
                <nav aria-label="breadcrumb">
@@ -407,26 +616,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil4B as $butir)
-                                      <tr>
+                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                      {{-- Table C --}}
                <nav aria-label="breadcrumb">
@@ -436,26 +667,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil4C as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
             </div>
           </div>
@@ -478,26 +731,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil5A as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                      {{-- Table B --}}
                <nav aria-label="breadcrumb">
@@ -507,26 +782,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil5B as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                      {{-- Table C --}}
                <nav aria-label="breadcrumb">
@@ -536,26 +833,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil5C as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                      {{-- Table D --}}
                <nav aria-label="breadcrumb">
@@ -565,26 +884,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil5D as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                       {{-- Table E --}}
                <nav aria-label="breadcrumb">
@@ -594,26 +935,48 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil5E as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
                     {{-- Table F --}}
                <nav aria-label="breadcrumb">
@@ -623,29 +986,52 @@
                     </nav>
                     <div class="table-responsive">
                             <table class="table table-hover">
-                                    <thead>
-                                            <tr>
-                                              <th scope="col">No</th>
-                                              <th scope="col">Butir Kegiatan</th>
-                                              <th class="text-right" scope="col">Angka Kredit</th>
-                                              <th  class="text-right" scope="col">Action</th>
-                                            </tr>
-                                          </thead>
+                                <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Butir Kegiatan</th>
+                                      <th scope="col">Satuan Hasil</th>
+                                      <th class="text-right" scope="col">Angka Kredit</th>
+                                      <th scope="col">Batas Penilaian</th>
+                                      <th scope="col">Pelaksana</th>
+                                      <th scope="col">Bukti Fisik</th>
+                                      <th class="text-center" scope="col">File</th>
+                                      <th class="text-center" scope="col">Info</th>
+                                    </tr>
+                                  </thead>
                                     <tbody>
                                     @foreach ($butir_terampil5F as $butir)
-                                      <tr>
+                                    <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <th scope="row">{{$butir->item_name}}</th>
+                                        <td scope="row">{{$butir->unitResult}}</td>
                                         <td class="text-right">{{$butir->point}}</td>
-                                        <td class="text-right"><button type="button" class="btn btn-info">Upload</button></td>
+                                        <td scope="row">{{$butir->assessmentLimits}}</td>
+                                        <td scope="row">{{$butir->executor}}</td>
+                                        <td scope="row">{{$butir->physicalEvidence}}</td>
+                                        <td scope="row">
+                                          <div class="form-group">
+                                            <label class="btn btn-dark">
+                                                <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
+                                            </label>
+                                              @if ($errors->has('{{$butir->id}}'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first($butir->id) }}</strong>
+                                                </span>
+                                              @endif
+                                          </div>
+                                        </td>
+                                        <td scope="row"><button class="btn btn-dark">Info</button></td>
                                       </tr>
                                     @endforeach
                                     </tbody>
                                   </table>
                             </div>
+                            <br>
                     {{-- akhir --}}
             </div>
           </div>
         </div>
       </div>
+      </form>
 @stop
