@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUnitsTable extends Migration
+class CreatePkPositionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateUnitsTable extends Migration
      */
     public function up()
     {
-        Schema::create('units', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('workUnit');
+        Schema::create('pk_positions', function (Blueprint $table) {
+            $table->string('id')->unique()->primary();
             $table->string('position');
-            // $table->timestamps();
+            $table->string('group');
         });
     }
 
@@ -28,6 +27,6 @@ class CreateUnitsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('units');
+        Schema::dropIfExists('pk_positions');
     }
 }

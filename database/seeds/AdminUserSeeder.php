@@ -26,6 +26,13 @@ class AdminUserSeeder extends Seeder
             'password'=> bcrypt('admindupak'),
             'address'=>'Jakarta Pusat',
             'is_approved'=>'1',
+            'CardSerialNumber' => 'CardSerialNumber',
+            'lastSKUrl'=> null,
+            'pkPosition' => '1',
+            'birth_place'=>'birth_place',
+            'birth_date'=>null,
+            'gender'=>'gender',
+            'unit'=>'2',
             'credit'=> 999
         ]);
 
@@ -40,7 +47,14 @@ class AdminUserSeeder extends Seeder
             'password'=> bcrypt('pemohondupak'),
             'address'=>'Jakarta Pusat',
             'is_approved'=>'1',
-            'credit'=> 999
+            'credit'=> 999,
+            'CardSerialNumber' => 'CardSerialNumber',
+            'lastSKUrl'=> null,
+            'pkPosition' => '1',
+            'birth_place'=>'birth_place',
+            'birth_date'=>null,
+            'gender'=>'gender',
+            'unit'=>'2'
         ]);
 
         $user->assignRole('applicant');
@@ -54,7 +68,14 @@ class AdminUserSeeder extends Seeder
             'password'=> bcrypt('verificatordupak'),
             'address'=>'Jakarta Pusat',
             'is_approved'=>'1',
-            'credit'=> 999
+            'credit'=> 999,
+            'CardSerialNumber' => 'CardSerialNumber',
+            'lastSKUrl'=> null,
+            'pkPosition' => '1',
+            'birth_place'=>'birth_place',
+            'birth_date'=>null,
+            'gender'=>'gender',
+            'unit'=>'2'
         ]);
 
         $user->assignRole('verificator','applicant');
@@ -68,7 +89,14 @@ class AdminUserSeeder extends Seeder
             'password'=> bcrypt('biroumumdupak'),
             'address'=>'Jakarta Pusat',
             'is_approved'=>'1',
-            'credit'=> 999
+            'credit'=> 999,
+            'CardSerialNumber' => 'CardSerialNumber',
+            'lastSKUrl'=> null,
+            'pkPosition' => '1',
+            'birth_place'=>'birth_place',
+            'birth_date'=>null,
+            'gender'=>'gender',
+            'unit'=>'2'
         ]);
 
         $user->assignRole('biro umum','applicant');
@@ -82,7 +110,14 @@ class AdminUserSeeder extends Seeder
             'password'=> bcrypt('kepegawaiandupak'),
             'address'=>'Jakarta Pusat',
             'is_approved'=>'1',
-            'credit'=> 999
+            'credit'=> 999,
+            'CardSerialNumber' => 'CardSerialNumber',
+            'lastSKUrl'=> null,
+            'pkPosition' => '1',
+            'birth_place'=>'birth_place',
+            'birth_date'=>null,
+            'gender'=>'gender',
+            'unit'=>'2'
         ]);
 
         $user->assignRole('tu kepegawaian','applicant');
@@ -96,7 +131,14 @@ class AdminUserSeeder extends Seeder
             'password'=> bcrypt('asesmendupak'),
             'address'=>'Jakarta Pusat',
             'is_approved'=>'1',
-            'credit'=> 999
+            'credit'=> 999,
+            'CardSerialNumber' => 'CardSerialNumber',
+            'lastSKUrl'=> null,
+            'pkPosition' => '1',
+            'birth_place'=>'birth_place',
+            'birth_date'=>null,
+            'gender'=>'gender',
+            'unit'=>'2'
         ]);
 
         $user->assignRole('asesmen','applicant');
@@ -109,7 +151,14 @@ class AdminUserSeeder extends Seeder
             'password'=> bcrypt('jftdupak'),
             'address'=>'Jakarta Pusat',
             'is_approved'=>'1',
-            'credit'=> 999
+            'credit'=> 999,
+            'CardSerialNumber' => 'CardSerialNumber',
+            'lastSKUrl'=> null,
+            'pkPosition' => '1',
+            'birth_place'=>'birth_place',
+            'birth_date'=>null,
+            'gender'=>'gender',
+            'unit'=>'2'
         ]);
 
         $user->assignRole('jft','applicant');
@@ -122,7 +171,14 @@ class AdminUserSeeder extends Seeder
             'password'=> bcrypt('konseptordupak'),
             'address'=>'Jakarta Pusat',
             'is_approved'=>'1',
-            'credit'=> 999
+            'credit'=> 999,
+            'CardSerialNumber' => 'CardSerialNumber',
+            'lastSKUrl'=> null,
+            'pkPosition' => '1',
+            'birth_place'=>'birth_place',
+            'birth_date'=>null,
+            'gender'=>'gender',
+            'unit'=>'2'
         ]);
 
         $user->assignRole('konseptor','applicant');
@@ -135,7 +191,14 @@ class AdminUserSeeder extends Seeder
             'password'=> bcrypt('kesekretariatandupak'),
             'address'=>'Jakarta Pusat',
             'is_approved'=>'1',
-            'credit'=> 999
+            'credit'=> 999,
+            'CardSerialNumber' => 'CardSerialNumber',
+            'lastSKUrl'=> null,
+            'pkPosition' => '1',
+            'birth_place'=>'birth_place',
+            'birth_date'=>null,
+            'gender'=>'gender',
+            'unit'=>'2'
         ]);
 
         $user->assignRole('kesekretariatan','applicant');
@@ -148,7 +211,14 @@ class AdminUserSeeder extends Seeder
             'password'=> bcrypt('ketuatimdupak'),
             'address'=>'Jakarta Pusat',
             'is_approved'=>'1',
-            'credit'=> 999
+            'credit'=> 999,
+            'CardSerialNumber' => 'CardSerialNumber',
+            'lastSKUrl'=> null,
+            'pkPosition' => '1',
+            'birth_place'=>'birth_place',
+            'birth_date'=>null,
+            'gender'=>'gender',
+            'unit'=>'2'
         ]);
 
         $user->assignRole('ketua tim','applicant');
@@ -162,7 +232,14 @@ class AdminUserSeeder extends Seeder
             'password'=> bcrypt('timpenilaidupak'),
             'address'=>'Jakarta Pusat',
             'is_approved'=>'1',
-            'credit'=> 999
+            'credit'=> 999,
+            'CardSerialNumber' => 'CardSerialNumber',
+            'lastSKUrl'=> null,
+            'pkPosition' => '1',
+            'birth_place'=>'birth_place',
+            'birth_date'=>null,
+            'gender'=>'gender',
+            'unit'=>'2'
         ]);
 
         $user->assignRole('tim penilai','applicant');

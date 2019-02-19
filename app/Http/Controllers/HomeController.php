@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Unit;
+use App\sk;
+use App\PkPosition;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -23,13 +27,21 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('pages.home');
+        // dd(auth()->user()->id);
+        $skUrls = sk::find(auth()->user()->lastSKUrl);
+        $unitsName = Unit::find(auth()->user()->unit);
+        $positionName = PkPosition::find(auth()->user()->pkPosition);
+        return view('pages.home',compact('skUrls','unitsName','positionName'));
     }
 
     public function about()
     {
         // return View::make('pages.about');
         return view('pages.about');
+    }
+
+    public function new_files_bu(){
+        return view('pages.bu.new_files');
     }
 
     

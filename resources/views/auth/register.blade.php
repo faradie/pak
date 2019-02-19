@@ -110,19 +110,13 @@
                                 @endif
                                 </div>
 
-
                                 <div class="form-group">
 									<label for="pkPosition">{{ __('Jabatan Pranata Komputer') }}</label>
                                     <select id="pkPosition" name="pkPosition" class="form-control" required>
                                         <option>Pilih...</option> 
-                                        <option value="Terampil - Pelaksana Pemula" >Terampil - Pelaksana Pemula</option>
-                                        <option value="Terampil - Pelaksana" >Terampil - Pelaksana</option>
-                                        <option value="Terampil - Pelaksana Lanjutan" >Terampil - Pelaksana Lanjutan</option>
-                                        <option value="Terampil - Penyelia" >Terampil - Penyelia</option>
-                                        <option value="Ahli - Pertama" >Ahli - Pertama</option>
-                                        <option value="Ahli - Muda" >Ahli - Muda</option>
-                                        <option value="Ahli - Madya" >Ahli - Madya</option>
-                                        <option value="Ahli - Utama" >Ahli - Utama</option>
+                                        @foreach ($pkPositions as $pk)
+                                            <option value="{{ $pk->id }}" >{{ $pk->group }} - {{ $pk->position }}</option>
+                                        @endforeach
                                       </select>
                                     @if ($errors->has('pkPosition'))
                                     <span class="invalid-feedback" role="alert">

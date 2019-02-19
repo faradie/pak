@@ -116,6 +116,8 @@ Route::get('login', [
 
 Route::get('/about', 'HomeController@about')->name('about');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/bu/new_file', 'HomeController@new_files_bu')->name('new_files');
+
 Route::get('/manageusers', 'UserController@fetch')->name('manageusers');
 Route::get('/newapplicant', 'UserController@fetchnewapplicant')->name('newapplicant');
 

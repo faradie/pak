@@ -1,5 +1,10 @@
 @extends('layouts.default')
 @section('content')
+@if(session()->has('result'))
+    <div class="alert alert-success">
+      {{ session()->get('result') }}
+    </div>
+  @endif
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari dengan nama..">
 <div class="table-responsive">
 <table id="myTable" class="table table-striped">
@@ -21,7 +26,6 @@
               </thead>
               <tbody>
                     @foreach ($users as $user)
- 
                     <tr>
                           <th  scope="row">{{$loop->iteration}}</th >
                           <td>{{$user->id}}</td>

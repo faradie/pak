@@ -1,0 +1,88 @@
+﻿
+11A1,Pendidikan Sekolah dan Memperoleh Ijazah/Gelar (Diploma III),Ijasah,60,n/a,Semua Jenjang,Fotokopi Ijasah,terampil
+11A2,Pendidikan Sekolah dan Memperoleh Ijazah/Gelar (Diploma II),Ijasah,40,n/a,Semua Jenjang,Fotokopi Ijasah,terampil
+11A3,Pendidikan Sekolah dan Memperoleh Ijazah/Gelar (SLTA/Diploma I),Ijasah,25,n/a,Semua Jenjang,Fotokopi Ijasah,terampil
+11B1,Pendidikan dan Pelatihan Fungsional di Bidang Kepranataan Komputer (>960 jam),Sertifikat,15,n/a,Semua Jenjang,Fotokopi STTPP,terampil
+11B2,Pendidikan dan Pelatihan Fungsional di Bidang Kepranataan Komputer (641-960 jam),Sertifikat,9,n/a,Semua Jenjang,Fotokopi STTPP,terampil
+11B3,Pendidikan dan Pelatihan Fungsional di Bidang Kepranataan Komputer (401-640 jam),Sertifikat,6,n/a,Semua Jenjang,Fotokopi STTPP,terampil
+11B4,Pendidikan dan Pelatihan Fungsional di Bidang Kepranataan Komputer (161-400 jam),Sertifikat,3,n/a,Semua Jenjang,Fotokopi STTPP,terampil
+11B5,Pendidikan dan Pelatihan Fungsional di Bidang Kepranataan Komputer (81-160 jam),Sertifikat,2,n/a,Semua Jenjang,Fotokopi STTPP,terampil
+11B6,Pendidikan dan Pelatihan Fungsional di Bidang Kepranataan Komputer (31-80 jam),Sertifikat,1,n/a,Semua Jenjang,Fotokopi STTPP,terampil
+11B7,Pendidikan dan Pelatihan Fungsional di Bidang Kepranataan Komputer (10-30 jam),Sertifikat,0.5,n/a,Semua Jenjang,Fotokopi STTPP,terampil
+11B8,Pendidikan dan Pelatihan Fungsional di Bidang Kepranataan Komputer (Skala Internasional),Sertifikat,2,n/a,Semua Jenjang,Fotokopi STTPP,terampil
+11B9,Pendidikan dan Pelatihan Fungsional di Bidang Kepranataan Komputer (Skala Nasional),Sertifikat,1,n/a,Semua Jenjang,Fotokopi STTPP,terampil
+11B10,Pendidikan dan Pelatihan Fungsional di Bidang Kepranataan Komputer (Skala Intitusional/lokal),Sertifikat,0.5,n/a,Semua Jenjang,Fotokopi STTPP,terampil
+12A1,Melakukan PenggandaanData dan atau Program,25 KB,0.013,25 KB per hari,PK Pelaksana Pemula,Catatan,terampil
+12A2,Membuat Laporan Operasi Komputer,Laporan,0.013,"Untuk pemakaian komputer mainframe, komputer mini, atau rangkaian jaringan komputer",PK Pelaksana,Laporan Rutin,terampil
+12A3,Membuat Dokumentasi File yang Tersimpan dalam Media Komputer,Dokumen,0.048,"Untuk pemakaian komputer mainframe, komputer mini, atau rangkaian jaringan komputer",PK Pelaksana,Dokumentasi,terampil
+12B1,Melakukan perekaman data tanpa validasi ,1000 Karakter,0.001,n/a,PK Pelaksana Pemula,Catatan,terampil
+12B2,Melakukan perekaman data dengan validasi,1000 Karakter,0.004,n/a,PK Pelaksana Pemula,Catatan,terampil
+12B3,Melakukan veriﬁ kasi perekaman data,1000 Karakter,0.001,n/a,PK Pelaksana Pemula,Catatan Verifikasi,terampil
+12B4,Melakukan dijitasi data spasial,500 KB,0.031,500 KB per hari,PK Pelaksana,Catatan,terampil
+12B5,Melakukan editi ng data spasial ,500 KB,0.017,500 KB per hari,PK Pelaksana,Peta,terampil
+12B6,Melakukan veriﬁ kasi data spasial,Tema,0.06,1 Tema per hari,PK Pelaksana,Peta,terampil
+12B7,Membuat hasil perekaman data ,Laporan,0.053,1 Laporan per bulan,PK Pelaksana,Laporan,terampil
+12C1,Melakukan pemasangan peralatan sistem komputer/ sistem jaringan komputer ,Peralatan,0.004,n/a,PK Pelaksana,Laporan,terampil
+12C2,Melakukan deteksi dan atau memperbaiki kerusakan sistem komputer ,Kerusakan,0.006,n/a,PK Pelaksana,Laporan,terampil
+12C3,Melakukan deteksi dan atau memperbaiki kerusakan sistem jaringan komputer ,Kerusakan,0.006,n/a,PK Pelaksana,Laporan,terampil
+13A1,Membuat program dasar,Program,0.081,25 Program per tahun,PK Pelaksana,Dokumentasi,terampil
+13A2,Membuat program berbasis html ,Program,0.02,25 Program per tahun,PK Pelaksana,"Dokumentasi, alamat situs internet",terampil
+13A3,Mengembangkan dan atau meremajakan program dasar ,Program,0.048,25 Program per tahun,PK Pelaksana,Spesifikasi Program lama dan dokumentasi program baru,terampil
+13A4,Membuat data uji caba program dasar,Dokumen,0.007,25 Set Data per tahun,PK Pelaksana,Contoh Dokumen Data Uji Coba,terampil
+13A5,Melaksanakan uji caba program dasar ,Program,0.012,25 Program per tahun,PK Pelaksana,Laporan,terampil
+13A6a,Membuat petunjuk operasional program dasar (>29 halaman),Buku,0.247,25 Buku per tahun,PK Pelaksana,Buku Pedoman,terampil
+13A6b,Membuat petunjuk operasional program dasar (20 s/d 29 halaman),Buku,0.124,25 Buku per tahun,PK Pelaksana,Buku Pedoman,terampil
+13A6c,Membuat petunjuk operasional program dasar (10 s/d 19 halaman),Buku,0.062,25 Buku per tahun,PK Pelaksana,Buku Pedoman,terampil
+13A7,Menyusun dokumentasi program dasar ,,0.025,25 Dokumen per tahun,PK Pelaksana,Dokumentasi,terampil
+13B1,Membuat program menengah ,Program,0.151,25 Program per tahun,PK Pelaksana Lanjutan,Dokumentasi,terampil
+13B2,Mengembangkan dan atau meremajakan program menengah,Program,0.09,25 Program per tahun,PK Pelaksana Lanjutan,Spesifikasi Program lama dan dokumentasi program baru,terampil
+13B3,Membuat data uji caba program menengah,Dokumen,0.042,25 Set Data per tahun,PK Pelaksana Lanjutan,Contoh Dokumen Data Uji Coba,terampil
+13B4,Melaksanakan uji caba program menengah ,Program,0.022,25 Program per tahun,PK Pelaksana Lanjutan,Laporan,terampil
+13B5a,Membuat petunjuk operasional program menengah (> 29 Halaman),Buku,0.461,25 Buku per tahun,PK Pelaksana Lanjutan,Buku Pedoman,terampil
+13B5b,Membuat petunjuk operasional program menengah (20 s/d 29 Halaman),Buku,0.231,25 Buku per tahun,PK Pelaksana Lanjutan,Buku Pedoman,terampil
+13B5c,Membuat petunjuk operasional program menengah (10 s/d 19 Halaman),Buku,0.115,25 Buku per tahun,PK Pelaksana Lanjutan,Buku Pedoman,terampil
+13B6,Menyusun dokumentasi program menengah ,Dokumen,0.042,25 Dokumen per tahun,PK Pelaksana Lanjutan,Dokumentasi,terampil
+13C1,Membuat program lanjutan,Program,0.259,25 Program per tahun,n/a,n/a,terampil
+13C2,Mengembangkan dan atau meremajakan program lanjutan,Program,0.132,25 Program per tahun,n/a,n/a,terampil
+13C3,Membuat data uji caba program lanjutan,Dokumen,0.074,25 Set Data per tahun,n/a,n/a,terampil
+13C4,Melaksanakan uji caba program lanjutan,Program,0.038,25 Program per tahun,n/a,n/a,terampil
+13C5a,Membuat petunjuk operasional program lanjutan (> 29 Halaman),Buku,0.476,25 Buku per tahun,PK Penyelia,Buku Pedoman,terampil
+13C5b,Membuat petunjuk operasional program lanjutan (20 s/d 29 Halaman),Buku,0.238,25 Buku per tahun,PK Penyelia,Buku Pedoman,terampil
+13C5c,Membuat petunjuk operasional program lanjutan (10 s/d 19 Halaman),Buku,0.119,25 Buku per tahun,PK Penyelia,Buku Pedoman,terampil
+13C6,Menyusun dokumentasi program lanjutan,Dokumen,0.042,25 Dokumen per tahun,PK Penyelia,Dokumentasi,terampil
+13D1,Membuat Rencana Rinci Pemeliharaan Komputer dan Peralatannya ,Laporan,0.112,12 Laporan per tahun,PK Penyelia,Dokumentasi,terampil
+13D2,Melakukan Instalasi dan atau Meningkatkan Sistem Operasi komputer/Perangkat Lunak/Sistem Jaringan Komputer ,Sistem Operasi,0.5,n/a,PK Pelaksana Lanjutan,Laporan,terampil
+13D3,Membuat Sistem Prosedur Operasi Komputer,Buku,0.318,Lebih dari 10 Hal,PK Penyelia,Buku Pedoman,terampil
+13D4,Melakukan Uji Coba Sistem Operasi Komputer ,Sistem Operasi,0.126,"Untuk pemakaian komputer mainframe, komputer mini, atau rangkaian jaringan komputer",PK Pelaksana Lanjutan,Laporan,terampil
+13D5,Melakukan Deteksi dan atu Memperbaiki Kerusakan Sistem Operasi Komputer,Sistem Operasi,0.125,"Untuk pemakaian komputer mainframe, komputer mini, atau rangkaian jaringan komputer",PK Pelaksana Lanjutan,Laporan,terampil
+13D6,Melakukan Perbaikan Terhadap Gangguan Sistem Operasi Komputer ,Perbaikan,0.063,"Untuk pemakaian komputer mainframe, komputer mini, atau rangkaian jaringan komputer",PK Penyelia,Laporan,terampil
+13D7,Membuat Dokumentasi Pengelolaan Komputer ,Laporan,0.264,"1 Laporan per bulan - Untuk pemakaian komputer mainframe, komputer mini, atau rangkaian jaringan komputer",PK Pelaksana Lanjutan,Dokumentasi,terampil
+14A1a,Karya Tulis Hasil Penelitian yang Dipublikasikan (Dalam bentuk Buku yang diterbitkan dan diedarkan secara nasional),Buku,12.5,n/a,Semua Jenjang,Naskah & Buku yang diterbitkan,terampil
+14A1b,Karya Tulis Hasil Penelitian yang Dipublikasikan (Dalam majalah ilmiah yang diakui oleh LIPI),Naskah,6,n/a,Semua Jenjang,Naskah Artikel & Artikel di Majalah,terampil
+14A2a,Karya Tulis Hasil Penelitian yang Tidak Dipublikasikan (Dalam Bentuk Buku),Buku,8,n/a,Semua Jenjang,Buku,terampil
+14A2b,Karya Tulis Hasil Penelitian yang Tidak Dipublikasikan (Dalam Bentuk Makalah),Makalah,4,n/a,Semua Jenjang,Fotokopi Makalah,terampil
+14A3a,Karya Tulis Berupa Tinjauan yang Dipublikasikan (Dalam bentuk Buku yang diterbitkan dan diedarkan secara nasional),Buku,8,n/a,Semua Jenjang,Naskah & Buku yang diterbitkan,terampil
+14A3b,Karya Tulis Berupa Tinjauan yang Dipublikasikan (Dalam Majalah Ilmiah yang diakui LIPI),Artikel,4,n/a,Semua Jenjang,Artikel & Majalah,terampil
+14A4a,Karya Tulis Berupa Tinjauan yang Dipublikasikan (Dalam Bentuk Buku),Buku,7,n/a,Semua Jenjang,Buku dan Silabus atau Daftar Pustaka,terampil
+14A4b,Karya Tulis Berupa Tinjauan yang Dipublikasikan (Dalam Bentuk Makalah),Makalah,3.5,n/a,Semua Jenjang,Makalah dan Silabus atau Daftar Pustaka,terampil
+14A5,Karya Tulis Hasil Penelitian yang Disebarluaskan Melalui Media Massa,Naskah,2.5,n/a,Semua Jenjang,Naskah karya tulis dan media cetak,terampil
+14A6,Karya Tulis Berupa Tinjauan yang Disampaikan dalam Pertemuan Ilmiah,Naskah,2.5,n/a,Semua Jenjang,Naskah Makalah,terampil
+14B,Penyusunan Petunjuk Teknis Pelaksanaan Pengelolaan Kegiatan Teknologi Informasi,Naskah,3,n/a,Semua Jenjang,Naskah atau Buku,terampil
+14C1a,Menerjemahkan Buku Karya Ilmiah yang Dipublikasikan (Dalam Bentuk Buku yang diterbitkan dan diedarkan secara nasional/internasional),Buku,7,n/a,Semua Jenjang,Buku,terampil
+14C1b,Menerjemahkan Buku Karya Ilmiah yang Dipublikasikan (Dalam Majalah ilmiah yang diakui oleh instansi yang berwenang),Makalah,3.5,n/a,Semua Jenjang,Naskah,terampil
+14C2a,Menerjemahkan Buku Karya Ilmiah yang Tidak Dipublikasikan (Dalam Bentuk Buku),Buku,3.5,n/a,Semua Jenjang,Buku,terampil
+14C2b,Menerjemahkan Buku Karya Ilmiah yang Tidak Dipublikasikan (Dalam Bentuk Makalah),Makalah,1.5,n/a,Semua Jenjang,Makalah Terjemahan/Saduran,terampil
+14C3,Membuat Abstrak Tullisan Ilmiah Yang Dimuat Dalam Majalah Ilmiah,Naskah,1,n/a,Semua Jenjang,Naskah Abstrak,terampil
+15A,Mengajar atau Melati h Bidang Teknologi Informasi,Jam Pelajaran,0.03,n/a,Semua Jenjang,Surat Tugas atau Keterangan,terampil
+15B1,Peran Serta Dalam Seminar/Lokakarya/Konferensi (Pemasaran),Kali,3,Maksimum 2 Kali per tahun,Semua Jenjang,Sertifikat,terampil
+15B2,Peran Serta Dalam Seminar/Lokakarya/Konferensi (Narasumber),Kali,2,Maksimum 2 Kali per tahun,,Sertifikat,terampil
+15B3,Peran Serta Dalam Seminar/Lokakarya/Konferensi (Peserta),Kali,1,Maksimum 2 Kali per tahun,,Sertifikat,terampil
+15C,Keanggotaan Dalam Tim Penilai JFPK ,Tahun,0.5,Per tahun masa keanggotaan,Semua Jenjang,Surat Keputusan dan Surat Keterangan,terampil
+15D1,Keanggotaan dalam Organisasi Profesi (Pengurus Aktif),Tahun,1,Setiap tahun masa keanggotaan,n/a,Surat Keterangan Kepengurusan/Keanggotaan,terampil
+15D2,Keanggotaan dalam Organisasi Profesi (Anggota Aktif),Tahun,0.5,Setiap tahun masa keanggotaan,n/a,Surat Keterangan Kepengurusan/Keanggotaan,terampil
+15E1,Perolehan Piagam Kehormatan (30 Tahun),Tanda Jasa,3,Setiap tahun masa keanggotaan,Semua Jenjang,SK atau Surat Keterangan,terampil
+15E2,Perolehan Piagam Kehormatan (20 Tahun),Tanda Jasa,2,Setiap tahun masa keanggotaan,Semua Jenjang,SK atau Surat Keterangan,terampil
+15E3,Perolehan Piagam Kehormatan (10 Tahun),Tanda Jasa,1,Setiap tahun masa keanggotaan,Semua Jenjang,SK atau Surat Keterangan,terampil
+15F1,Perolehan Gelar Kesarjanaan Lainnya yang tidak sesuai dengan bidang tugas (Sarjana/DIV),Ijasah,5,n/a,Semua Jenjang,Fotokopi Ijasah,terampil
+15F2,Perolehan Gelar Kesarjanaan Lainnya (Diploma III (DIII)),Ijasah,3,n/a,Semua Jenjang,Fotokopi Ijasah,terampil
+15F3,Perolehan Gelar Kesarjanaan Lainnya (Diploma II (DII)),Ijasah,2,n/a,Semua Jenjang,Fotokopi Ijasah,terampil

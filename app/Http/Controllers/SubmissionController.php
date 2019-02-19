@@ -7,11 +7,12 @@ use App\Item;
 use App\User;
 use App\Submission;
 use App\File;
+use App\Administration;
 use Webpatser\Uuid\Uuid;
 
 class SubmissionController extends Controller
 {
-    
+
     /**
      * Create a new controller instance.
      *
@@ -50,6 +51,9 @@ class SubmissionController extends Controller
     }
 
     public function submitTerampil(Request $request){
+
+
+
         $idSub = Uuid::generate();
         Submission::create([
             'id' => $idSub,
@@ -57,6 +61,34 @@ class SubmissionController extends Controller
             'submission_position' => '1',
         ]);
 
+
+
+        $administrativeFiles =[];
+        if ($request->file('lastSKUpload')) $administrativeFiles[] = $request->file('lastSKUpload');
+        if ($request->file('skCPNSUpload')) $administrativeFiles[] = $request->file('skCPNSUpload');
+        if ($request->file('karpegUpload')) $administrativeFiles[] = $request->file('karpegUpload');
+        if ($request->file('skpUpload')) $administrativeFiles[] = $request->file('skpUpload');
+        if ($request->file('dupakUpload')) $administrativeFiles[] = $request->file('dupakUpload');
+        if ($request->file('pakUpload')) $administrativeFiles[] = $request->file('pakUpload');
+        foreach ($administrativeFiles as $ads)
+        {
+            if(!empty($ads)){
+                //move file into directory
+                $random_name = Uuid::generate();
+                $ads->move(
+                    base_path().'/public/dupakFiles/administrationFiles/', $random_name.'.pdf'
+                );
+                Administration::create([
+                    'submission_id' => $idSub,
+                    'fileUrl' => 'administrationFiles/'.$random_name.'.pdf'
+                ]);
+            }
+
+        }
+
+        
+
+//For items upload
         $files =[];
         $items = Item::all();
         foreach ($items as $item) {
@@ -87,8 +119,8 @@ class SubmissionController extends Controller
                     'id' => $itemID[$index],
                     'submission_id' => $idSub,
                     'fileUrl' => 'submissionFiles/'.$random_string.'.pdf',
-                    'times' => $timesItem[$index],
-                    'type'=> 'berkas_butir'
+                    'times' => $timesItem[$index]
+                    // 'type'=> 'berkas_butir'
                 ]);
 
             }

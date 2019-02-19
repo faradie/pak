@@ -36,11 +36,11 @@
       </tr>
       <tr>
         <th scope="row">Unit</th>
-        <td>{{$detail_user->unit}}</td>
+        <td>{{$unitsName->workUnit}}</td>
       </tr>
       <tr>
         <th scope="row">Jabatan Pranata Komputer</th>
-        <td>{{$detail_user->pkPosition}}</td>
+        <td>{{$positionName->group}} - {{$positionName->position}}</td>
       </tr>
       <tr>
         <th scope="row">Kredit</th>
@@ -62,7 +62,7 @@
 <div class="container">
   <div class="row justify-content-md-center">
     <div class="col-md-auto">
-      <form action="{{ route('user.settings',$detail_user->id) }}" method="post">
+      <form action="{{ route('acccept_applicant',$detail_user->id) }}" method="post">
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
         <input class="btn btn-danger" name="submitbutton" type="submit" value="Tolak" />

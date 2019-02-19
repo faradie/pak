@@ -18,34 +18,34 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputNama">Nama</label>
-          <input type="text" class="form-control" id="inputNama" placeholder="Nama" name="inputNama" value="{{ old('nama') ?? $user->nama }}">
+          <input type="text" class="form-control" id="inputNama" placeholder="Nama" name="inputNama" value="{{ old('nama') ?? $user->nama }}" required>
         </div>
         <div class="form-group col-md-6">
           <label for="inputEmail">Email</label>
-          <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="inputEmail" value="{{ old('email') ?? $user->email }}">
+          <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="inputEmail" value="{{ old('email') ?? $user->email }}" required>
         </div>
       </div>
       <div class="form-group">
         <label for="inputPhoto">Upload Foto</label>
-        <input type="file" class="form-control-file" id="inputPhoto" name="inputPhoto">
+        <input type="file" class="form-control-file" id="inputPhoto" name="inputPhoto" >
       </div>
       <div class="form-group">
         <label for="inputAddress">Alamat</label>
-        <input type="text" class="form-control" id="inputAddress" name="inputAddress" placeholder="Jl Raya Bojong Gede No.123 Jakarta Utara 11750" value="{{ old('address') ?? $user->address }}">
+        <input type="text" class="form-control" id="inputAddress" name="inputAddress" placeholder="Jl Raya Bojong Gede No.123 Jakarta Utara 11750" value="{{ old('address') ?? $user->address }}" required>
       </div>
       <div class="form-row">
         <div class="form-group col-md-4">
           <label for="inputPlace">Tempat Lahir</label>
-          <input type="text" class="form-control" id="inputPlace" name="inputPlace" value="{{ old('birth_place') ?? $user->birth_place }}" placeholder="Mojokerto">
+          <input type="text" class="form-control" id="inputPlace" name="inputPlace" value="{{ old('birth_place') ?? $user->birth_place }}" placeholder="Mojokerto" required>
         </div>
         <div class="form-group col-md-4">
           <label for="inputDate">Tanggal Lahir</label>
-          <input type="date" class="form-control" name="inputDate" id="inputDate" value="{{ old('birth_date') ?? $user->birth_date }}">
+          <input type="date" class="form-control" name="inputDate" id="inputDate" value="{{ old('birth_date') ?? $user->birth_date }}" required>
         </div>
         
         <div class="form-group col-md-4">
           <label for="inputGender">Jenis Kelamin</label>
-          <select id="inputGender" name="inputGender" class="form-control">
+          <select id="inputGender" name="inputGender" class="form-control" required>
             <option>Pilih...</option> 
             <option value="Laki-Laki" {{ $user->gender == "Laki-Laki" ? "selected" : "" }}>Laki-Laki</option>
             <option value="Perempuan" {{ $user->gender == "Perempuan" ? "selected" : "" }}>Perempuan</option>
@@ -84,15 +84,33 @@
                 <label class="form-check-label" for="inlineCheckbox1">{{ $permission->name }}</label>
               </div>
               @endforeach
+              
             </div>
           </div>
         </div>
       </div>  
-      @endif
       <br>
+      <div class="btn-group" role="group" aria-label="...">
+        <input class="btn btn-danger" type="button" id="UncheckAll" value="UncheckAll" />
+        <input class="btn btn-dark" type="button" id="CheckAll" value="CheckAll" />
+      </div>
+      @endif
+      
       <button type="submit" class="btn btn-primary" value="save" >Simpan</button>
       <br>
     </form>   
   </div>
 </div>
+<script type="text/javascript">
+
+  $("#UncheckAll").click(function(){
+    $("input[type='checkbox']").prop('checked',false);
+  });
+
+
+  $("#CheckAll").click(function(){
+    $("input[type='checkbox']").prop('checked',true);
+  })
+
+</script>
 @stop

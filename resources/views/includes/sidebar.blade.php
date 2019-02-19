@@ -66,7 +66,7 @@
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('new_files') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Berkas Baru</span>
       </a>

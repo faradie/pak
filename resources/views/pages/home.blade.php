@@ -12,7 +12,6 @@
                 </div>
         </div>
             <div class="col-sm-9 col-md-9 col-xs-12">
-
                     <div class="card">
                             <div class="card-header">
                                     <h3>{{auth()->user()->id}} - <small class="text-muted">{{auth()->user()->nama}}</small></h3>   
@@ -37,7 +36,7 @@
                                           </tr>
                                           <tr>
                                             <th scope="row">Jabatan Pranata Komputer</th>
-                                            <td>{{auth()->user()->pkPosition}}</td>
+                                            <td>{{$positionName->group}} - {{$positionName->position}}</td>
                                           </tr>
                                           <tr>
                                             <th scope="row">Alamat</th>

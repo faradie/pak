@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Unit;
 use App\sk;
+use App\pkPosition;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -124,6 +125,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm(){
         $units = Unit::all();
-        return view('auth.register', compact('units'));
+        $pkPositions = pkPosition::all();
+        return view('auth.register', compact('units','pkPositions'));
     }
 }

@@ -37,5 +37,14 @@ class User extends Authenticatable
         return 'id';
     }
 
+    public function units()
+    {
+        return $this->belongsTo('App\Unit');
+    }
+
+    public function pk_positions()
+    {
+        return $this->belongsTo('App\pkPosition');
+    }
    
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Unit;
 use App\sk;
+use App\PkPosition;
 use Illuminate\Support\Facades\DB;
 use Storage;
 use Response;
@@ -46,29 +48,29 @@ class UserController extends Controller
         $user = User::find($id);
 
         if($request->file('inputPhoto')){
-                if($request->user()->photoUrl){
-                    Storage::delete($request->user()->photoUrl);
-                }
-                $image = $request->file('inputPhoto')->store('profil');
-                $user->update([
-                    'nama' => request('inputNama'),
-                    'email' => request('inputEmail'),
-                    'address' => request('inputAddress'),
-                    'birth_place' => request('inputPlace'),
-                    'birth_date' => request('inputDate'),
-                    'gender'=> request('inputGender'),
-                    'photoUrl'=> $image,
-                ]);
-            }else{
-                $user->update([
-                    'nama' => request('inputNama'),
-                    'email' => request('inputEmail'),
-                    'address' => request('inputAddress'),
-                    'birth_place' => request('inputPlace'),
-                    'birth_date' => request('inputDate'),
-                    'gender'=> request('inputGender'),
-                ]);
+            if($request->user()->photoUrl){
+                Storage::delete($request->user()->photoUrl);
             }
+            $image = $request->file('inputPhoto')->store('profil');
+            $user->update([
+                'nama' => request('inputNama'),
+                'email' => request('inputEmail'),
+                'address' => request('inputAddress'),
+                'birth_place' => request('inputPlace'),
+                'birth_date' => request('inputDate'),
+                'gender'=> request('inputGender'),
+                'photoUrl'=> $image,
+            ]);
+        }else{
+            $user->update([
+                'nama' => request('inputNama'),
+                'email' => request('inputEmail'),
+                'address' => request('inputAddress'),
+                'birth_place' => request('inputPlace'),
+                'birth_date' => request('inputDate'),
+                'gender'=> request('inputGender'),
+            ]);
+        }
 
         if(auth()->user()->hasRole('admin')){
 
@@ -88,33 +90,40 @@ class UserController extends Controller
     public function detailAplicant($id){
         $detail_user = User::find($id);
         $skUrls = sk::find($detail_user->lastSKUrl);
-        return view('pages.detail_user',compact('detail_user','skUrls'));
+        $unitsName = Unit::find($detail_user->unit);
+        $positionName = PkPosition::find($detail_user->pkPosition);
+        return view('pages.detail_user',compact('detail_user','skUrls','unitsName','positionName'));
     }
 
     public function acccept_applicant($id,Request $request){
-        // $activatedUser = User::find($id);
-        switch($request->submitbutton) {
-            case 'Tolak': 
-            $deletedUser = User::find($id);
-            $idSK = Sk::find($deletedUser->lastSKUrl);
-            Storage::delete($deletedUser->photoUrl);
-            Storage::delete($idSK->skUrl);
-            $deletedUser->delete();
-            break;
+        try{
+// $activatedUser = User::find($id);
+            switch($request->submitbutton) {
+                case 'Tolak': 
+                $deletedUser = User::find($id);
+                $idSK = Sk::find($deletedUser->lastSKUrl);
+                Storage::delete($deletedUser->photoUrl);
+                Storage::delete($idSK->skUrl);
+                $deletedUser->delete();
+                break;
 
-            case 'Terima': 
-            DB::table('users')
-            ->where('id', $id)
-            ->update(['is_approved' => "1"]);
-            $userRoles = User::find($id);
-            $userRoles->assignRole('applicant');
+                case 'Terima': 
+                DB::table('users')
+                ->where('id', $id)
+                ->update(['is_approved' => "1"]);
+                $userRoles = User::find($id);
+                $userRoles->assignRole('applicant');
             // $activatedUser = User::find($id);
             // $activatedUser->update([
             //     'is_approved' => "1"
             // ]);
-            break;
+                break;
+            }
+            return redirect()->route('newapplicant')->with('result', 'Berhasil');;
+        }catch(\Exception $e){
+            return redirect()->route('newapplicant')->with('result', 'Gagal');;
         }
-        return redirect()->route('newapplicant');
+        
     }
 
 
