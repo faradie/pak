@@ -20,6 +20,10 @@
                             <table class="table">
                                         <tbody>
                                           <tr>
+                                            <th scope="row">Nomor Serial Kartu</th>
+                                            <td>{{auth()->user()->CardSerialNumber}}</td>
+                                          </tr>
+                                          <tr>
                                             <th scope="row">Email</th>
                                             <td>{{auth()->user()->email}}</td>
                                           </tr>
@@ -32,9 +36,14 @@
                                             <td>{{auth()->user()->gender == null ? 'Jenis kelamin belum diatur' : auth()->user()->gender}}</td>
                                           </tr>
                                           <tr>
+                                            <th scope="row">Jabatan Pranata Komputer</th>
+                                            <td>{{auth()->user()->pkPosition}}</td>
+                                          </tr>
+                                          <tr>
                                             <th scope="row">Alamat</th>
                                             <td>{{auth()->user()->address}}</td>
                                           </tr>
+                                          
                                           <tr>
                                             <th scope="row">Kredit</th>
                                             <td>{{auth()->user()->credit}}</td>

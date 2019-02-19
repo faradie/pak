@@ -35,36 +35,51 @@ class UserController extends Controller
 
     public function settings($id){
         $user = User::find($id);
+        $roles = \Spatie\Permission\Models\Role::all();
+        $permissions = \Spatie\Permission\Models\Permission::all();
+        $userRoles = $user->getRoleNames();
 
-        return view('pages.setting',compact('user'));
+        return view('pages.setting',compact('user','roles','permissions','userRoles'));
     }
 
     public function edit($id, Request $request){
         $user = User::find($id);
 
         if($request->file('inputPhoto')){
-            if($request->user()->photoUrl){
-                Storage::delete($request->user()->photoUrl);
+                if($request->user()->photoUrl){
+                    Storage::delete($request->user()->photoUrl);
+                }
+                $image = $request->file('inputPhoto')->store('profil');
+                $user->update([
+                    'nama' => request('inputNama'),
+                    'email' => request('inputEmail'),
+                    'address' => request('inputAddress'),
+                    'birth_place' => request('inputPlace'),
+                    'birth_date' => request('inputDate'),
+                    'gender'=> request('inputGender'),
+                    'photoUrl'=> $image,
+                ]);
+            }else{
+                $user->update([
+                    'nama' => request('inputNama'),
+                    'email' => request('inputEmail'),
+                    'address' => request('inputAddress'),
+                    'birth_place' => request('inputPlace'),
+                    'birth_date' => request('inputDate'),
+                    'gender'=> request('inputGender'),
+                ]);
             }
-            $image = $request->file('inputPhoto')->store('profil');
-            $user->update([
-                'nama' => request('inputNama'),
-                'email' => request('inputEmail'),
-                'address' => request('inputAddress'),
-                'birth_place' => request('inputPlace'),
-                'birth_date' => request('inputDate'),
-                'gender'=> request('inputGender'),
-                'photoUrl'=> $image,
-            ]);
-        }else{
-            $user->update([
-                'nama' => request('inputNama'),
-                'email' => request('inputEmail'),
-                'address' => request('inputAddress'),
-                'birth_place' => request('inputPlace'),
-                'birth_date' => request('inputDate'),
-                'gender'=> request('inputGender'),
-            ]);
+
+        if(auth()->user()->hasRole('admin')){
+
+
+            $getRoles = $request->input('get_roles');
+            $getPermission = $request->input('get_permissions');
+
+            $user->syncRoles($getRoles);
+            $user->syncPermissions($getPermission);
+
+            return redirect()->route('user.settings',$user->id);
         }
 
         return redirect()->route('home');
@@ -80,13 +95,13 @@ class UserController extends Controller
         // $activatedUser = User::find($id);
         switch($request->submitbutton) {
             case 'Tolak': 
-                $deletedUser = User::find($id);
-                $idSK = Sk::find($deletedUser->lastSKUrl);
-                Storage::delete($deletedUser->photoUrl);
-                Storage::delete($idSK->skUrl);
-                $deletedUser->delete();
+            $deletedUser = User::find($id);
+            $idSK = Sk::find($deletedUser->lastSKUrl);
+            Storage::delete($deletedUser->photoUrl);
+            Storage::delete($idSK->skUrl);
+            $deletedUser->delete();
             break;
-        
+
             case 'Terima': 
             DB::table('users')
             ->where('id', $id)
@@ -101,6 +116,6 @@ class UserController extends Controller
         }
         return redirect()->route('newapplicant');
     }
-   
+
 
 }

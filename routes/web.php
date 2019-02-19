@@ -134,3 +134,6 @@ Route::get('/submission/ahli/create', 'SubmissionController@createAhli')->name('
 // edit settings user
 Route::get('/user/{id}/settings','UserController@settings')->name('user.settings');
 Route::patch('/user/{id}/settings','UserController@edit')->name('user.edit');
+
+Route::patch('/user/{id}/detailEditHapusManage','UserController@edit')->name('editData');
+

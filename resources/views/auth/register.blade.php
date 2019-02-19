@@ -97,7 +97,7 @@
 
                                 <div class="form-group">
 									<label for="workUnit">{{ __('Unit Kerja') }}</label>
-                                    <select id="workUnit" name="workUnit" class="form-control">
+                                    <select id="workUnit" name="workUnit" class="form-control" required>
                                         <option>Pilih...</option> 
                                         @foreach ($units as $unit)
                                             <option value="{{ $unit->id }}" >{{strtoupper($unit->position) .' - '. $unit->workUnit}}</option>
@@ -113,7 +113,17 @@
 
                                 <div class="form-group">
 									<label for="pkPosition">{{ __('Jabatan Pranata Komputer') }}</label>
-                                    <input id="pkPosition" placeholder="Isikan jabatan anda" type="text" class="form-control{{ $errors->has('pkPosition') ? ' is-invalid' : '' }}" value="{{ old('pkPosition') }}" name="pkPosition" required>
+                                    <select id="pkPosition" name="pkPosition" class="form-control" required>
+                                        <option>Pilih...</option> 
+                                        <option value="Terampil - Pelaksana Pemula" >Terampil - Pelaksana Pemula</option>
+                                        <option value="Terampil - Pelaksana" >Terampil - Pelaksana</option>
+                                        <option value="Terampil - Pelaksana Lanjutan" >Terampil - Pelaksana Lanjutan</option>
+                                        <option value="Terampil - Penyelia" >Terampil - Penyelia</option>
+                                        <option value="Ahli - Pertama" >Ahli - Pertama</option>
+                                        <option value="Ahli - Muda" >Ahli - Muda</option>
+                                        <option value="Ahli - Madya" >Ahli - Madya</option>
+                                        <option value="Ahli - Utama" >Ahli - Utama</option>
+                                      </select>
                                     @if ($errors->has('pkPosition'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('pkPosition') }}</strong>
