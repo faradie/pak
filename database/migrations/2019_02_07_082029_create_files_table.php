@@ -14,16 +14,17 @@ class CreateFilesTable extends Migration
     public function up()
     {
         Schema::create('files', function (Blueprint $table) {
-            $table->string('item_id')->primary();
+            $table->string('id')->primary();
             $table->string('submission_id');
-            $table->string('file_name');
-            $table->decimal('file_size',8,2);
-            $table->string('data_status');
-            $table->string('type');
+            $table->string('fileUrl');
+            $table->decimal('file_size',8,2)->nullable();
+            $table->string('data_status')->nullable(); //for team coment
+            $table->bigInteger('times'); //pengali
+            $table->string('type'); //administrasi / berkas inti
             $table->timestamps();
 
             $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('CASCADE');
-            $table->foreign('item_id')->references('id')->on('items')->onDelete('CASCADE');
+            $table->foreign('id')->references('id')->on('items')->onDelete('CASCADE');
         });
     }
 

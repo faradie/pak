@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Item;
+use App\User;
+use App\Submission;
+use App\File;
+use Webpatser\Uuid\Uuid;
 
 class SubmissionController extends Controller
 {
@@ -43,6 +47,54 @@ class SubmissionController extends Controller
         $butir_terampil5F = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'F')->get();
         
         return view('pages.submission.createTerampil',compact('butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F'));
+    }
+
+    public function submitTerampil(Request $request){
+        $idSub = Uuid::generate();
+        Submission::create([
+            'id' => $idSub,
+            'nip' => auth()->user()->id,
+            'submission_position' => '1',
+        ]);
+
+        $files =[];
+        $items = Item::all();
+        foreach ($items as $item) {
+            if ($request->file($item->id)){
+                $files[] = $request->file($item->id);
+                $itemID[] = $item->id;
+                $timesItem[] = request($item->id.'times');
+                //buat masing" files
+                // File::create([
+                //     'id' => $item->id,
+                //     'nip' => auth()->user()->id,
+                //     'submission_position' => '1',
+                // ]);
+            }
+        }
+        // dd($files,$itemID,$timesItem);
+        
+        foreach ($files as $index => $file )
+        {
+            if(!empty($file)){
+                //move file into directory
+                $random_string = Uuid::generate();
+                $file->move(
+                    base_path().'/public/dupakFiles/submissionFiles/', $random_string.'.pdf'
+                );
+                //create in files
+                File::create([
+                    'id' => $itemID[$index],
+                    'submission_id' => $idSub,
+                    'fileUrl' => 'submissionFiles/'.$random_string.'.pdf',
+                    'times' => $timesItem[$index],
+                    'type'=> 'berkas_butir'
+                ]);
+
+            }
+
+        }
+        return redirect()->route('terampil_create')->with('submit_result', 'Pengajuan telah berhasil');
     }
 
     public function createAhli(){

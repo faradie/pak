@@ -125,6 +125,7 @@ Route::patch('/newapplicant/detail/{id}', 'UserController@acccept_applicant')->n
 
 //terampil submission route
 Route::get('/submission/terampil/create', 'SubmissionController@createTerampil')->name('terampil_create');
+Route::patch('/submission/terampil/create', 'SubmissionController@submitTerampil')->name('terampil_submit');
 
 
 //ahli submission route

@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <!-- <link rel="shortcut icon"  type="image/png" sizes="16x16" href="{{{ asset('img/kementerian_logo.png') }}}"> -->
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
@@ -23,6 +23,10 @@
     <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/dropzone.css') }}" rel="stylesheet" type="text/css">
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/normalize.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/demo.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/component.css') }}" />
+
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin.css') }}" rel="stylesheet">
     <!-- Styles -->
@@ -30,4 +34,7 @@
 
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/dropzone.js') }}" type="text/javascript"></script>
+
+  
+    <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
     
