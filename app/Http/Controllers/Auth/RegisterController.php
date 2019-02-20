@@ -124,7 +124,7 @@ class RegisterController extends Controller
     }
 
     public function showRegistrationForm(){
-        $units = Unit::all();
+        $units = Unit::pluck('id','workUnit')->toArray();
         $pkPositions = pkPosition::all();
         return view('auth.register', compact('units','pkPositions'));
     }

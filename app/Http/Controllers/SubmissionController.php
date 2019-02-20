@@ -52,16 +52,13 @@ class SubmissionController extends Controller
 
     public function submitTerampil(Request $request){
 
-
-
         $idSub = Uuid::generate();
         Submission::create([
             'id' => $idSub,
             'nip' => auth()->user()->id,
             'submission_position' => '1',
+            'submissionType' => 'terampil'
         ]);
-
-
 
         $administrativeFiles =[];
         if ($request->file('lastSKUpload')) $administrativeFiles[] = $request->file('lastSKUpload');

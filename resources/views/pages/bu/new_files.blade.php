@@ -31,8 +31,8 @@
 			@foreach ($bu_submission as $submission)
 			<tr>
 				<th  scope="row">{{$loop->iteration}}</th >
-				<td>{{$submission->nip}}</td>
-				<td>{{$submission->nip}}</td>
+				<td>{{$submission->id}}</td>
+				<td>{{$submission->nama}}</td>
 				<td>{{$submission->created_at}}</td>
 				<td align="center">  
 					<form action="{{ route('detail_Aplicant',$submission->id) }}"><input class="btn btn-info" type="submit" value="Teruskan" /></form>
