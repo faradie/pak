@@ -46,5 +46,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\pkPosition');
     }
+
+    public function submissions()
+    {
+        return $this->hasMany('App\Submission');
+    }
    
 }

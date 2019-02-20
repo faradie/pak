@@ -17,4 +17,9 @@ class Submission extends Model
         'id','nip','submission_position','submission_status','series_number','submission_score','team_score','SKFileUrl'
     ];
 
+    public function users()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }

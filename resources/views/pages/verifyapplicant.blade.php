@@ -1,5 +1,10 @@
 @extends('layouts.default')
 @section('content')
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Verifikasi Pemohon Baru</li>
+  </ol>
+</nav>
 @if(session()->has('result'))
     <div class="alert alert-success">
       {{ session()->get('result') }}

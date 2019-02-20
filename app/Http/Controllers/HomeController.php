@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Unit;
 use App\sk;
 use App\PkPosition;
+use App\Submission;
 use App\User;
+
 
 class HomeController extends Controller
 {
@@ -41,7 +43,9 @@ class HomeController extends Controller
     }
 
     public function new_files_bu(){
-        return view('pages.bu.new_files');
+        $bu_submission = Submission::all()->where('submission_position','1');
+        // $users = User::find($bu_submission->nip);
+        return view('pages.bu.new_files', compact('bu_submission'));
     }
 
     

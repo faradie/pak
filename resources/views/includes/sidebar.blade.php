@@ -5,7 +5,7 @@
     <li class="nav-item active">
       <a class="nav-link" style="color:#00e6ac" >
         <i class="fas fa-fw fa-fa fa-briefcase"></i>
-        <span>Pegawai</span>
+        <span>Pemohon</span>
       </a>
     </li>
     <li class="nav-item dropdown active">

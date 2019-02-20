@@ -46,6 +46,10 @@
         <th scope="row">Kredit</th>
         <td>{{$detail_user->credit}}</td>
       </tr>
+      <tr>
+        <th scope="row">Daftar Pada</th>
+        <td>{{$detail_user->created_at}}</td>
+      </tr>
     </tbody>
   </table>
 

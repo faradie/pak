@@ -44,7 +44,7 @@
                                           </tr>
                                           
                                           <tr>
-                                            <th scope="row">Kredit</th>
+                                            <th scope="row">Angka Kredit</th>
                                             <td>{{auth()->user()->credit}}</td>
                                           </tr>
                                         </tbody>
