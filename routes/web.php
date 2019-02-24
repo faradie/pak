@@ -126,7 +126,9 @@ Route::post('register', [
 
 Route::get('/about', 'HomeController@about')->name('about');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/bu/new_file', 'HomeController@new_files_bu')->name('new_files');
+
+Route::get('/bu/new_file', 'buController@new_files_bu')->name('new_files');
+Route::get('/bu/{id}/forward', 'buController@forward_files')->name('forward_files');
 
 Route::get('/manageusers', 'UserController@fetch')->name('manageusers');
 Route::get('/newapplicant', 'UserController@fetchnewapplicant')->name('newapplicant');

@@ -44,18 +44,7 @@ class HomeController extends Controller
         return view('pages.about');
     }
 
-    public function new_files_bu(){
-        $bu_submission = DB::table('submissions')
-        ->join('users', 'submissions.nip', '=', 'users.id')
-        ->select('users.*', 'submissions.created_at')
-        ->get();
-
-        // $bu_submission = Submission::all()->where('submission_position','1');
-        // foreach ($bu_submission as $submission_nip) {
-        //     $users = User::find($submission_nip->nip);
-        // }
-        return view('pages.bu.new_files', compact('bu_submission'));
-    }
+    
 
     
     

@@ -125,9 +125,9 @@ class UserController extends Controller
 
                 break;
             }
-            return redirect()->route('newapplicant')->with('result_berhasil', 'Penerimaan Berhasil');;
+            return redirect()->route('newapplicant')->with('result_berhasil', 'Penerimaan Berhasil');
         }catch(\Exception $e){
-            return redirect()->route('newapplicant')->with('result_gagal', 'Penerimaan Gagal');;
+            return redirect()->route('newapplicant')->with('result_gagal', 'Penerimaan Gagal');
         }
         
     }

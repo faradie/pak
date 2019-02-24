@@ -5,9 +5,14 @@
 		<li class="breadcrumb-item active" aria-current="page">Berkas Baru Biro Umum</li>
 	</ol>
 </nav>
-@if(session()->has('result'))
+@if(session()->has('result_berhasil'))
 <div class="alert alert-success">
-	{{ session()->get('result') }}
+	{{ session()->get('result_berhasil') }}
+</div>
+@endif
+@if(session()->has('result_gagal'))
+<div class="alert alert-danger">
+	{{ session()->get('result_gagal') }}
 </div>
 @endif
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari dengan nama..">
@@ -16,6 +21,8 @@
 		<thead>
 			<tr>
 				<th scope="col">No
+				</th>
+				<th scope="col">No Pengajuan
 				</th>
 				<th scope="col">NIP
 				</th>
@@ -31,11 +38,12 @@
 			@foreach ($bu_submission as $submission)
 			<tr>
 				<th  scope="row">{{$loop->iteration}}</th >
-				<td>{{$submission->id}}</td>
+				<td>{{ strtoupper($submission->id) }}</td>
+				<td>{{$submission->nip}}</td>
 				<td>{{$submission->nama}}</td>
 				<td>{{$submission->created_at}}</td>
 				<td align="center">  
-					<form action="{{ route('detail_Aplicant',$submission->id) }}"><input class="btn btn-info" type="submit" value="Teruskan" /></form>
+					<form action="{{ route('forward_files',$submission->id) }}"><input class="btn btn-info" type="submit" value="Teruskan" /></form>
 				</td>
 			</tr>
 			@endforeach

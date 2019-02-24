@@ -55,6 +55,9 @@ class SubmissionController extends Controller
     }
 
     public function submitTerampil(Request $request){
+
+        //status 1 bu
+
         $shortid = ShortId::create();
         // $idSub = Uuid::generate();
         $idSub = $shortid->generate();
@@ -64,8 +67,6 @@ class SubmissionController extends Controller
             'submission_position' => '1',
             'submissionType' => 'terampil',
         ]);
-
-
 
 
         $administrativeFiles =[];
