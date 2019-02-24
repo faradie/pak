@@ -9,6 +9,10 @@ use App\Submission;
 use App\File;
 use App\Administration;
 use Webpatser\Uuid\Uuid;
+use Crisu83\ShortId\ShortId;
+
+use App\Notifications\allNotification;
+use Illuminate\Support\Facades\Notification;
 
 class SubmissionController extends Controller
 {
@@ -51,14 +55,18 @@ class SubmissionController extends Controller
     }
 
     public function submitTerampil(Request $request){
-
-        $idSub = Uuid::generate();
+        $shortid = ShortId::create();
+        // $idSub = Uuid::generate();
+        $idSub = $shortid->generate();
         Submission::create([
             'id' => $idSub,
             'nip' => auth()->user()->id,
             'submission_position' => '1',
-            'submissionType' => 'terampil'
+            'submissionType' => 'terampil',
         ]);
+
+
+
 
         $administrativeFiles =[];
         if ($request->file('lastSKUpload')) $administrativeFiles[] = $request->file('lastSKUpload');
@@ -123,6 +131,12 @@ class SubmissionController extends Controller
             }
 
         }
+        $userRoles = User::find(auth()->user()->id);
+        $arr = [
+            'notification_subject'=>'Pengajuan '.$idSub,
+            'notification_content'=>'Telah diterima di Biro Umum'
+        ];
+        Notification::send($userRoles, new allNotification($arr));
         return redirect()->route('terampil_create')->with('submit_result', 'Pengajuan telah berhasil');
     }
 

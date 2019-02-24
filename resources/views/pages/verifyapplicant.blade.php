@@ -5,11 +5,16 @@
     <li class="breadcrumb-item active" aria-current="page">Verifikasi Pemohon Baru</li>
   </ol>
 </nav>
-@if(session()->has('result'))
+@if(session()->has('result_berhasil'))
     <div class="alert alert-success">
-      {{ session()->get('result') }}
+      {{ session()->get('result_berhasil') }}
     </div>
-  @endif
+@endif
+@if(session()->has('result_gagal'))
+    <div class="alert alert-danger">
+      {{ session()->get('result_gagal') }}
+    </div>
+@endif
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari dengan nama..">
 <div class="table-responsive">
 <table id="myTable" class="table table-striped">

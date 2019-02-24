@@ -1,3 +1,9 @@
+p {
+    text-overflow: ellipsis; /* will make [...] at the end */
+    width: 230px; /* change to your preferences */
+    white-space: nowrap; /* paragraph to one line */
+    overflow:hidden; /* older browsers */
+    }
 /*****************************************
   upload button styles
 ******************************************/

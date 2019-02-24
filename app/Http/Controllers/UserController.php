@@ -10,6 +10,9 @@ use App\PkPosition;
 use Illuminate\Support\Facades\DB;
 use Storage;
 use Response;
+use App\Notifications\allNotification;
+use Illuminate\Support\Facades\Notification;
+
 
 class UserController extends Controller
 {
@@ -113,15 +116,18 @@ class UserController extends Controller
                 ->update(['is_approved' => "1"]);
                 $userRoles = User::find($id);
                 $userRoles->assignRole('applicant');
-            // $activatedUser = User::find($id);
-            // $activatedUser->update([
-            //     'is_approved' => "1"
-            // ]);
+
+                $arr = [
+                    'notification_subject'=>auth()->user()->id,
+                    'notification_content'=>'Selamat akun anda telah aktif'
+                ];
+                Notification::send($userRoles, new allNotification($arr));
+
                 break;
             }
-            return redirect()->route('newapplicant')->with('result', 'Berhasil');;
+            return redirect()->route('newapplicant')->with('result_berhasil', 'Penerimaan Berhasil');;
         }catch(\Exception $e){
-            return redirect()->route('newapplicant')->with('result', 'Gagal');;
+            return redirect()->route('newapplicant')->with('result_gagal', 'Penerimaan Gagal');;
         }
         
     }

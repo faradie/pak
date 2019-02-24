@@ -12,6 +12,24 @@
 */
 Route::get('/', ['middleware' => 'auth', 'uses' => 'HomeController@index']);
 
+// Route::get('/', function () {
+
+//     // return View::make('pages.home');
+
+//     // if(session()->has('package_id')){
+
+//     // }
+//     // return view('auth.login');
+//     // auth()->user()->assignRole('admin');
+//   // $arr = [
+//   //   'acceptedById'=>auth()->user()->id,
+//   //   'notification_content'=>'Selamat akun anda telah aktif'
+//   // ];
+
+  
+
+// });
+
 
 // Route::get('/', function()
 // {
@@ -32,24 +50,15 @@ Route::get('/', ['middleware' => 'auth', 'uses' => 'HomeController@index']);
 // });
 Route::get('projects', function()
 {
-    return View::make('pages.projects');
+  return View::make('pages.projects');
 });
 Route::get('contact', function()
 {
-    return View::make('pages.contact');
+  return View::make('pages.contact');
 });
 
 
-// Route::get('/', function () {
 
-//     // return View::make('pages.home');
-
-//     // if(session()->has('package_id')){
-        
-//     // }
-//     // return view('auth.login');
-//     auth()->user()->assignRole('admin');
-// });
 
 // Route::group(['prefix' => '/'], function()
 // {
@@ -72,47 +81,47 @@ Route::get('contact', function()
 
 // Authentication Routes...
 Route::get('login', [
-    'as' => 'login',
-    'uses' => 'Auth\LoginController@showLoginForm',
-    'middleware'    => 'checkstatus'
-  ]);
-  Route::post('login', [
-    'as' => '',
-    'uses' => 'Auth\LoginController@login',
-    'middleware'    => 'checkstatus'
-  ]);
-  Route::post('logout', [
-    'as' => 'logout',
-    'uses' => 'Auth\LoginController@logout'
-  ]);
-  
+  'as' => 'login',
+  'uses' => 'Auth\LoginController@showLoginForm',
+  'middleware'    => 'checkstatus'
+]);
+Route::post('login', [
+  'as' => '',
+  'uses' => 'Auth\LoginController@login',
+  'middleware'    => 'checkstatus'
+]);
+Route::post('logout', [
+  'as' => 'logout',
+  'uses' => 'Auth\LoginController@logout'
+]);
+
   // Password Reset Routes...
-  Route::post('password/email', [
-    'as' => 'password.email',
-    'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail'
-  ]);
-  Route::get('password/reset', [
-    'as' => 'password.request',
-    'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm'
-  ]);
-  Route::post('password/reset', [
-    'as' => '',
-    'uses' => 'Auth\ResetPasswordController@reset'
-  ]);
-  Route::get('password/reset/{token}', [
-    'as' => 'password.reset',
-    'uses' => 'Auth\ResetPasswordController@showResetForm'
-  ]);
-  
+Route::post('password/email', [
+  'as' => 'password.email',
+  'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail'
+]);
+Route::get('password/reset', [
+  'as' => 'password.request',
+  'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm'
+]);
+Route::post('password/reset', [
+  'as' => '',
+  'uses' => 'Auth\ResetPasswordController@reset'
+]);
+Route::get('password/reset/{token}', [
+  'as' => 'password.reset',
+  'uses' => 'Auth\ResetPasswordController@showResetForm'
+]);
+
   // Registration Routes...
-  Route::get('register', [
-    'as' => 'register',
-    'uses' => 'Auth\RegisterController@showRegistrationForm'
-  ]);
-  Route::post('register', [
-    'as' => '',
-    'uses' => 'Auth\RegisterController@register'
-  ]);
+Route::get('register', [
+  'as' => 'register',
+  'uses' => 'Auth\RegisterController@showRegistrationForm'
+]);
+Route::post('register', [
+  'as' => '',
+  'uses' => 'Auth\RegisterController@register'
+]);
 
 
 Route::get('/about', 'HomeController@about')->name('about');

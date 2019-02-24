@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {
-    protected $primaryKey ="id";
-    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
