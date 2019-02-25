@@ -11,6 +11,9 @@ use App\User;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Notifications\allNotification;
+use Illuminate\Support\Facades\Notification;
+
 
 class HomeController extends Controller
 {
@@ -44,10 +47,12 @@ class HomeController extends Controller
         return view('pages.about');
     }
 
-    
+    public function allNotification(){
+        auth()->user()->unreadNotifications->markAsRead();
+        return view('pages.all_notifications');
+    }
 
-    
-    
+
     // public function guest_index()
     // {
     //     return view('auth.login');

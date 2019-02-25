@@ -134,6 +134,7 @@ class SubmissionController extends Controller
         }
         $userRoles = User::find(auth()->user()->id);
         $arr = [
+            'pj'=> null,
             'notification_subject'=>'Pengajuan '.$idSub,
             'notification_content'=>'Telah diterima di Biro Umum'
         ];

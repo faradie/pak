@@ -24,6 +24,7 @@ class allNotification extends Notification
 
     public function toDatabase(){
         return[
+            'pj' =>$this->post['pj'],
             'notification_subject' =>   $this->post['notification_subject'],
             'notification_content'=>   $this->post['notification_content'],
         ];

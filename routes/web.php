@@ -126,7 +126,9 @@ Route::post('register', [
 
 Route::get('/about', 'HomeController@about')->name('about');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/notification_all', 'HomeController@allNotification')->name('allNotification');
 
+Route::get('/bu/data_recap', 'buController@allRekapData')->name('allRekapData');
 Route::get('/bu/new_file', 'buController@new_files_bu')->name('new_files');
 Route::get('/bu/{id}/forward', 'buController@forward_files')->name('forward_files');
 
@@ -151,3 +153,8 @@ Route::patch('/user/{id}/settings','UserController@edit')->name('user.edit');
 
 Route::patch('/user/{id}/detailEditHapusManage','UserController@edit')->name('editData');
 
+Route::get('read/{id}',function(){
+      $id = auth()->user()->unreadNotifications[0]->id;
+     auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+     return redirect('home');
+})->name('readNotif');

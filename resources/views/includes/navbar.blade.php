@@ -28,6 +28,24 @@
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
       @if (auth()->user()->unreadNotifications()->groupBy('notifiable_type')->count() != null)
       @foreach (auth()->user()->unreadNotifications->sortByDesc('created_at')->take(2) as $notification)
+      <a href="{{ route('readNotif',$notification) }}">
+        <div class="col dropdown-item" style="max-width: 400px;background-color: lightgray">
+        <div class="row">
+          <div class="col">
+            <strong class="text-info">{{ strtoupper($notification->data['notification_subject']) }}</strong>
+          </div>
+          <div class="col">
+            <p>{{ $notification->data['notification_content'] }}</p>
+          </div>
+        </div>
+        <small class="text-danger">{{ $notification->created_at }}</small>  
+      </div>
+      </a>
+      <div class="dropdown-divider"></div>
+      {{-- <a class="dropdown-item" href="#">{{ $notification->data['notification_content'].' oleh '. $notification->data['notification_subject']}}</a>
+      <div class="dropdown-divider"></div> --}}
+      @endforeach
+      @foreach (auth()->user()->readNotifications->sortByDesc('created_at')->take(2) as $notification)
       <div class="col dropdown-item" style="max-width: 400px;">
         <div class="row">
           <div class="col">
@@ -53,7 +71,7 @@
      </div>
      @endif
      <div class="text-center">
-      <a type="button" href="#" class="text-info">Lihat Semua</a>  
+      <a type="button" href="{{ route('allNotification') }}" class="text-info">Lihat Semua</a>  
     </div>
   </div>
 </li>

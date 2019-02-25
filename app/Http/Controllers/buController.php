@@ -44,6 +44,7 @@ class buController extends Controller
     	//masukkan notifikasi
     	$userNotif = User::find($submission->nip);
         $arr = [
+        	'pj'=> auth()->user()->id,
             'notification_subject'=>'Pengajuan '.$id,
             'notification_content'=>'Telah diterima di TU Kepegawaian'
         ];
@@ -53,4 +54,17 @@ class buController extends Controller
 			return redirect()->route('new_files')->with('result_gagal', 'Gagal meneruskan ke TU');
 		}
 	}
+
+	public function allRekapData(){
+		$allDataRecaps = DB::table('logs')
+		->join('submissions', 'submissions.id', '=', 'logs.submission_id')
+		->join('users','users.id','=','logs.nip')
+		->select('users.nama as pj_name','submissions.*','logs.created_at as forward_date')
+		->where('position_log', '1')
+		->get();
+
+
+		return view('pages.bu.allRekapData', compact('allDataRecaps'));
+	}
+
 }
