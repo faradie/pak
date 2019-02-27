@@ -12,6 +12,6 @@ class Administration extends Model
      * @var array
      */
     protected $fillable = [
-        'submission_id','fileUrl','file_size','data_status'
+        'submission_id','fileUrl','file_size','data_status','name','nameID'
     ];
 }

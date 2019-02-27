@@ -25,7 +25,7 @@
 				<h5 class="mb-1">{{ $notification->data['notification_subject'] }}</h5>
 				<small>{{ $notification->created_at }}</small>
 			</div>
-			<p class="mb-1">{{ $notification->data['notification_content'] }}.</p>
+			<p class="mb-1">{{ $notification->data['notification_content'] }}</p>
 			<small>{{ $notification->data['pj']==null ? "" : "Oleh : ".$notification->data['pj'] }}</small>
 		</a>
 		@endforeach

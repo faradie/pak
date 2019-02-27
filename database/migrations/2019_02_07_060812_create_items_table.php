@@ -15,7 +15,7 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->string('id')->unique()->primary();
-            $table->string('item_name');
+            $table->string('item_name',255);
             $table->string('unitResult');
             $table->decimal('point', 8, 4);
             $table->string('assessmentLimits');

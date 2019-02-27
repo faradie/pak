@@ -27,9 +27,9 @@
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
       @if (auth()->user()->unreadNotifications()->groupBy('notifiable_type')->count() != null)
-      @foreach (auth()->user()->unreadNotifications->sortByDesc('created_at')->take(2) as $notification)
+      @foreach (auth()->user()->unreadNotifications->sortByDesc('created_at')->take(3) as $notification)
       <a href="{{ route('readNotif',$notification) }}">
-        <div class="col dropdown-item" style="max-width: 400px;background-color: lightgray">
+        <div class="col dropdown-item" style="max-width: 400px;background-color: #fefbd8">
         <div class="row">
           <div class="col">
             <strong class="text-info">{{ strtoupper($notification->data['notification_subject']) }}</strong>
@@ -93,6 +93,7 @@
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
       <a class="dropdown-item"><strong>{{auth()->user()->nama}}</strong></a>      
+      <a class="dropdown-item" href="#">Pengajuan Tersimpan</a>
       <a class="dropdown-item" href="#">Riwayat Pengajuan</a>
       <a class="dropdown-item" href="{{ route('user.settings',auth()->user()->id) }}">Pengaturan</a>
       <div class="dropdown-divider"></div>

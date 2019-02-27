@@ -26,12 +26,7 @@ class UserController extends Controller
         $this->middleware('auth');
     }
     
-    public function fetch(){
-        $users = User::all()->where('is_approved','1');
-        // $users = DB::table('users')->where('is_approved', '=', 1)->get();
-        // dd($users);
-        return view('pages.manageusers', compact('users'));
-    }
+    
 
     public function fetchnewapplicant(){
         $users = User::all()->where('is_approved','0');
@@ -118,8 +113,9 @@ class UserController extends Controller
                 $userRoles->assignRole('applicant');
 
                 $arr = [
-                    'notification_subject'=>auth()->user()->id,
-                    'notification_content'=>'Selamat akun anda telah aktif'
+                    'pj'=>auth()->user()->id,
+                    'notification_subject'=> 'Pemberitahuan Akun Aktif',
+                    'notification_content'=>'Selamat akun anda telah aktif dan dapat digunakan!'
                 ];
                 Notification::send($userRoles, new allNotification($arr));
 

@@ -16,7 +16,9 @@ class buController extends Controller
 	public function new_files_bu(){
 		$bu_submission = DB::table('submissions')
 		->join('users', 'submissions.nip', '=', 'users.id')
-		->select('users.*', 'submissions.*')->where('submission_position', '1')
+		->select('users.*', 'submissions.*')
+		->where('submission_position', '1')
+		->where('submissions.nip','!=',auth()->user()->id)
 		->get();
 
         // $bu_submission = Submission::all()->where('submission_position','1');
@@ -39,7 +41,7 @@ class buController extends Controller
     	//update status submission buat posisi
 		DB::table('submissions')
 		->where('id', $id)
-		->update(['submission_position' => "2"]);
+		->update(['submission_position' => "2"]); //tu
 
     	//masukkan notifikasi
     	$userNotif = User::find($submission->nip);

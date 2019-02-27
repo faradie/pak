@@ -124,17 +124,54 @@ Route::post('register', [
 ]);
 
 
+//admin
+Route::get('/manageusers', 'adminController@manage_users')->name('manage_users');
+Route::get('/periods', 'adminController@manage_period')->name('manage_period');
+Route::get('/periods/create', 'adminController@create_period')->name('create_period');
+Route::delete('/periods/delete/{id}', 'adminController@destroy')->name('delete_period');
+Route::patch('/periods/create', 'adminController@submit_period')->name('submit_period');
+Route::get('/periods/edit/{id}', 'adminController@edit_period')->name('edit_period');
+Route::patch('/periods/edit/{id}', 'adminController@submit_period_edit')->name('submit_period_edit');
+
+
+
+//home
 Route::get('/about', 'HomeController@about')->name('about');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/notification_all', 'HomeController@allNotification')->name('allNotification');
 
+
+//bu
 Route::get('/bu/data_recap', 'buController@allRekapData')->name('allRekapData');
 Route::get('/bu/new_file', 'buController@new_files_bu')->name('new_files');
 Route::get('/bu/{id}/forward', 'buController@forward_files')->name('forward_files');
 
-Route::get('/manageusers', 'UserController@fetch')->name('manageusers');
-Route::get('/newapplicant', 'UserController@fetchnewapplicant')->name('newapplicant');
 
+//asesmen
+Route::get('/asesmen/new_file', 'asesmenController@asesmen_new_file')->name('asesmen_new_file');
+Route::get('/asesmen/{id}/forward', 'asesmenController@asesmen_forward_files')->name('asesmen_forward_files');
+Route::get('/asesmen/data_recap', 'asesmenController@asesmen_all_recap')->name('asesmen_all_recap');
+
+//jft
+Route::get('/jft/new_file', 'jftController@jft_new_files')->name('jft_new_files');
+Route::get('/jft/{id}/forward', 'jftController@jft_forward_files')->name('jft_forward_files');
+Route::get('/jft/data_recap', 'jftController@jft_all_recap')->name('jft_all_recap');
+
+//konseptor
+Route::get('/konseptor/new_file', 'konseptorController@konseptor_new_files')->name('konseptor_new_files');
+Route::get('/konseptor/{id}/forward', 'konseptorController@konseptor_make_supeng')->name('konseptor_make_supeng');
+
+
+//tu kepeg
+Route::get('/tu/data_recap', 'tuController@tu_recap_files')->name('tu_recap_files');
+Route::get('/tu/new_file', 'tuController@new_files_tu')->name('tu_new_file');
+Route::get('/tu/new_file/{id}/verify', 'tuController@tu_verification_files')->name('tu_verification_files');
+Route::patch('/tu/new_file/{id}/verify', 'tuController@verify_file_disposition')->name('verify_file_disposition');
+Route::patch('/tu/new_file/{id}/disposition', 'tuController@tu_disposition')->name('tu_disposition');
+Route::patch('/tu/new_file/{id}/reject', 'tuController@tu_reject')->name('tu_reject');
+
+//user / verificator
+Route::get('/newapplicant', 'UserController@fetchnewapplicant')->name('newapplicant');
 Route::get('/newapplicant/detail/{id}', 'UserController@detailAplicant')->name('detail_Aplicant');
 Route::patch('/newapplicant/detail/{id}', 'UserController@acccept_applicant')->name('acccept_applicant');
 
@@ -142,6 +179,9 @@ Route::patch('/newapplicant/detail/{id}', 'UserController@acccept_applicant')->n
 //terampil submission route
 Route::get('/submission/terampil/create', 'SubmissionController@createTerampil')->name('terampil_create');
 Route::patch('/submission/terampil/create', 'SubmissionController@submitTerampil')->name('terampil_submit');
+
+Route::get('/submission/saved', 'SubmissionController@submission_saved')->name('submission_saved');
+
 
 
 //ahli submission route

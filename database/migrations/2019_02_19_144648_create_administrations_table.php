@@ -18,6 +18,8 @@ class CreateAdministrationsTable extends Migration
             $table->string('fileUrl');
             $table->decimal('file_size',8,2)->nullable();
             $table->string('data_status')->nullable(); //for
+            $table->string('nameID')->nullable(); //for
+            $table->string('name')->nullable(); //for
             $table->timestamps();
 
             $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('CASCADE');

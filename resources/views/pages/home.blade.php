@@ -63,7 +63,6 @@
             </div>
 </div>
     @if(auth()->user()->hasRole('admin'))<!-- Icon Cards-->
-    
         Dashboard Admin
     
             {{-- <!-- Breadcrumbs-->
@@ -80,7 +79,5 @@
                 <a href="javascript:history.back()">go back</a>
                 to the previous page, or
                 <a href="index.html">return home</a>.</p> --}}
-    @else
-        Dashboard Pemohon
     @endif
 @stop

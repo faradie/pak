@@ -13,7 +13,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // create role dan admin ketika menjalankan aplikasi
+        
         $this->call(RoleTableSeeder::class);
+        $this->call(unitSeeder::class);
+        $this->call(positionSeeder::class);
         $this->call(AdminUserSeeder::class);
+        $this->call(itemSeeder::class);
     }
 }

@@ -13,4 +13,8 @@ class Item extends Model
     {
         return $this->hasOne(File::class);
     }
+
+    // protected $fillable = [
+    //     'id','item_name','unitResult','point','assessmentLimits','executor','physicalEvidence','type',
+    // ];
 }

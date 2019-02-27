@@ -1,18 +1,31 @@
 @extends('layouts.default')
 @section('content')
+
 <form method="POST" class="daftar" action="{{ route('terampil_submit') }}" enctype="multipart/form-data" >
   {{ csrf_field() }}
   {{ method_field('PATCH') }}
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item active" aria-current="page">Berkas Pengajuan Terampil</li>
-    </ol>
-    @if(session()->has('submit_result'))
-    <div class="alert alert-success">
-      {{ session()->get('submit_result') }}
+    @if ($periods->count() == null)
+    <div class="alert alert-danger" role="alert">
+     Berkas Pengajuan Terampil : No Period
     </div>
+    @else
+    <div class="alert alert-success" role="alert">
+     Berkas Pengajuan Terampil : Periode {{ \Carbon\Carbon::parse($periods->first()->starts)->format('d/M/Y') ." - ". \Carbon\Carbon::parse($periods->first()->ends)->format('d/M/Y')}}
+    </div>
+
     @endif
   </nav>
+  @if(session()->has('result_berhasil'))
+  <div class="alert alert-success">
+    {{ session()->get('result_berhasil') }}
+  </div>
+  @endif
+  @if(session()->has('result_gagal'))
+  <div class="alert alert-danger">
+    {{ session()->get('result_gagal') }}
+  </div>
+  @endif
   <div class="card">
     <div class="card-header">
       <h3>Berkas Administrasi</small></h3>   
@@ -1207,13 +1220,18 @@
                           </div>
                         </div>
                       </div>
+                      @if ($periods->count() == null)
                       <div class="form-group no-margin">
-                        <button type="submit" class="btn btn-primary btn-block">
-                          {{ __('Submit') }}
-                        </button>
+                        <input type="submit" name="submitbutton" class="btn btn-primary btn-block" value="Simpan"/>
                       </div>
+                      @else
+                      <div class="form-group no-margin">
+                        <input type="submit" name="submitbutton" class="btn btn-primary btn-block" value="Ajukan"/>
+                      </div>
+                      @endif
+                      
                     </form>
-                    @if(session()->has('erro_login'))
+                    {{-- @if(session()->has('erro_login'))
                     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -1230,6 +1248,6 @@
                         </div>
                       </div>
                     </div>
-                    @endif
+                    @endif --}}
                     @stop
 

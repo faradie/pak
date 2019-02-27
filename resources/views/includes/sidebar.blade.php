@@ -1,5 +1,33 @@
 <!-- Sidebar -->
 
+{{-- admin role --}}
+@if(auth()->user()->hasRole('admin'))
+  <li class="nav-item active">
+    <a class="nav-link" style="color:#00e6ac">
+      <i class="fas fa-fw fa-university"></i>
+      <span>Admin</span>
+    </a>
+  </li>
+  <li class="nav-item active">
+    <a class="nav-link" href="{{ route('manage_users') }}">
+      {{-- <i class="fas fa-fw fa-users"></i> --}}
+      <span>Kelola pengguna</span>
+    </a>
+  </li>
+  <li class="nav-item active">
+    <a class="nav-link" href="{{ route('manage_users') }}">
+      {{-- <i class="fas fa-fw fa-users"></i> --}}
+      <span>Kelola Informasi</span>
+    </a>
+  </li>
+  <li class="nav-item active">
+    <a class="nav-link" href="{{ route('manage_period') }}">
+      {{-- <i class="fas fa-fw fa-users"></i> --}}
+      <span>Kelola Periode</span>
+    </a>
+  </li>
+@endif
+
 {{-- applicant role --}}
 @if(auth()->user()->hasAnyPermission(['submission']))
     <li class="nav-item active">
@@ -22,6 +50,16 @@
         <a class="dropdown-item" href="404.html">404 Page</a>
         <a class="dropdown-item" href="blank.html">Blank Page</a> --}}
       </div>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="{{ route('submission_saved') }}">
+        {{-- <i class="fas fa-fw fa-user"></i> --}}
+        <span>Pengajuan Tersimpan</span></a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="#">
+        {{-- <i class="fas fa-fw fa-user"></i> --}}
+        <span>Riwayat Pengajuan</span></a>
     </li>
     <li class="nav-item active">
       <a class="nav-link" href="{{ route('user.settings',auth()->user()->id) }}">
@@ -90,13 +128,13 @@
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('tu_new_file') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Verifikasi Administrasi</span>
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('tu_recap_files') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Rekap Verifikasi</span>
       </a>
@@ -114,13 +152,13 @@
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('asesmen_new_file') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Berkas Baru</span>
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('asesmen_all_recap') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Rekap Berkas diteruskan</span>
       </a>
@@ -138,13 +176,13 @@
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('jft_new_files') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Berkas Baru</span>
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('jft_all_recap') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Rekap Berkas diteruskan</span>
       </a>
@@ -162,7 +200,7 @@
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('konseptor_new_files') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Berkas Baru</span>
       </a>
@@ -259,21 +297,7 @@
 @endif
 
 
-{{-- admin role --}}
-@if(auth()->user()->hasRole('admin'))
-  <li class="nav-item active">
-    <a class="nav-link" style="color:#00e6ac">
-      <i class="fas fa-fw fa-university"></i>
-      <span>Admin</span>
-    </a>
-  </li>
-  <li class="nav-item active">
-    <a class="nav-link" href="{{ route('manageusers') }}">
-      {{-- <i class="fas fa-fw fa-users"></i> --}}
-      <span>Kelola pengguna</span>
-    </a>
-  </li>
-@endif
+
 
 
 
