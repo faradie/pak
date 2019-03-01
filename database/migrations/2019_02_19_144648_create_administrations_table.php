@@ -14,6 +14,7 @@ class CreateAdministrationsTable extends Migration
     public function up()
     {
         Schema::create('administrations', function (Blueprint $table) {
+            $table->string('id');
             $table->string('submission_id');
             $table->string('fileUrl');
             $table->decimal('file_size',8,2)->nullable();
@@ -23,6 +24,7 @@ class CreateAdministrationsTable extends Migration
             $table->timestamps();
 
             $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('CASCADE');
+            $table->foreign('id')->references('id')->on('item_administrations')->onDelete('CASCADE');
         });
     }
 

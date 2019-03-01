@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
             $table->date('birth_date')->nullable()->default(null);
             $table->string('gender')->nullable()->default(null);
             $table->string('photoUrl')->nullable();
+            $table->string('status')->nullable();
             $table->string('is_approved')->default('0');
             $table->string('unit')->nullable();
             $table->rememberToken();

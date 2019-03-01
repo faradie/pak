@@ -42,3 +42,4 @@
     <script src="{{ asset('assets/vendor/jquery-ui-1.12.1.custom/jquery-ui.js') }}" type="text/javascript"></script>
     <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
     
+    

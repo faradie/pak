@@ -5,6 +5,16 @@
     <li class="breadcrumb-item active" aria-current="page">Pengaturan</li>
   </ol>
 </nav>
+ @if(session()->has('result_berhasil'))
+ <div class="alert alert-success">
+  {{ session()->get('result_berhasil') }}
+</div>
+@endif
+@if(session()->has('result_gagal'))
+<div class="alert alert-danger">
+  {{ session()->get('result_gagal') }}
+</div>
+@endif
 <div class="row">
   <div class="col-sm-3 col-md-3 col-xs-12">
     <div class="card">

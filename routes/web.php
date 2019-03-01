@@ -181,6 +181,10 @@ Route::get('/submission/terampil/create', 'SubmissionController@createTerampil')
 Route::patch('/submission/terampil/create', 'SubmissionController@submitTerampil')->name('terampil_submit');
 
 Route::get('/submission/saved', 'SubmissionController@submission_saved')->name('submission_saved');
+Route::patch('/submission/saved/{id}', 'SubmissionController@save_or_submit_fromSaved')->name('save_or_submit_fromSaved');
+Route::get('/submission/saved/{id}/detail', 'SubmissionController@detail_saved')->name('detail_saved');
+Route::delete('/submission/saved/administration/{id}/delete', 'SubmissionController@delete_saved_administration')->name('delete_saved_administration');
+Route::delete('/submission/saved/item/{id}/delete', 'SubmissionController@delete_saved_item')->name('delete_saved_item');
 
 
 

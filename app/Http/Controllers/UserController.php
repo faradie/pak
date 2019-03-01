@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\User;
 use App\Unit;
@@ -43,90 +44,94 @@ class UserController extends Controller
     }
 
     public function edit($id, Request $request){
-        $user = User::find($id);
-
-        if($request->file('inputPhoto')){
-            if($request->user()->photoUrl){
-                Storage::delete($request->user()->photoUrl);
+        try {
+            $user = User::find($id);
+            if($request->file('inputPhoto')){
+                if($request->user()->photoUrl){
+                    Storage::delete($request->user()->photoUrl);
+                }
+                $image = $request->file('inputPhoto')->store('profil');
+                $user->update([
+                    'nama' => request('inputNama'),
+                    'email' => request('inputEmail'),
+                    'address' => request('inputAddress'),
+                    'birth_place' => request('inputPlace'),
+                    'birth_date' => request('inputDate'),
+                    'gender'=> request('inputGender'),
+                    'photoUrl'=> $image,
+                ]);
+            }else{
+                $user->update([
+                    'nama' => request('inputNama'),
+                    'email' => request('inputEmail'),
+                    'address' => request('inputAddress'),
+                    'birth_place' => request('inputPlace'),
+                    'birth_date' => request('inputDate'),
+                    'gender'=> request('inputGender'),
+                ]);
             }
-            $image = $request->file('inputPhoto')->store('profil');
-            $user->update([
-                'nama' => request('inputNama'),
-                'email' => request('inputEmail'),
-                'address' => request('inputAddress'),
-                'birth_place' => request('inputPlace'),
-                'birth_date' => request('inputDate'),
-                'gender'=> request('inputGender'),
-                'photoUrl'=> $image,
-            ]);
-        }else{
-            $user->update([
-                'nama' => request('inputNama'),
-                'email' => request('inputEmail'),
-                'address' => request('inputAddress'),
-                'birth_place' => request('inputPlace'),
-                'birth_date' => request('inputDate'),
-                'gender'=> request('inputGender'),
-            ]);
-        }
 
-        if(auth()->user()->hasRole('admin')){
+            if(auth()->user()->hasRole('admin')){
+                try {
+                    $getRoles = $request->input('get_roles');
+                    $getPermission = $request->input('get_permissions');
 
+                    $user->syncRoles($getRoles);
+                    $user->syncPermissions($getPermission);
+                    return redirect()->route('user.settings',$user->id)->with('result_berhasil', 'Perubahan Berhasil');
+                } catch (Exception $e) {
+                   return redirect()->route('user.settings',$user->id)->with('result_gagal', 'Perubahan Gagal');
+               }
+           }
 
-            $getRoles = $request->input('get_roles');
-            $getPermission = $request->input('get_permissions');
-
-            $user->syncRoles($getRoles);
-            $user->syncPermissions($getPermission);
-
-            return redirect()->route('user.settings',$user->id);
-        }
-
-        return redirect()->route('home');
+           return redirect()->route('user.settings',$user->id)->with('result_berhasil', 'Perubahan Berhasil');
+       } catch (Exception $e) {
+        return redirect()->route('user.settings',$user->id)->with('result_gagal', 'Perubahan Gagal');
     }
+}
 
-    public function detailAplicant($id){
-        $detail_user = User::find($id);
-        $skUrls = sk::find($detail_user->lastSKUrl);
-        $unitsName = Unit::find($detail_user->unit);
-        $positionName = PkPosition::find($detail_user->pkPosition);
-        return view('pages.detail_user',compact('detail_user','skUrls','unitsName','positionName'));
-    }
+public function detailAplicant($id){
+    $detail_user = User::find($id);
+    $skUrls = sk::find($detail_user->lastSKUrl);
+    $unitsName = Unit::find($detail_user->unit);
+    $positionName = PkPosition::find($detail_user->pkPosition);
+    return view('pages.detail_user',compact('detail_user','skUrls','unitsName','positionName'));
+}
 
-    public function acccept_applicant($id,Request $request){
-        try{
+public function acccept_applicant($id,Request $request){
+    try{
 // $activatedUser = User::find($id);
-            switch($request->submitbutton) {
-                case 'Tolak': 
-                $deletedUser = User::find($id);
-                $idSK = Sk::find($deletedUser->lastSKUrl);
-                Storage::delete($deletedUser->photoUrl);
-                Storage::delete($idSK->skUrl);
-                $deletedUser->delete();
-                break;
+        switch($request->submitbutton) {
+            case 'Tolak': 
+            $deletedUser = User::find($id);
+            $idSK = Sk::find($deletedUser->lastSKUrl);
+            Storage::delete($deletedUser->photoUrl);
+            Storage::delete($idSK->skUrl);
+            $deletedUser->delete();
+            break;
 
-                case 'Terima': 
-                DB::table('users')
-                ->where('id', $id)
-                ->update(['is_approved' => "1"]);
-                $userRoles = User::find($id);
-                $userRoles->assignRole('applicant');
+            case 'Terima': 
+            DB::table('users')
+            ->where('id', $id)
+            ->update(['is_approved' => "1"]);
+            $userRoles = User::find($id);
+            $userRoles->assignRole('applicant');
 
-                $arr = [
-                    'pj'=>auth()->user()->id,
-                    'notification_subject'=> 'Pemberitahuan Akun Aktif',
-                    'notification_content'=>'Selamat akun anda telah aktif dan dapat digunakan!'
-                ];
-                Notification::send($userRoles, new allNotification($arr));
+            $arr = [
+                'pj'=>auth()->user()->id,
+                'notification_subject'=> 'Pemberitahuan Akun Aktif',
+                'notification_content'=>'Selamat akun anda telah aktif dan dapat digunakan!'
+            ];
+            Notification::send($userRoles, new allNotification($arr));
 
-                break;
-            }
-            return redirect()->route('newapplicant')->with('result_berhasil', 'Penerimaan Berhasil');
-        }catch(\Exception $e){
-            return redirect()->route('newapplicant')->with('result_gagal', 'Penerimaan Gagal');
+            break;
         }
-        
+        return redirect()->route('newapplicant')->with('result_berhasil', 'Penerimaan Berhasil');
+    }catch(\Exception $e){
+        return redirect()->route('newapplicant')->with('result_gagal', 'Penerimaan Gagal');
     }
+    
+}
 
 
 }

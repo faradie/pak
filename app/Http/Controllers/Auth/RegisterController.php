@@ -119,6 +119,7 @@ class RegisterController extends Controller
             'birth_date' => $data['inputDate'],    
             'photoUrl' => $photo,    
             'lastSKUrl' => $uid,
+            'status'=> 'free',
         ]);
 
     }

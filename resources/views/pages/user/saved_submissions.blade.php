@@ -43,7 +43,7 @@
 				<td>{{$saved_submission->nama}}</td>
 				<td>{{$saved_submission->created_at}}</td>
 				<td align="center">  
-					<form action="{{ route('forward_files',$saved_submission->id) }}"><input class="btn btn-info" type="submit" value="Edit" /></form>
+					<form action="{{ route('detail_saved',$saved_submission->id) }}"><input class="btn btn-info" type="submit" value="Edit" /></form>
 				</td>
 			</tr>
 			@endforeach
