@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use App\User;
+use App\Submission;
 use App\Unit;
 use App\sk;
 use App\PkPosition;
@@ -131,6 +132,11 @@ public function acccept_applicant($id,Request $request){
         return redirect()->route('newapplicant')->with('result_gagal', 'Penerimaan Gagal');
     }
     
+}
+
+public function fetch_history(){
+    $submission_histories = Submission::all()->where('nip',auth()->user()->id);
+    return view('pages.user.submission_history', compact('submission_histories'));
 }
 
 

@@ -373,7 +373,7 @@ class SubmissionController extends Controller
                     if ($request->file($item->id)){
                         $files_administration[] = $request->file($item->id);
                         $nameID[] = $item->id;
-                        $nameAdministration[] = ItemAdministration::find($item->id);
+                        $nameAdministration[] = ItemAdministration::find($item->id)->item_name;
                 //buat masing" files_administration
                 // File::create([
                 //     'id' => $item->id,
@@ -455,7 +455,7 @@ class SubmissionController extends Controller
                     if ($request->file($item->id)){
                         $files_administration[] = $request->file($item->id);
                         $nameID[] = $item->id;
-                        $nameAdministration[] = ItemAdministration::find($item->id);
+                        $nameAdministration[] = ItemAdministration::find($item->id)->item_name;
                 //buat masing" files_administration
                 // File::create([
                 //     'id' => $item->id,

@@ -57,7 +57,7 @@
         <span>Pengajuan Tersimpan</span></a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('fetch_history') }}">
         {{-- <i class="fas fa-fw fa-user"></i> --}}
         <span>Riwayat Pengajuan</span></a>
     </li>

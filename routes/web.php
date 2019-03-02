@@ -187,13 +187,13 @@ Route::delete('/submission/saved/administration/{id}/delete', 'SubmissionControl
 Route::delete('/submission/saved/item/{id}/delete', 'SubmissionController@delete_saved_item')->name('delete_saved_item');
 
 
-
 //ahli submission route
 Route::get('/submission/ahli/create', 'SubmissionController@createAhli')->name('ahli_create');
 
 // edit settings user
 Route::get('/user/{id}/settings','UserController@settings')->name('user.settings');
 Route::patch('/user/{id}/settings','UserController@edit')->name('user.edit');
+Route::get('/submission/history', 'UserController@fetch_history')->name('fetch_history');
 
 Route::patch('/user/{id}/detailEditHapusManage','UserController@edit')->name('editData');
 
