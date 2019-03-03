@@ -162,6 +162,14 @@ Route::get('/konseptor/new_file', 'konseptorController@konseptor_new_files')->na
 Route::patch('/konseptor/{id}/forward', 'konseptorController@konseptor_make_supeng')->name('konseptor_make_supeng');
 Route::get('/konseptor/data_recap', 'konseptorController@konseptor_recap')->name('konseptor_recap');
 
+
+
+//kesekretariatan
+Route::get('/kesekretariatan/new_file', 'sekretariatController@kesekretariatan_new_file')->name('kesekretariatan_new_file');
+Route::get('/kesekretariatan/new_file/{id}/verify', 'sekretariatController@sekretariat_verifications')->name('sekretariat_verifications');
+Route::patch('/kesekretariatan/new_file/{id}/verify', 'sekretariatController@sekretariat_verify_files')->name('sekretariat_verify_files');
+Route::get('/kesekretariatan/data_recap', 'sekretariatController@sekretariat_recap_files')->name('sekretariat_recap_files');
+
 //tu kepeg
 Route::get('/tu/data_recap', 'tuController@tu_recap_files')->name('tu_recap_files');
 Route::get('/tu/new_file', 'tuController@new_files_tu')->name('tu_new_file');

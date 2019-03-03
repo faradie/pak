@@ -50,7 +50,7 @@ class tuController extends Controller
 			}
 
 		}catch(\Exception $e){
-
+			return redirect()->route('tu_new_file')->with('result_gagal', 'Gagal masuk disposisi');
 		}
 	}
 
@@ -79,7 +79,7 @@ class tuController extends Controller
 			$userNotif = User::find($submission->nip);
 			$arr = [
 				'pj'=> auth()->user()->id,
-				'notification_subject'=>'Pengajuan '.$id,
+				'notification_subject'=>'Pengajuan '.strtoupper($id),
 				'notification_content'=>'Telah diterima di Asesmen dan Bina Pegawai'
 			];
 			Notification::send($userNotif, new allNotification($arr));

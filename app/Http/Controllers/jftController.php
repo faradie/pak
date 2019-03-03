@@ -45,7 +45,7 @@ class jftController extends Controller
 			$userNotif = User::find($submission->nip);
 			$arr = [
 				'pj'=> auth()->user()->id,
-				'notification_subject'=>'Pengajuan '.$id,
+				'notification_subject'=>'Pengajuan '.strtoupper($id),
 				'notification_content'=>'Telah diterima di Konseptor Prakom'
 			];
 			Notification::send($userNotif, new allNotification($arr));

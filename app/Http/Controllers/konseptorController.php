@@ -63,7 +63,7 @@ class konseptorController extends Controller
 			$userNotif = User::find($submission->nip);
 			$arr = [
 				'pj'=> auth()->user()->id,
-				'notification_subject'=>'Pengajuan '.$id,
+				'notification_subject'=>'Pengajuan '.strtoupper($id),
 				'notification_content'=>'Telah diterima di Kesekretariatan'
 			];
 			Notification::send($userNotif, new allNotification($arr));

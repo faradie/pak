@@ -229,13 +229,13 @@
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('kesekretariatan_new_file') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Verifikasi Berkas</span>
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('sekretariat_recap_files') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Rekap Verifikasi Berkas</span>
       </a>

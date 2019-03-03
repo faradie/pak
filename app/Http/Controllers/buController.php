@@ -47,7 +47,7 @@ class buController extends Controller
     	$userNotif = User::find($submission->nip);
         $arr = [
         	'pj'=> auth()->user()->id,
-            'notification_subject'=>'Pengajuan '.$id,
+            'notification_subject'=>'Pengajuan '.strtoupper($id),
             'notification_content'=>'Telah diterima di TU Kepegawaian'
         ];
         Notification::send($userNotif, new allNotification($arr));
