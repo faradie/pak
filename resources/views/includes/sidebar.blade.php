@@ -206,7 +206,7 @@
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('konseptor_recap') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Rekap Berkas diteruskan</span>
       </a>

@@ -174,10 +174,14 @@ class SubmissionController extends Controller
                 case 'Ajukan': 
 
                 $myStats = User::find(auth()->user()->id);
+
                 
                 if($myStats->status == 'free'){
                      //status 1 bu
-
+                    $current_events = DB::table('periods')->select( 'id','starts', 'ends' )
+                    ->where( DB::raw('now()'), '>=', DB::raw('starts') )
+                    ->where( DB::raw('now()'), '<=', DB::raw('ends') )->get();
+                    
                     $shortid = ShortId::create();
              // $idSub = Uuid::generate();
                     $idSub = $shortid->generate();
@@ -185,6 +189,7 @@ class SubmissionController extends Controller
                     Submission::create([
                         'id' => $idSub,
                         'nip' => auth()->user()->id,
+                        'period_id'=>$current_events->first()->id,
                         'submission_position' => '1',
                         'submissionType' => 'terampil',
                         'submission_status'=> 'accepted'
@@ -210,6 +215,7 @@ class SubmissionController extends Controller
                                 base_path().'/public/dupakFiles/administrationFiles/', $random_name.'.pdf'
                             );
                             Administration::create([
+                                'id'=>$nameIDFile[$index],
                                 'name'=> $nameFile[$index],
                                 'nameID'=>$nameIDFile[$index],
                                 'submission_id' => $idSub,
@@ -297,6 +303,7 @@ class SubmissionController extends Controller
     }
 
     public function createAhli(){
+
         return view('pages.submission.createAhli');
     }
 
@@ -526,9 +533,13 @@ class SubmissionController extends Controller
 
             }
 
+            $current_events = DB::table('periods')->select( 'id','starts', 'ends' )
+            ->where( DB::raw('now()'), '>=', DB::raw('starts') )
+            ->where( DB::raw('now()'), '<=', DB::raw('ends') )->get();
+
             DB::table('submissions')
             ->where('id', $id)
-            ->update(['submission_position' => "1"]);
+            ->update(['submission_position' => "1", 'period_id'=>$current_events->first()->id ]);
             $userRoles = User::find(auth()->user()->id);
             $userRoles->update([
                 'status'=>'hold',

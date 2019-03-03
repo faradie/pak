@@ -159,8 +159,8 @@ Route::get('/jft/data_recap', 'jftController@jft_all_recap')->name('jft_all_reca
 
 //konseptor
 Route::get('/konseptor/new_file', 'konseptorController@konseptor_new_files')->name('konseptor_new_files');
-Route::get('/konseptor/{id}/forward', 'konseptorController@konseptor_make_supeng')->name('konseptor_make_supeng');
-
+Route::patch('/konseptor/{id}/forward', 'konseptorController@konseptor_make_supeng')->name('konseptor_make_supeng');
+Route::get('/konseptor/data_recap', 'konseptorController@konseptor_recap')->name('konseptor_recap');
 
 //tu kepeg
 Route::get('/tu/data_recap', 'tuController@tu_recap_files')->name('tu_recap_files');

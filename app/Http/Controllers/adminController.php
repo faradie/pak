@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Period;
+use App\Information;
 use Webpatser\Uuid\Uuid;
 
 class adminController extends Controller
@@ -33,6 +34,14 @@ class adminController extends Controller
 				'starts' => request('startDate'),
 				'ends' => request('endDate')
 			]);
+			
+			Information::create([
+				'id' => $idSub,
+				'information_title' => 'Pembukaan Periode Pengajuan '.\Carbon\Carbon::parse(request('startDate'))->format('d/M/Y').' - '.\Carbon\Carbon::parse(request('endDate'))->format('d/M/Y'),
+				'information_content' => 'Informasi general untuk pembukaan Periode saja.',
+				'nip' => auth()->user()->id
+			]);
+
 			return redirect()->route('manage_period')->with('result_berhasil', 'Berhasil membuat Periode');
 		} catch (Exception $e) {
 			return redirect()->route('manage_period')->with('result_gagal', 'Gagal membuat Periode');
@@ -57,10 +66,12 @@ class adminController extends Controller
 		}
 	}
 
-	public function destroy($id){
+	public function destroy(Request $request){
 		try {
-			$deletePeriod = Period::find($id);
+			$deletePeriod = Period::findOrFail($request->name_id);
 			$deletePeriod->delete();
+			$deleteInformation = Information::findOrFail($request->name_id);
+			$deleteInformation->delete();
 			return redirect()->route('manage_period')->with('result_berhasil', 'Berhasil Hapus Periode');
 		} catch (Exception $e) {
 			return redirect()->route('manage_period')->with('result_gagal', 'Gagal Hapus Periode');

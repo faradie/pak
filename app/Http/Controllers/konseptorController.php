@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 use App\Submission;
 use App\User;
 use App\Log;
+use App\Administration;
+use App\ItemAdministration;
+use Webpatser\Uuid\Uuid;
 
 use App\Notifications\allNotification;
 use Illuminate\Support\Facades\Notification;
@@ -29,14 +32,20 @@ class konseptorController extends Controller
 	public function konseptor_make_supeng($id){
 		try {
 			$request = request();
-			$file_supeng = $request->file('supeng')->store('administrationFiles');
-			// tambahkan supeng
+			$file_supeng = $request->file('supeng');
+			$random_name = Uuid::generate();
+			$file_supeng->move(
+				base_path().'/public/dupakFiles/administrationFiles/', $random_name.'.pdf'
+			);
+
 			Administration::create([
+				'id'=>'supeng',
 				'name'=> 'Surat Pengantar',
-				'nameID'=> 'supeng',
+				'nameID'=>'supeng',
 				'submission_id' => $id,
-				'fileUrl' => $file_supeng
+				'fileUrl' => 'administrationFiles/'.$random_name.'.pdf'
 			]);
+			
 			//catat di log dengan status untuk Konseptor
 			$submission = Submission::find($id);
 			Log::create([
@@ -62,6 +71,16 @@ class konseptorController extends Controller
 		} catch (Exception $e) {
 			return redirect()->route('konseptor_new_files')->with('result_gagal', 'Gagal meneruskan ke Kesekretariatan');
 		}
+	}
+
+	public function konseptor_recap(){
+		$allDataRecaps = DB::table('logs')
+		->join('submissions', 'submissions.id', '=', 'logs.submission_id')
+		->join('users','users.id','=','logs.nip')
+		->select('users.nama as pj_name','submissions.*','logs.created_at as forward_date')
+		->where('position_log', '5')
+		->get();
+		return view('pages.konseptor.recap', compact('allDataRecaps'));
 	}
 
 }

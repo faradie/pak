@@ -7,6 +7,7 @@ use App\Unit;
 use App\sk;
 use App\PkPosition;
 use App\Submission;
+use App\Information;
 use App\User;
 
 use Illuminate\Support\Facades\DB;
@@ -38,7 +39,8 @@ class HomeController extends Controller
         $skUrls = sk::find(auth()->user()->lastSKUrl);
         $unitsName = Unit::find(auth()->user()->unit);
         $positionName = PkPosition::find(auth()->user()->pkPosition);
-        return view('pages.home',compact('skUrls','unitsName','positionName'));
+        $informations = Information::all();
+        return view('pages.home',compact('skUrls','unitsName','positionName','informations'));
     }
 
     public function about()

@@ -8,4 +8,8 @@ class ItemAdministration extends Model
 {
     protected $primaryKey ="id";
     public $incrementing = false;
+    public $timestamps = false;
+    protected $fillable = [
+        'id','item_name'
+    ];
 }

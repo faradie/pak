@@ -14,7 +14,7 @@ class Submission extends Model
      * @var array
      */
     protected $fillable = [
-        'id','nip','submission_position','submission_status','series_number','submission_score','team_score','SKFileUrl','submissionType'
+        'id','nip','submission_position','submission_status','series_number','submission_score','team_score','SKFileUrl','submissionType','period_id'
     ];
 
     public function users()

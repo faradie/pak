@@ -44,16 +44,16 @@
         <td>{{\Carbon\Carbon::parse($period->ends)->format('d/M/Y')}}</td>
         <td>
           @if (\Carbon\Carbon::parse($period->starts)->timestamp - time() < 0 && time() - \Carbon\Carbon::parse($period->ends)->timestamp < 0 )
-            Aktif
+          Aktif
           @else
-            Non-Aktif
+          Non-Aktif
           @endif
         </td>
         <td>{{$period->created_at}}</td>
         <td >
           <div class="btn-group" role="group" aria-label="...">
             <a class="btn btn-dark" name="editData" type="button" value="Edit" href="{{ route('edit_period',$period->id) }}">Edit</a>
-            <a class="btn btn-danger" data-toggle="modal" data-target="#deletePeriodModal" href="#">Hapus</a>
+            <a class="btn btn-danger" data-toggle="modal" data-nameid="{{$period->id}}" data-target="#deletePeriodModal" href="#">Hapus</a>
           </div>
         </td>
       </tr>
@@ -66,7 +66,7 @@
 
 
 @if ($periods->count() != null)
-  <!-- Logout Modal-->
+<!-- periode delete Modal-->
 <div class="modal fade" id="deletePeriodModal" tabindex="-1" role="dialog" aria-labelledby="deletePeriodModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -76,20 +76,20 @@
           <span aria-hidden="true">×</span>
         </button>
       </div>
-      <div class="modal-body">Apakah anda yakin ingin menghapus periode?</div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-        <a class="btn btn-primary" href="{{ route('delete_period',$period->id) }}"
-        onclick="event.preventDefault();
-        document.getElementById('delete-form').submit();">
-      {{ __('Hapus') }}</a>
-      <form id="delete-form" action="{{ route('delete_period',$period->id) }}" method="POST" style="display: none;">
-        @csrf
-        {{ method_field('DELETE') }}
+      <form action="{{ route('delete_period','test') }}" method="POST">
+        {{ method_field('delete') }}
+        {{ csrf_field() }}
+        <div class="modal-body">Apakah anda yakin ingin menghapus periode?
+          <input type="hidden" name="name_id" id="name_id" value="">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+          <button class="btn btn-danger" type="submit">Hapus</button>
+        </div>
       </form>
+
     </div>
   </div>
-</div>
 </div>
 @endif
 
