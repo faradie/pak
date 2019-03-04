@@ -162,7 +162,18 @@ Route::get('/konseptor/new_file', 'konseptorController@konseptor_new_files')->na
 Route::patch('/konseptor/{id}/forward', 'konseptorController@konseptor_make_supeng')->name('konseptor_make_supeng');
 Route::get('/konseptor/data_recap', 'konseptorController@konseptor_recap')->name('konseptor_recap');
 
+//ketua tim
+Route::get('/ketuatim/new_file', 'ketuaController@ketuatim_new_files')->name('ketuatim_new_files');
+Route::get('/ketuatim/new_file/{id}/define_team', 'ketuaController@make_team_for')->name('make_team_for');
+Route::patch('/ketuatim/new_file/{id}/define_team', 'ketuaController@define_team')->name('define_team');
 
+//tim penilai
+
+Route::get('/timpenilai/new_file', 'penilaiController@timpenilai_new_files')->name('timpenilai_new_files');
+Route::get('/timpenilai/new_file/{id}/detail', 'penilaiController@detail_penilaian')->name('detail_penilaian');
+Route::patch('/timpenilai/new_file/{id}/detail', 'penilaiController@submit_individual_score')->name('submit_individual_score');
+Route::get('/timpenilai/final', 'penilaiController@define_final_score')->name('define_final_score');
+Route::get('/timpenilai/final/{id}/detail', 'penilaiController@detail_penilaian_final')->name('detail_penilaian_final');
 
 //kesekretariatan
 Route::get('/kesekretariatan/new_file', 'sekretariatController@kesekretariatan_new_file')->name('kesekretariatan_new_file');
@@ -177,6 +188,8 @@ Route::get('/tu/new_file/{id}/verify', 'tuController@tu_verification_files')->na
 Route::patch('/tu/new_file/{id}/verify', 'tuController@verify_file_disposition')->name('verify_file_disposition');
 Route::patch('/tu/new_file/{id}/disposition', 'tuController@tu_disposition')->name('tu_disposition');
 Route::patch('/tu/new_file/{id}/reject', 'tuController@tu_reject')->name('tu_reject');
+
+
 
 //user / verificator
 Route::get('/newapplicant', 'UserController@fetchnewapplicant')->name('newapplicant');

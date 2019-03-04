@@ -259,9 +259,9 @@
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('ketuatim_new_files') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
-        <span>Buat Tim</span>
+        <span>Berkas Baru</span>
       </a>
     </li>
     <li class="nav-item active">
@@ -283,15 +283,15 @@
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('timpenilai_new_files') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
         <span>Berkas Penilaian</span>
       </a>
     </li>
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('define_final_score') }}">
         {{-- <i class="fas fa-fw fa-user-plus"></i> --}}
-        <span>Penilaian (Optional)</span>
+        <span>Penilaian (Akhir)</span>
       </a>
     </li>
 @endif

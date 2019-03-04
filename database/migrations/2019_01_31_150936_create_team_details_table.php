@@ -17,8 +17,8 @@ class CreateTeamDetailsTable extends Migration
             $table->string('team_id');
             $table->string('nip');
             $table->string('submission_id');
-            $table->string('position');
-            $table->bigInteger('individual_score');
+            $table->string('position');     //anggota ke
+            $table->bigInteger('individual_score')->nullable();
 
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('CASCADE');
             $table->foreign('nip')->references('id')->on('users')->onDelete('CASCADE');
