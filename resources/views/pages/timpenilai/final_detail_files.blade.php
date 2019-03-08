@@ -97,9 +97,9 @@
     {{ csrf_field() }}
     {{ method_field('PATCH') }}
     <div class="form-group">
-      <label for="penilaian_individual">Input Nilai</label>
-      <input type="number" min="1" step="any" class="form-control" id="penilaian_individual" name="penilaian_individual" aria-describedby="emailHelp" placeholder="Berikan penilaian individu">
-      <small id="penilaian_individual_help" class="form-text text-muted">Penilaian ini akan terlihat oleh seluruh anggota tim penilai untuk menjadi bahan diskusi penilaian.</small>
+      <label for="penilaian_individual">Berikan Nilai Akhir</label>
+      <input type="number" min="1" step="any" class="form-control" id="penilaian_individual" name="penilaian_individual" aria-describedby="emailHelp" placeholder="Nilai akhir sidang">
+      <small id="penilaian_individual_help" class="form-text text-muted">Penilaian ini adalah hasil akhir dari keseluruhan sidang.</small>
     </div>
 
     <br>

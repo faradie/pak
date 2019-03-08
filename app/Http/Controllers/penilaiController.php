@@ -35,7 +35,6 @@ class penilaiController extends Controller
 		->where('submission_status','=','accepted')
 		->where('submissions.nip','!=',auth()->user()->id)
 		->where('team_details.nip','=',auth()->user()->id)
-
 		->first();
 
 		$penilaian_files = DB::table('files')
@@ -92,7 +91,28 @@ class penilaiController extends Controller
     }
 
     public function detail_penilaian_final($id){
-    	return view('pages.timpenilai.final_detail_files',compact('id'));
+    	$penilaian_submissions = DB::table('submissions')
+		->join('users', 'submissions.nip', '=', 'users.id')
+		->join('team_details', 'submissions.id', '=', 'team_details.submission_id')
+		->select('users.*','users.id as id_pemohon', 'submissions.*','team_details.*')
+		->where('submissions.id', $id)
+		->where('submission_position', '8')
+		->where('submission_status','=','accepted')
+		->where('submissions.nip','!=',auth()->user()->id)
+		->where('team_details.nip','=',auth()->user()->id)
+		->first();
+
+		$penilaian_files = DB::table('files')
+		->join('submissions', 'submissions.id', '=', 'files.submission_id')
+		->join('items', 'items.id', '=', 'files.id')
+		->select('submissions.*','files.*','items.*')
+		->where('submissions.id', $id)
+		->get();
+
+		$individual_scores = TeamDetail::all()
+		->where('submission_id',$id);
+		
+    	return view('pages.timpenilai.final_detail_files',compact('id','penilaian_submissions','penilaian_files','individual_scores'));
     }
 
 }

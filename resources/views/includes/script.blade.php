@@ -24,31 +24,43 @@
 
   <script>
     $('#deleteAdministrationFile').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('nameid') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var button = $(event.relatedTarget) 
+  var recipient = button.data('nameid') 
+  
   var modal = $(this)
   modal.find('.modal-body #name_id').val(recipient)
 })
 
      $('#deleteItemFile').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('nameid') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var button = $(event.relatedTarget) 
+  var recipient = button.data('nameid') 
+ 
   var modal = $(this)
   modal.find('.modal-body #name_id').val(recipient)
 })
 
      $('#deletePeriodModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('nameid') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var button = $(event.relatedTarget) 
+  var recipient = button.data('nameid') 
+  
   var modal = $(this)
   modal.find('.modal-body #name_id').val(recipient)
 })
+
+     $('#disposisiModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) 
+  var title = button.data('mytitle') 
+  var dis = button.data('mydisp')
+  var by = button.data('myby')
+  
+  var modal = $(this)
+  document.getElementById("p1").innerHTML = title;
+  document.getElementById("p2").innerHTML = dis;
+  document.getElementById("by").innerHTML = by;
+  // modal.find('.modal-title #title').val(title);
+})
+
+     
 </script>
 
 

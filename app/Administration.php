@@ -15,4 +15,9 @@ class Administration extends Model
     protected $fillable = [
         'id','submission_id','fileUrl','file_size','data_status','name','nameID'
     ];
+
+    public function item_administrations()
+    {
+        return $this->belongsTo('App\ItemAdministration');
+    }
 }

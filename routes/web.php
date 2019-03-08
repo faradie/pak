@@ -125,7 +125,10 @@ Route::post('register', [
 
 
 //admin
-Route::get('/manageusers', 'adminController@manage_users')->name('manage_users');
+Route::get('/manage/informations/create', 'adminController@create_information')->name('create_information');
+Route::patch('/manage/informations/create', 'adminController@submit_information')->name('submit_information');
+Route::get('/manage/informations', 'adminController@manage_informations')->name('manage_informations');
+Route::get('/manage/users', 'adminController@manage_users')->name('manage_users');
 Route::get('/periods', 'adminController@manage_period')->name('manage_period');
 Route::get('/periods/create', 'adminController@create_period')->name('create_period');
 Route::delete('/periods/delete/{id}', 'adminController@destroy')->name('delete_period');
@@ -193,6 +196,7 @@ Route::patch('/tu/new_file/{id}/reject', 'tuController@tu_reject')->name('tu_rej
 
 //user / verificator
 Route::get('/newapplicant', 'UserController@fetchnewapplicant')->name('newapplicant');
+Route::get('/information/{id}', 'UserController@detail_information')->name('detail_information');
 Route::get('/newapplicant/detail/{id}', 'UserController@detailAplicant')->name('detail_Aplicant');
 Route::patch('/newapplicant/detail/{id}', 'UserController@acccept_applicant')->name('acccept_applicant');
 
@@ -215,6 +219,9 @@ Route::get('/submission/ahli/create', 'SubmissionController@createAhli')->name('
 Route::get('/user/{id}/settings','UserController@settings')->name('user.settings');
 Route::patch('/user/{id}/settings','UserController@edit')->name('user.edit');
 Route::get('/submission/history', 'UserController@fetch_history')->name('fetch_history');
+Route::get('/submission/history/{id}', 'UserController@fetch_history_detail')->name('fetch_history_detail');
+Route::patch('/submission/history/{id}', 'UserController@save_or_submit_fromHistory')->name('save_or_submit_fromHistory');
+
 
 Route::patch('/user/{id}/detailEditHapusManage','UserController@edit')->name('editData');
 

@@ -16,7 +16,6 @@ class CreateSubmissionsTable extends Migration
         Schema::create('submissions', function (Blueprint $table) {
             $table->string('id')->unique()->primary();
             $table->string('nip');
-            $table->string('period_id')->nullable();
             $table->string('submission_position');              //posisi file pengajuan
             $table->string('submission_status')->nullable();        //hold or done or rejected or accepted
             $table->string('series_number')->nullable();              //nomor seri pengajuan
@@ -27,7 +26,6 @@ class CreateSubmissionsTable extends Migration
             $table->timestamps();
 
             $table->foreign('nip')->references('id')->on('users')->onDelete('CASCADE');
-            $table->foreign('period_id')->references('id')->on('periods')->onDelete('CASCADE');
         });
     }
 

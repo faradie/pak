@@ -43,7 +43,7 @@
 				<td>{{ $submission_history->created_at }}</td>
 				<td>{{ strtoupper($submission_history->submission_status) }}</td>
 				<td align="center">  
-					<form action="#"><input class="btn btn-info" type="submit" value="Lihat" /></form>
+					<form action="{{ route('fetch_history_detail',$submission_history->id) }}"><input class="btn btn-info" type="submit" value="Lihat" /></form>
 				</td>
 			</tr>
 			@endforeach

@@ -16,7 +16,9 @@ class asesmenController extends Controller
 	public function asesmen_new_file(){
 		$asesmen_files = DB::table('submissions')
 		->join('users', 'submissions.nip', '=', 'users.id')
-		->select('users.*', 'submissions.*')->where('submission_position', '3')
+		->join('dispositions', 'submissions.id', '=', 'dispositions.submission_id')
+		->select('users.*', 'submissions.*','dispositions.*')
+		->where('submission_position', '3')
 		->where('submission_status','=','accepted')
 		->where('submissions.nip','!=',auth()->user()->id)
 		->get();

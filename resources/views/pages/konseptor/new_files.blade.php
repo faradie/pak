@@ -30,7 +30,7 @@
 				</th>
 				<th scope="col">Dibuat pada
 				</th>
-				<th scope="col">Action
+				<th scope="col">Surat Pengantar
 				</th>
 			</tr>
 		</thead>

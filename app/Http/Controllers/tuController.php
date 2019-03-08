@@ -9,6 +9,8 @@ use App\Submission;
 use App\Disposition;
 use App\Log;
 use App\User;
+use App\ItemAdministration;
+use Illuminate\Support\Facades\Input;
 
 use App\Notifications\allNotification;
 use Illuminate\Support\Facades\Notification;
@@ -27,7 +29,7 @@ class tuController extends Controller
 	}
 
 	public function tu_verification_files($id){
-		$administrations = Administration::all()->where('submission_id',$id);
+		$administrations = Administration::orderBy('id', 'DESC')->where('submission_id',$id)->get();
 		$submissions = Submission::find($id);
 		return view('pages.tu.verify',compact('administrations','submissions'));
 	}
@@ -38,7 +40,8 @@ class tuController extends Controller
 			switch($request->submitbutton) {
 				case 'Tolak': 
 				$submission = Submission::find($id);
-				return view('pages.tu.tu_reject',compact('submission'));
+				$item_administrations = ItemAdministration::orderBy('id', 'DESC')->get();
+				return view('pages.tu.tu_reject',compact('submission','item_administrations'));
 
 				break;
 
@@ -91,7 +94,38 @@ class tuController extends Controller
 	}
 
 	public function tu_reject($id,Request $request){
-
+		try {
+			$this_submission = Submission::find($id);
+			$this_submission->update([
+				'submission_status' => 'hold'
+			]);
+			$allReasons = Input::get('reason');
+			$userRoles = User::find($this_submission->nip);
+			foreach ($allReasons as $index => $allReason) {
+				$administration_item = Administration::where('submission_id',$id)
+				->where('name',$allReason);
+				$administration_item->update([
+					'data_status' => 'hold'
+				]);
+				$arr = [
+					'pj'=> auth()->user()->id,
+					'notification_subject'=>'Pengajuan '.$id.' ditangguhkan',
+					'notification_content'=>'Item '.$allReason.' tidak sesuai'
+				];
+				Notification::send($userRoles, new allNotification($arr));
+			}
+			if(request('reject_content') != null){
+				$arr = [
+					'pj'=> auth()->user()->id,
+					'notification_subject'=>'Informasi Tambahan',
+					'notification_content'=> request('reject_content')
+				];
+				Notification::send($userRoles, new allNotification($arr));
+			}
+			return redirect()->route('tu_new_file')->with('result_berhasil', 'Berhasil menolak');
+		} catch (Exception $e) {
+			return redirect()->route('tu_new_file')->with('result_gagal', 'Gagal menolak');
+		}
 	}
 
 

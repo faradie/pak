@@ -1,6 +1,6 @@
 @extends('layouts.default')
 @section('content')
-   <nav aria-label="breadcrumb">
+<nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item active" aria-current="page">Berkas Baru Asesmen</li>
 	</ol>
@@ -32,6 +32,8 @@
 				</th>
 				<th scope="col">Action
 				</th>
+				<th scope="col">Disposisi
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -45,6 +47,8 @@
 				<td align="center">  
 					<form action="{{ route('asesmen_forward_files',$asesmen_file->id) }}"><input class="btn btn-info" type="submit" value="Teruskan" /></form>
 				</td>
+				<td ><button title="Disposisi" data-mytitle="{{ $asesmen_file->id }}" data-mydisp="{{ $asesmen_file->disposition_content }}" data-myby="{{ $asesmen_file->nip }}" data-toggle="modal" data-target="#disposisiModal" class="btn btn-dark"><i class="fa fa-tags" aria-hidden="true"></i>
+				</button></td>
 			</tr>
 			@endforeach
 		</tbody>
@@ -52,6 +56,30 @@
 
 	</table>
 </div>
+
+
+<!-- Logout Modal-->
+<div class="modal fade" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><p id="p1"></p></h5>
+				<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+
+			<div class="modal-body">
+				<p id="p2">isi</p>
+			</div>
+			<div class="modal-footer">
+				<p id="by"></p>
+			</div>
+
+		</div>
+	</div>
+</div>
+
 
 
 
@@ -78,4 +106,4 @@
               }
           }
       </script>
-@stop
+      @stop

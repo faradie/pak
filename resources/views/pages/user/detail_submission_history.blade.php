@@ -1,6 +1,6 @@
 @extends('layouts.default')
 @section('content')
-<form method="POST" class="daftar" action="{{ route('save_or_submit_fromSaved',$id) }}" enctype="multipart/form-data" >
+<form method="POST" class="daftar" action="{{ route('save_or_submit_fromHistory',$id) }}" enctype="multipart/form-data" >
   {{ csrf_field() }}
   {{ method_field('PATCH') }}
   <nav aria-label="breadcrumb">
@@ -37,22 +37,22 @@
 
   <table class="table">
     <tbody>
-      @foreach ($administration_items as $index => $administration_item)
+      @foreach ($saved_administrations as $index => $saved_administration)
       <tr>
         <td>{{$loop->iteration}}</td>
-        <th scope="row">{{$administration_item->item_name}}</th>
+        <th scope="row">{{$saved_administration->name}}</th>
         <td class="text-right">
           <div class="form-group">
-            @if ($saved_administrations->contains('id',$administration_item->id))
-            <a class="btn btn-danger" data-nameid="{{$administration_item->id}}" role="button" data-toggle="modal" data-target="#deleteAdministrationFile" href="#">Hapus</a>
-            @else
-            <input accept="application/pdf" type="file" name="{{$administration_item->id}}" id="{{$administration_item->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required />
-            <label for="{{$administration_item->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-            @if ($errors->has('{{$administration_item->id}}'))
+            @if ($saved_administration->data_status == 'hold')
+            <input accept="application/pdf" type="file" name="{{$saved_administration->id}}" id="{{$saved_administration->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required />
+            <label title="Edit" for="{{$saved_administration->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
+            @if ($errors->has('{{$saved_administration->id}}'))
             <span class="invalid-feedback" role="alert">
-              <strong>{{ $errors->first($administration_item->id) }}</strong>
+              <strong>{{ $errors->first($saved_administration->id) }}</strong>
             </span>
             @endif
+            @else
+            Diproses
             @endif
           </div>
         </td>
@@ -117,22 +117,26 @@
                     @endif
                     @endforeach
                     @else
-                    <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
+                    
                     @endif
                   </div>                     
                 </td>
                 <td class="text-center">
                   <div class="form-group">
                     @if ($saved_files->contains('id',$butir->id))
-                    <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                    @else
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
                     @if ($errors->has('{{$butir->id}}'))
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $errors->first($butir->id) }}</strong>
                     </span>
                     @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
                     @endif
                   </div>
                 </td>
@@ -166,7 +170,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($butir_terampil1B as $butir)
+              @foreach ($butir_terampil1B  as $index => $butir)
               <tr>
                 <td>{{$loop->iteration}}</td>
                 <th scope="row">{{$butir->item_name}}</th>
@@ -184,22 +188,26 @@
                     @endif
                     @endforeach
                     @else
-                    <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
+                    
                     @endif
                   </div>                     
                 </td>
                 <td class="text-center">
                   <div class="form-group">
                     @if ($saved_files->contains('id',$butir->id))
-                    <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                    @else
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
                     @if ($errors->has('{{$butir->id}}'))
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $errors->first($butir->id) }}</strong>
                     </span>
                     @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
                     @endif
                   </div>
                 </td>
@@ -246,7 +254,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($butir_terampil2A as $butir)
+              @foreach ($butir_terampil2A  as $index => $butir)
               <tr>
                 <td>{{$loop->iteration}}</td>
                 <th scope="row">{{$butir->item_name}}</th>
@@ -264,22 +272,26 @@
                     @endif
                     @endforeach
                     @else
-                    <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
+                    
                     @endif
                   </div>                     
                 </td>
                 <td class="text-center">
                   <div class="form-group">
                     @if ($saved_files->contains('id',$butir->id))
-                    <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                    @else
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
                     @if ($errors->has('{{$butir->id}}'))
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $errors->first($butir->id) }}</strong>
                     </span>
                     @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
                     @endif
                   </div>
                 </td>
@@ -314,7 +326,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($butir_terampil2B as $butir)
+              @foreach ($butir_terampil2B  as $index => $butir)
               <tr>
                 <td>{{$loop->iteration}}</td>
                 <th scope="row">{{$butir->item_name}}</th>
@@ -332,22 +344,26 @@
                     @endif
                     @endforeach
                     @else
-                    <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
+                    
                     @endif
                   </div>                     
                 </td>
                 <td class="text-center">
                   <div class="form-group">
                     @if ($saved_files->contains('id',$butir->id))
-                    <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                    @else
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
                     @if ($errors->has('{{$butir->id}}'))
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $errors->first($butir->id) }}</strong>
                     </span>
                     @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
                     @endif
                   </div>
                 </td>
@@ -382,7 +398,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($butir_terampil2C as $butir)
+              @foreach ($butir_terampil2C  as $index => $butir)
               <tr>
                 <td>{{$loop->iteration}}</td>
                 <th scope="row">{{$butir->item_name}}</th>
@@ -400,22 +416,26 @@
                     @endif
                     @endforeach
                     @else
-                    <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
+                    
                     @endif
                   </div>                     
                 </td>
                 <td class="text-center">
                   <div class="form-group">
                     @if ($saved_files->contains('id',$butir->id))
-                    <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                    @else
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
                     @if ($errors->has('{{$butir->id}}'))
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $errors->first($butir->id) }}</strong>
                     </span>
                     @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
                     @endif
                   </div>
                 </td>
@@ -464,7 +484,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($butir_terampil3A as $butir)
+              @foreach ($butir_terampil3A  as $index => $butir)
               <tr>
                 <td>{{$loop->iteration}}</td>
                 <th scope="row">{{$butir->item_name}}</th>
@@ -482,22 +502,26 @@
                     @endif
                     @endforeach
                     @else
-                    <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
+                    
                     @endif
                   </div>                     
                 </td>
                 <td class="text-center">
                   <div class="form-group">
                     @if ($saved_files->contains('id',$butir->id))
-                    <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                    @else
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
                     @if ($errors->has('{{$butir->id}}'))
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $errors->first($butir->id) }}</strong>
                     </span>
                     @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
                     @endif
                   </div>
                 </td>
@@ -532,7 +556,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($butir_terampil3B as $butir)
+              @foreach ($butir_terampil3B  as $index => $butir)
               <tr>
                 <td>{{$loop->iteration}}</td>
                 <th scope="row">{{$butir->item_name}}</th>
@@ -550,22 +574,21 @@
                     @endif
                     @endforeach
                     @else
-                    <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
+                    
                     @endif
-                  </div>                     
+                  </div>                    
                 </td>
                 <td class="text-center">
                   <div class="form-group">
+                    {{-- ini tandanya --}}
                     @if ($saved_files->contains('id',$butir->id))
-                    <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
+                        @foreach ($saved_files as $saved_file)
+                          @if ($saved_file->data_status == 'hold')
+                            Edit
+                          @endif
+                        @endforeach
                     @else
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                    @if ($errors->has('{{$butir->id}}'))
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $errors->first($butir->id) }}</strong>
-                    </span>
-                    @endif
+                    
                     @endif
                   </div>
                 </td>
@@ -600,7 +623,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($butir_terampil3C as $butir)
+              @foreach ($butir_terampil3C  as $index => $butir)
               <tr>
                 <td>{{$loop->iteration}}</td>
                 <th scope="row">{{$butir->item_name}}</th>
@@ -618,22 +641,26 @@
                     @endif
                     @endforeach
                     @else
-                    <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
+                    
                     @endif
                   </div>                     
                 </td>
                 <td class="text-center">
                   <div class="form-group">
                     @if ($saved_files->contains('id',$butir->id))
-                    <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                    @else
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
                     @if ($errors->has('{{$butir->id}}'))
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $errors->first($butir->id) }}</strong>
                     </span>
                     @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
                     @endif
                   </div>
                 </td>
@@ -668,7 +695,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($butir_terampil3D as $butir)
+              @foreach ($butir_terampil3D  as $index => $butir)
               <tr>
                 <td>{{$loop->iteration}}</td>
                 <th scope="row">{{$butir->item_name}}</th>
@@ -686,22 +713,26 @@
                     @endif
                     @endforeach
                     @else
-                    <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
+                    
                     @endif
                   </div>                     
                 </td>
                 <td class="text-center">
                   <div class="form-group">
                     @if ($saved_files->contains('id',$butir->id))
-                    <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                    @else
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
                     @if ($errors->has('{{$butir->id}}'))
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $errors->first($butir->id) }}</strong>
                     </span>
                     @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
                     @endif
                   </div>
                 </td>
@@ -749,45 +780,49 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($butir_terampil4A as $butir)
-            <tr>
-              <td>{{$loop->iteration}}</td>
-              <th scope="row">{{$butir->item_name}}</th>
-              <td >{{$butir->unitResult}}</td>
-              <td class="text-right">{{$butir->point}}</td>
-              <td >{{$butir->assessmentLimits}}</td>
-              <td >{{$butir->executor}}</td>
-              <td >{{$butir->physicalEvidence}}</td>
-              <td >
-                <div class="form-group">
-                  @if ($saved_files->contains('id',$butir->id))
-                  @foreach ($saved_files as $saved_file)
-                  @if ($saved_file->id == $butir->id)
-                  {{$saved_file->times}}
-                  @endif
-                  @endforeach
-                  @else
-                  <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
-                  @endif
-                </div>                     
-              </td>
-              <td class="text-center">
-                <div class="form-group">
-                  @if ($saved_files->contains('id',$butir->id))
-                  <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                  @else
-                  <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                  <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                  @if ($errors->has('{{$butir->id}}'))
-                  <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first($butir->id) }}</strong>
-                  </span>
-                  @endif
-                  @endif
-                </div>
-              </td>
-              <td ><button class="btn btn-dark">Info</button></td>
-            </tr>
+            @foreach ($butir_terampil4A  as $index => $butir)
+           <tr>
+                <td>{{$loop->iteration}}</td>
+                <th scope="row">{{$butir->item_name}}</th>
+                <td >{{$butir->unitResult}}</td>
+                <td class="text-right">{{$butir->point}}</td>
+                <td >{{$butir->assessmentLimits}}</td>
+                <td >{{$butir->executor}}</td>
+                <td >{{$butir->physicalEvidence}}</td>
+                <td >
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @foreach ($saved_files as $saved_file)
+                    @if ($saved_file->id == $butir->id)
+                    {{$saved_file->times}}
+                    @endif
+                    @endforeach
+                    @else
+                    
+                    @endif
+                  </div>                     
+                </td>
+                <td class="text-center">
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
+                    @if ($errors->has('{{$butir->id}}'))
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first($butir->id) }}</strong>
+                    </span>
+                    @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
+                    @endif
+                  </div>
+                </td>
+                <td ><button class="btn btn-dark">Info</button></td>
+              </tr>
             @endforeach
           </tbody>
         </table>
@@ -817,45 +852,49 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($butir_terampil4B as $butir)
+            @foreach ($butir_terampil4B  as $index => $butir)
             <tr>
-              <td>{{$loop->iteration}}</td>
-              <th scope="row">{{$butir->item_name}}</th>
-              <td >{{$butir->unitResult}}</td>
-              <td class="text-right">{{$butir->point}}</td>
-              <td >{{$butir->assessmentLimits}}</td>
-              <td >{{$butir->executor}}</td>
-              <td >{{$butir->physicalEvidence}}</td>
-              <td >
-                <div class="form-group">
-                  @if ($saved_files->contains('id',$butir->id))
-                  @foreach ($saved_files as $saved_file)
-                  @if ($saved_file->id == $butir->id)
-                  {{$saved_file->times}}
-                  @endif
-                  @endforeach
-                  @else
-                  <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
-                  @endif
-                </div>                     
-              </td>
-              <td class="text-center">
-                <div class="form-group">
-                  @if ($saved_files->contains('id',$butir->id))
-                  <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                  @else
-                  <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                  <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                  @if ($errors->has('{{$butir->id}}'))
-                  <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first($butir->id) }}</strong>
-                  </span>
-                  @endif
-                  @endif
-                </div>
-              </td>
-              <td ><button class="btn btn-dark">Info</button></td>
-            </tr>
+                <td>{{$loop->iteration}}</td>
+                <th scope="row">{{$butir->item_name}}</th>
+                <td >{{$butir->unitResult}}</td>
+                <td class="text-right">{{$butir->point}}</td>
+                <td >{{$butir->assessmentLimits}}</td>
+                <td >{{$butir->executor}}</td>
+                <td >{{$butir->physicalEvidence}}</td>
+                <td >
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @foreach ($saved_files as $saved_file)
+                    @if ($saved_file->id == $butir->id)
+                    {{$saved_file->times}}
+                    @endif
+                    @endforeach
+                    @else
+                    
+                    @endif
+                  </div>                     
+                </td>
+                <td class="text-center">
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
+                    @if ($errors->has('{{$butir->id}}'))
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first($butir->id) }}</strong>
+                    </span>
+                    @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
+                    @endif
+                  </div>
+                </td>
+                <td ><button class="btn btn-dark">Info</button></td>
+              </tr>
             @endforeach
           </tbody>
         </table>
@@ -885,45 +924,49 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($butir_terampil4C as $butir)
+            @foreach ($butir_terampil4C  as $index => $butir)
             <tr>
-              <td>{{$loop->iteration}}</td>
-              <th scope="row">{{$butir->item_name}}</th>
-              <td >{{$butir->unitResult}}</td>
-              <td class="text-right">{{$butir->point}}</td>
-              <td >{{$butir->assessmentLimits}}</td>
-              <td >{{$butir->executor}}</td>
-              <td >{{$butir->physicalEvidence}}</td>
-              <td >
-                <div class="form-group">
-                  @if ($saved_files->contains('id',$butir->id))
-                  @foreach ($saved_files as $saved_file)
-                  @if ($saved_file->id == $butir->id)
-                  {{$saved_file->times}}
-                  @endif
-                  @endforeach
-                  @else
-                  <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
-                  @endif
-                </div>                     
-              </td>
-              <td class="text-center">
-                <div class="form-group">
-                  @if ($saved_files->contains('id',$butir->id))
-                  <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                  @else
-                  <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                  <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                  @if ($errors->has('{{$butir->id}}'))
-                  <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first($butir->id) }}</strong>
-                  </span>
-                  @endif
-                  @endif
-                </div>
-              </td>
-              <td ><button class="btn btn-dark">Info</button></td>
-            </tr>
+                <td>{{$loop->iteration}}</td>
+                <th scope="row">{{$butir->item_name}}</th>
+                <td >{{$butir->unitResult}}</td>
+                <td class="text-right">{{$butir->point}}</td>
+                <td >{{$butir->assessmentLimits}}</td>
+                <td >{{$butir->executor}}</td>
+                <td >{{$butir->physicalEvidence}}</td>
+                <td >
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @foreach ($saved_files as $saved_file)
+                    @if ($saved_file->id == $butir->id)
+                    {{$saved_file->times}}
+                    @endif
+                    @endforeach
+                    @else
+                    
+                    @endif
+                  </div>                     
+                </td>
+                <td class="text-center">
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
+                    @if ($errors->has('{{$butir->id}}'))
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first($butir->id) }}</strong>
+                    </span>
+                    @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
+                    @endif
+                  </div>
+                </td>
+                <td ><button class="btn btn-dark">Info</button></td>
+              </tr>
             @endforeach
           </tbody>
         </table>
@@ -966,45 +1009,49 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($butir_terampil5A as $butir)
+          @foreach ($butir_terampil5A  as $index => $butir)
           <tr>
-            <td>{{$loop->iteration}}</td>
-            <th scope="row">{{$butir->item_name}}</th>
-            <td >{{$butir->unitResult}}</td>
-            <td class="text-right">{{$butir->point}}</td>
-            <td >{{$butir->assessmentLimits}}</td>
-            <td >{{$butir->executor}}</td>
-            <td >{{$butir->physicalEvidence}}</td>
-            <td >
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                @foreach ($saved_files as $saved_file)
-                @if ($saved_file->id == $butir->id)
-                {{$saved_file->times}}
-                @endif
-                @endforeach
-                @else
-                <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
-                @endif
-              </div>                     
-            </td>
-            <td class="text-center">
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                @else
-                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                @if ($errors->has('{{$butir->id}}'))
-                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $errors->first($butir->id) }}</strong>
-                </span>
-                @endif
-                @endif
-              </div>
-            </td>
-            <td ><button class="btn btn-dark">Info</button></td>
-          </tr>
+                <td>{{$loop->iteration}}</td>
+                <th scope="row">{{$butir->item_name}}</th>
+                <td >{{$butir->unitResult}}</td>
+                <td class="text-right">{{$butir->point}}</td>
+                <td >{{$butir->assessmentLimits}}</td>
+                <td >{{$butir->executor}}</td>
+                <td >{{$butir->physicalEvidence}}</td>
+                <td >
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @foreach ($saved_files as $saved_file)
+                    @if ($saved_file->id == $butir->id)
+                    {{$saved_file->times}}
+                    @endif
+                    @endforeach
+                    @else
+                    
+                    @endif
+                  </div>                     
+                </td>
+                <td class="text-center">
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
+                    @if ($errors->has('{{$butir->id}}'))
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first($butir->id) }}</strong>
+                    </span>
+                    @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
+                    @endif
+                  </div>
+                </td>
+                <td ><button class="btn btn-dark">Info</button></td>
+              </tr>
           @endforeach
         </tbody>
       </table>
@@ -1034,45 +1081,49 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($butir_terampil5B as $butir)
-          <tr>
-            <td>{{$loop->iteration}}</td>
-            <th scope="row">{{$butir->item_name}}</th>
-            <td >{{$butir->unitResult}}</td>
-            <td class="text-right">{{$butir->point}}</td>
-            <td >{{$butir->assessmentLimits}}</td>
-            <td >{{$butir->executor}}</td>
-            <td >{{$butir->physicalEvidence}}</td>
-            <td >
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                @foreach ($saved_files as $saved_file)
-                @if ($saved_file->id == $butir->id)
-                {{$saved_file->times}}
-                @endif
-                @endforeach
-                @else
-                <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
-                @endif
-              </div>                     
-            </td>
-            <td class="text-center">
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                @else
-                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                @if ($errors->has('{{$butir->id}}'))
-                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $errors->first($butir->id) }}</strong>
-                </span>
-                @endif
-                @endif
-              </div>
-            </td>
-            <td ><button class="btn btn-dark">Info</button></td>
-          </tr>
+          @foreach ($butir_terampil5B  as $index => $butir)
+         <tr>
+                <td>{{$loop->iteration}}</td>
+                <th scope="row">{{$butir->item_name}}</th>
+                <td >{{$butir->unitResult}}</td>
+                <td class="text-right">{{$butir->point}}</td>
+                <td >{{$butir->assessmentLimits}}</td>
+                <td >{{$butir->executor}}</td>
+                <td >{{$butir->physicalEvidence}}</td>
+                <td >
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @foreach ($saved_files as $saved_file)
+                    @if ($saved_file->id == $butir->id)
+                    {{$saved_file->times}}
+                    @endif
+                    @endforeach
+                    @else
+                    
+                    @endif
+                  </div>                     
+                </td>
+                <td class="text-center">
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
+                    @if ($errors->has('{{$butir->id}}'))
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first($butir->id) }}</strong>
+                    </span>
+                    @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
+                    @endif
+                  </div>
+                </td>
+                <td ><button class="btn btn-dark">Info</button></td>
+              </tr>
           @endforeach
         </tbody>
       </table>
@@ -1102,45 +1153,49 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($butir_terampil5C as $butir)
+          @foreach ($butir_terampil5C  as $index => $butir)
           <tr>
-            <td>{{$loop->iteration}}</td>
-            <th scope="row">{{$butir->item_name}}</th>
-            <td >{{$butir->unitResult}}</td>
-            <td class="text-right">{{$butir->point}}</td>
-            <td >{{$butir->assessmentLimits}}</td>
-            <td >{{$butir->executor}}</td>
-            <td >{{$butir->physicalEvidence}}</td>
-            <td >
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                @foreach ($saved_files as $saved_file)
-                @if ($saved_file->id == $butir->id)
-                {{$saved_file->times}}
-                @endif
-                @endforeach
-                @else
-                <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
-                @endif
-              </div>                     
-            </td>
-            <td class="text-center">
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                @else
-                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                @if ($errors->has('{{$butir->id}}'))
-                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $errors->first($butir->id) }}</strong>
-                </span>
-                @endif
-                @endif
-              </div>
-            </td>
-            <td ><button class="btn btn-dark">Info</button></td>
-          </tr>
+                <td>{{$loop->iteration}}</td>
+                <th scope="row">{{$butir->item_name}}</th>
+                <td >{{$butir->unitResult}}</td>
+                <td class="text-right">{{$butir->point}}</td>
+                <td >{{$butir->assessmentLimits}}</td>
+                <td >{{$butir->executor}}</td>
+                <td >{{$butir->physicalEvidence}}</td>
+                <td >
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @foreach ($saved_files as $saved_file)
+                    @if ($saved_file->id == $butir->id)
+                    {{$saved_file->times}}
+                    @endif
+                    @endforeach
+                    @else
+                    
+                    @endif
+                  </div>                     
+                </td>
+                <td class="text-center">
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
+                    @if ($errors->has('{{$butir->id}}'))
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first($butir->id) }}</strong>
+                    </span>
+                    @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
+                    @endif
+                  </div>
+                </td>
+                <td ><button class="btn btn-dark">Info</button></td>
+              </tr>
           @endforeach
         </tbody>
       </table>
@@ -1170,45 +1225,49 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($butir_terampil5D as $butir)
+          @foreach ($butir_terampil5D  as $index => $butir)
           <tr>
-            <td>{{$loop->iteration}}</td>
-            <th scope="row">{{$butir->item_name}}</th>
-            <td >{{$butir->unitResult}}</td>
-            <td class="text-right">{{$butir->point}}</td>
-            <td >{{$butir->assessmentLimits}}</td>
-            <td >{{$butir->executor}}</td>
-            <td >{{$butir->physicalEvidence}}</td>
-            <td >
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                @foreach ($saved_files as $saved_file)
-                @if ($saved_file->id == $butir->id)
-                {{$saved_file->times}}
-                @endif
-                @endforeach
-                @else
-                <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
-                @endif
-              </div>                     
-            </td>
-            <td class="text-center">
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                @else
-                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                @if ($errors->has('{{$butir->id}}'))
-                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $errors->first($butir->id) }}</strong>
-                </span>
-                @endif
-                @endif
-              </div>
-            </td>
-            <td ><button class="btn btn-dark">Info</button></td>
-          </tr>
+                <td>{{$loop->iteration}}</td>
+                <th scope="row">{{$butir->item_name}}</th>
+                <td >{{$butir->unitResult}}</td>
+                <td class="text-right">{{$butir->point}}</td>
+                <td >{{$butir->assessmentLimits}}</td>
+                <td >{{$butir->executor}}</td>
+                <td >{{$butir->physicalEvidence}}</td>
+                <td >
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @foreach ($saved_files as $saved_file)
+                    @if ($saved_file->id == $butir->id)
+                    {{$saved_file->times}}
+                    @endif
+                    @endforeach
+                    @else
+                    
+                    @endif
+                  </div>                     
+                </td>
+                <td class="text-center">
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
+                    @if ($errors->has('{{$butir->id}}'))
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first($butir->id) }}</strong>
+                    </span>
+                    @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
+                    @endif
+                  </div>
+                </td>
+                <td ><button class="btn btn-dark">Info</button></td>
+              </tr>
           @endforeach
         </tbody>
       </table>
@@ -1238,45 +1297,49 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($butir_terampil5E as $butir)
-          <tr>
-            <td>{{$loop->iteration}}</td>
-            <th scope="row">{{$butir->item_name}}</th>
-            <td >{{$butir->unitResult}}</td>
-            <td class="text-right">{{$butir->point}}</td>
-            <td >{{$butir->assessmentLimits}}</td>
-            <td >{{$butir->executor}}</td>
-            <td >{{$butir->physicalEvidence}}</td>
-            <td >
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                @foreach ($saved_files as $saved_file)
-                @if ($saved_file->id == $butir->id)
-                {{$saved_file->times}}
-                @endif
-                @endforeach
-                @else
-                <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
-                @endif
-              </div>                     
-            </td>
-            <td class="text-center">
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                @else
-                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                @if ($errors->has('{{$butir->id}}'))
-                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $errors->first($butir->id) }}</strong>
-                </span>
-                @endif
-                @endif
-              </div>
-            </td>
-            <td ><button class="btn btn-dark">Info</button></td>
-          </tr>
+          @foreach ($butir_terampil5E  as $index => $butir)
+         <tr>
+                <td>{{$loop->iteration}}</td>
+                <th scope="row">{{$butir->item_name}}</th>
+                <td >{{$butir->unitResult}}</td>
+                <td class="text-right">{{$butir->point}}</td>
+                <td >{{$butir->assessmentLimits}}</td>
+                <td >{{$butir->executor}}</td>
+                <td >{{$butir->physicalEvidence}}</td>
+                <td >
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @foreach ($saved_files as $saved_file)
+                    @if ($saved_file->id == $butir->id)
+                    {{$saved_file->times}}
+                    @endif
+                    @endforeach
+                    @else
+                    
+                    @endif
+                  </div>                     
+                </td>
+                <td class="text-center">
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
+                    @if ($errors->has('{{$butir->id}}'))
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first($butir->id) }}</strong>
+                    </span>
+                    @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
+                    @endif
+                  </div>
+                </td>
+                <td ><button class="btn btn-dark">Info</button></td>
+              </tr>
           @endforeach
         </tbody>
       </table>
@@ -1306,45 +1369,49 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($butir_terampil5F as $butir)
+          @foreach ($butir_terampil5F  as $index => $butir)
           <tr>
-            <td>{{$loop->iteration}}</td>
-            <th scope="row">{{$butir->item_name}}</th>
-            <td >{{$butir->unitResult}}</td>
-            <td class="text-right">{{$butir->point}}</td>
-            <td >{{$butir->assessmentLimits}}</td>
-            <td >{{$butir->executor}}</td>
-            <td >{{$butir->physicalEvidence}}</td>
-            <td >
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                @foreach ($saved_files as $saved_file)
-                @if ($saved_file->id == $butir->id)
-                {{$saved_file->times}}
-                @endif
-                @endforeach
-                @else
-                <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
-                @endif
-              </div>                     
-            </td>
-            <td class="text-center">
-              <div class="form-group">
-                @if ($saved_files->contains('id',$butir->id))
-                <a class="btn btn-danger" data-nameid="{{$butir->id}}" role="button" data-toggle="modal" data-target="#deleteItemFile" href="#">Hapus</a>
-                @else
-                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                @if ($errors->has('{{$butir->id}}'))
-                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $errors->first($butir->id) }}</strong>
-                </span>
-                @endif
-                @endif
-              </div>
-            </td>
-            <td ><button class="btn btn-dark">Info</button></td>
-          </tr>
+                <td>{{$loop->iteration}}</td>
+                <th scope="row">{{$butir->item_name}}</th>
+                <td >{{$butir->unitResult}}</td>
+                <td class="text-right">{{$butir->point}}</td>
+                <td >{{$butir->assessmentLimits}}</td>
+                <td >{{$butir->executor}}</td>
+                <td >{{$butir->physicalEvidence}}</td>
+                <td >
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @foreach ($saved_files as $saved_file)
+                    @if ($saved_file->id == $butir->id)
+                    {{$saved_file->times}}
+                    @endif
+                    @endforeach
+                    @else
+                    
+                    @endif
+                  </div>                     
+                </td>
+                <td class="text-center">
+                  <div class="form-group">
+                    @if ($saved_files->contains('id',$butir->id))
+                    @if ($saved_files[$index]->data_status=="hold")
+                    <input accept="application/pdf" type="file"  name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label title="Edit" for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Edit&hellip;</span></label>
+                    @if ($errors->has('{{$butir->id}}'))
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first($butir->id) }}</strong>
+                    </span>
+                    @endif
+                    @else
+                    Diproses
+                    @endif
+                    @else
+                    
+                    @endif
+                  </div>
+                </td>
+                <td ><button class="btn btn-dark">Info</button></td>
+              </tr>
           @endforeach
         </tbody>
       </table>
@@ -1356,16 +1423,20 @@
 </div>
 </div>
 <br>
-<div class="form-group no-margin">
+@if ($submission_this->submission_status == "hold")
+{{-- <div class="form-group no-margin">
   <input type="submit" name="submitbutton" class="btn btn-secondary btn-block" value="Simpan"/>
-</div>
+</div> --}}
 
 <div class="form-group no-margin">
   <input type="submit" name="submitbutton" class="btn btn-primary btn-block" value="Ajukan"/>
 </div>
+@else
+
+@endif
 
 </form>
-<br>
+
 <!-- Delete Modal-->
 <div class="modal fade" id="deleteAdministrationFile" tabindex="-1" role="dialog" aria-labelledby="deleteAdministrationFile" aria-hidden="true">
   <div class="modal-dialog" role="document">

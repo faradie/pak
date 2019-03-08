@@ -65,18 +65,16 @@ Dashboard Admin
 
 
 <div class="list-group">
-
-
   @if ($informations->count() != null)
   <h3>Informasi</h3>
   @foreach ($informations as $information)
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+  <a href="{{ route('detail_information',$information->id) }}" class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">{{ $information->information_title }}</h5>
-      <small>{{ \Carbon\Carbon::parse($information->created_at)->format('d/M/Y')  }}</small>
+      <h4 class="mb-1"><strong>{{ $information->information_title }}</strong></h4>
+      <small>{{ \Carbon\Carbon::parse($information->created_at)->format('d/M/Y H:i') }}</small>
     </div>
-    <p class="mb-1">{{ $information->information_content }}</p>
-    <small>{{ $information->nip }}</small>
+    <p class="mb-1">{{ strlen($information->information_content) >=50 ? str_limit($information->information_content, $limit = 50, $end = '...') : $information->information_content }}</p>
+    <small>{{ $information->nip==null ? "" : "Oleh : ".$information->nip }}</small>
   </a>
   @endforeach
   @else

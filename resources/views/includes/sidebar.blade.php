@@ -15,17 +15,16 @@
     </a>
   </li>
   <li class="nav-item active">
-    <a class="nav-link" href="{{ route('manage_users') }}">
+    <a class="nav-link" href="{{ route('manage_informations') }}">
       {{-- <i class="fas fa-fw fa-users"></i> --}}
       <span>Kelola Informasi</span>
     </a>
   </li>
-  <li class="nav-item active">
+{{--   <li class="nav-item active">
     <a class="nav-link" href="{{ route('manage_period') }}">
-      {{-- <i class="fas fa-fw fa-users"></i> --}}
       <span>Kelola Periode</span>
     </a>
-  </li>
+  </li> --}}
 @endif
 
 {{-- applicant role --}}

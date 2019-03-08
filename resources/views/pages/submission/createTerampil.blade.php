@@ -5,195 +5,126 @@
   {{ csrf_field() }}
   {{ method_field('PATCH') }}
   <nav aria-label="breadcrumb">
-    @if ($periods->count() == null)
-    <div class="alert alert-danger" role="alert">
-     Berkas Pengajuan Terampil : No Period
-    </div>
-    @else
     <div class="alert alert-success" role="alert">
-     Berkas Pengajuan Terampil : Periode {{ \Carbon\Carbon::parse($periods->first()->starts)->format('d/M/Y') ." - ". \Carbon\Carbon::parse($periods->first()->ends)->format('d/M/Y')}}
-    </div>
+     Berkas Pengajuan Terampil
+   </div>
+ </nav>
+ @if(session()->has('result_berhasil'))
+ <div class="alert alert-success">
+  {{ session()->get('result_berhasil') }}
+</div>
+@endif
+@if(session()->has('result_gagal'))
+<div class="alert alert-danger">
+  {{ session()->get('result_gagal') }}
+</div>
+@endif
 
-    @endif
-  </nav>
-  @if(session()->has('result_berhasil'))
-  <div class="alert alert-success">
-    {{ session()->get('result_berhasil') }}
-  </div>
-  @endif
-  @if(session()->has('result_gagal'))
-  <div class="alert alert-danger">
-    {{ session()->get('result_gagal') }}
-  </div>
-  @endif
-  <div class="card">
-    <div class="card-header">
-      <h3>Berkas Administrasi</small></h3>   
-    </div>
+<h4><strong>Periode Pengajuan</strong></h4>
 
-    {{-- {{ dd($butir_terampil1A) }} --}}
-    <table class="table">
-      <tbody>
-        <tr>
-          <td>1</td>
-          <th scope="row">SK Terakhir</th>
-          <td class="text-right">
-            <div class="form-group">
-              <input accept="application/pdf" type="file" name="lastSKUpload" id="lastSKUpload" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required />
-              <label for="lastSKUpload"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-              @if ($errors->has('lastSKUpload'))
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $errors->first(lastSKUpload) }}</strong>
-              </span>
-              @endif
-            </div>
-          </td>
-          <!-- <td class="text-right"><button class="btn btn-dark">Info</button></td> -->
-        </tr>
-        <tr>
-          <td>2</td>
-          <th scope="row">SK CPNS</th>
-          <td class="text-right">
-            <div class="form-group">
-              <input accept="application/pdf" type="file" name="skCPNSUpload" id="skCPNSUpload" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required/>
-              <label for="skCPNSUpload"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-              @if ($errors->has('skCPNSUpload'))
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $errors->first(skCPNSUpload) }}</strong>
-              </span>
-              @endif
-            </div>
-          </td>
-          <!-- <td class="text-right"><button class="btn btn-dark">Info</button></td> -->
-        </tr>
-        <tr>
-          <td>3</td>
-          <th scope="row">KARPEG</th>
-          <td class="text-right">
-            <div class="form-group">
-              <input accept="application/pdf" type="file" name="karpegUpload" id="karpegUpload" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required/>
-              <label for="karpegUpload"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-              @if ($errors->has('karpegUpload'))
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $errors->first(karpegUpload) }}</strong>
-              </span>
-              @endif
-            </div>
-          </td>
-          <!-- <td class="text-right"><button class="btn btn-dark">Info</button></td> -->
-        </tr>
-        <tr>
-          <td>4</td>
-          <th scope="row">SKP 2 tahun terakhir</th>
-          <td class="text-right">
-            <div class="form-group">
-              <input accept="application/pdf" type="file" name="skpUpload" id="skpUpload" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required/>
-              <label for="skpUpload"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-              @if ($errors->has('skpUpload'))
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $errors->first(skpUpload) }}</strong>
-              </span>
-              @endif
-            </div>
-          </td>
-          <!-- <td class="text-right"><button class="btn btn-dark">Info</button></td> -->
-        </tr>
-        <tr>
-          <td>5</td>
-          <th scope="row">DUPAK</th>
-          <td class="text-right">
-            <div class="form-group">
-              <input accept="application/pdf" type="file" name="dupakUpload" id="dupakUpload" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required />
-              <label for="dupakUpload"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-              @if ($errors->has('dupakUpload'))
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $errors->first(dupakUpload) }}</strong>
-              </span>
-              @endif
-            </div>
-          </td>
-          <!-- <td class="text-right"><button class="btn btn-dark">Info</button></td> -->
-        </tr>
-        <tr>
-          <td>6</td>
-          <th scope="row">PAK</th>
-          <td class="text-right">
-            <div class="form-group">
-              <input accept="application/pdf" type="file" name="pakUpload" id="pakUpload" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required />
-              <label for="pakUpload"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-              @if ($errors->has('pakUpload'))
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $errors->first(pakUpload) }}</strong>
-              </span>
-              @endif
-            </div>
-          </td>
-          <!-- <td class="text-right"><button class="btn btn-dark">Info</button></td> -->
-        </tr>
-      </tbody>
-    </table>
+<div class="form-row">
+  <div class="form-group col-md-6">
+    <label for="startDate">Mulai Periode</label>
+    <input type="date" class="form-control" name="startDate" id="startDate" value="{{ old('startDate') }}" required>
   </div>
-  <br><br>
-  
-  <div class="accordion" id="accordionExample">
-    <div class="card">
-      <div class="card-header" id="headingOne">
-        <h2 class="mb-0">
-          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            I . Pendidikan
-          </button>
-        </h2>
-      </div>
+  <div class="form-group col-md-6">
+    <label for="endDate">Akhir Periode</label>
+    <input type="date" class="form-control" name="endDate" id="endDate" value="{{ old('endDate') }}" required>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h3>Berkas Administrasi</small></h3>   
+  </div>
+
+  {{-- {{ dd($butir_terampil1A) }} --}}
+  <table class="table">
+    <tbody>
+      @foreach ($item_administrations as $item_administration)
+        <tr>
+        <td>{{$loop->iteration}}</td>
+        <th scope="row">{{ $item_administration->item_name }}</th>
+        <td class="text-right">
+          <div class="form-group">
+            <input accept="application/pdf" type="file" name="{{ $item_administration->id }}" id="{{ $item_administration->id }}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required />
+            <label for="{{ $item_administration->id }}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+            @if ($errors->has('{{ $item_administration->id }}'))
+            <span class="invalid-feedback" role="alert">
+              <strong>{{ $errors->first($item_administration->id) }}</strong>
+            </span>
+            @endif
+          </div>
+        </td>
+        <!-- <td class="text-right"><button class="btn btn-dark">Info</button></td> -->
+      </tr>
+      @endforeach
       
-      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-        <div class="card-body">
-          {{-- Table A --}}
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item active" aria-current="page">A . Pendidikan sekolah dan memperoleh ijazah/gelar</li>
-            </ol>
-          </nav>
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">No</th>
-                  <th scope="col">Butir Kegiatan</th>
-                  <th scope="col">Satuan Hasil</th>
-                  <th class="text-right" scope="col">Angka Kredit</th>
-                  <th scope="col">Batas Penilaian</th>
-                  <th scope="col">Pelaksana</th>
-                  <th scope="col">Bukti Fisik</th>
-                  <th scope="col">Pengali</th>
-                  <th class="text-center" scope="col">File</th>
-                  <th class="text-center" scope="col">Info</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($butir_terampil1A as $butir)
-                <tr>
-                  <td>{{$loop->iteration}}</td>
-                  <th scope="row">{{$butir->item_name}}</th>
-                  <td >{{$butir->unitResult}}</td>
-                  <td class="text-right">{{$butir->point}}</td>
-                  <td >{{$butir->assessmentLimits}}</td>
-                  <td >{{$butir->executor}}</td>
-                  <td >{{$butir->physicalEvidence}}</td>
-                  <td >
-                    <div class="form-group">
-                      <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
-                    </div>                     
-                  </td>
-                  <td class="text-center">
-                    <div class="form-group">
-                      <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                      <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                      @if ($errors->has('{{$butir->id}}'))
-                      <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first($butir->id) }}</strong>
-                      </span>
-                      @endif
-                    </div>
+      
+    </tbody>
+  </table>
+</div>
+<br><br>
+
+<div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          I . Pendidikan
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+        {{-- Table A --}}
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">A . Pendidikan sekolah dan memperoleh ijazah/gelar</li>
+          </ol>
+        </nav>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">Butir Kegiatan</th>
+                <th scope="col">Satuan Hasil</th>
+                <th class="text-right" scope="col">Angka Kredit</th>
+                <th scope="col">Batas Penilaian</th>
+                <th scope="col">Pelaksana</th>
+                <th scope="col">Bukti Fisik</th>
+                <th scope="col">Pengali</th>
+                <th class="text-center" scope="col">File</th>
+                <th class="text-center" scope="col">Info</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($butir_terampil1A as $butir)
+              <tr>
+                <td>{{$loop->iteration}}</td>
+                <th scope="row">{{$butir->item_name}}</th>
+                <td >{{$butir->unitResult}}</td>
+                <td class="text-right">{{$butir->point}}</td>
+                <td >{{$butir->assessmentLimits}}</td>
+                <td >{{$butir->executor}}</td>
+                <td >{{$butir->physicalEvidence}}</td>
+                <td >
+                  <div class="form-group">
+                    <input id="{{ $butir->id.'times' }}" type="number" class="form-control" value="{{ old($butir->id.'times') }}" placeholder="X" name="{{ $butir->id.'times' }}">
+                  </div>                     
+                </td>
+                <td class="text-center">
+                  <div class="form-group">
+                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                    @if ($errors->has('{{$butir->id}}'))
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first($butir->id) }}</strong>
+                    </span>
+                    @endif
+                  </div>
                                           <!-- {{-- <div class="form-group">
                                             <label class="btn btn-dark">
                                                 <input title="Upload File" value="{{ old($butir->id) }}" name="{{$butir->id}}" type="file" id="{{$butir->id}}" accept="application/pdf" type="file">
@@ -1220,16 +1151,15 @@
                           </div>
                         </div>
                       </div>
-                      @if ($periods->count() == null)
+                      <br>
                       <div class="form-group no-margin">
-                        <input type="submit" name="submitbutton" class="btn btn-primary btn-block" value="Simpan"/>
+                        <input type="submit" name="submitbutton" class="btn btn-secondary btn-block" value="Simpan"/>
                       </div>
-                      @else
+
                       <div class="form-group no-margin">
                         <input type="submit" name="submitbutton" class="btn btn-primary btn-block" value="Ajukan"/>
                       </div>
-                      @endif
-                      
+
                     </form>
                     {{-- @if(session()->has('erro_login'))
                     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

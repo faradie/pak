@@ -39,7 +39,7 @@ class HomeController extends Controller
         $skUrls = sk::find(auth()->user()->lastSKUrl);
         $unitsName = Unit::find(auth()->user()->unit);
         $positionName = PkPosition::find(auth()->user()->pkPosition);
-        $informations = Information::all();
+        $informations = Information::orderBy('created_at', 'DESC')->get();
         return view('pages.home',compact('skUrls','unitsName','positionName','informations'));
     }
 

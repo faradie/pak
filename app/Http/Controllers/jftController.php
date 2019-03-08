@@ -16,7 +16,9 @@ class jftController extends Controller
 	public function jft_new_files(){
 		$jft_files = DB::table('submissions')
 		->join('users', 'submissions.nip', '=', 'users.id')
-		->select('users.*', 'submissions.*')->where('submission_position', '4')
+		->join('dispositions', 'submissions.id', '=', 'dispositions.submission_id')
+		->select('users.*', 'submissions.*','dispositions.*')
+		->where('submission_position', '4')
 		->where('submission_status','=','accepted')
 		->where('submissions.nip','!=',auth()->user()->id)
 		->get();

@@ -14,10 +14,15 @@ class CreatePeriodsTable extends Migration
     public function up()
     {
         Schema::create('periods', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->string('submission_id');
+            $table->string('nip');
             $table->date('starts');
             $table->date('ends');
             $table->timestamps();
+
+            $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('CASCADE');
+            $table->foreign('nip')->references('id')->on('users')->onDelete('CASCADE');
+            
         });
     }
 
