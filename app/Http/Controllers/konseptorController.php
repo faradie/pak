@@ -19,7 +19,9 @@ class konseptorController extends Controller
 	public function konseptor_new_files(){
 		$konseptor_files = DB::table('submissions')
 		->join('users', 'submissions.nip', '=', 'users.id')
-		->select('users.*', 'submissions.*')->where('submission_position', '5')
+		->join('dispositions', 'submissions.id', '=', 'dispositions.submission_id')
+		->select('users.*', 'submissions.*','dispositions.*')
+		->where('submission_position', '5')
 		->where('submission_status','=','accepted')
 		->where('submissions.nip','!=',auth()->user()->id)
 		->get();

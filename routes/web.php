@@ -183,6 +183,7 @@ Route::get('/kesekretariatan/new_file', 'sekretariatController@kesekretariatan_n
 Route::get('/kesekretariatan/new_file/{id}/verify', 'sekretariatController@sekretariat_verifications')->name('sekretariat_verifications');
 Route::patch('/kesekretariatan/new_file/{id}/verify', 'sekretariatController@sekretariat_verify_files')->name('sekretariat_verify_files');
 Route::get('/kesekretariatan/data_recap', 'sekretariatController@sekretariat_recap_files')->name('sekretariat_recap_files');
+Route::patch('/kesekretariatan/new_file/{id}/reject', 'sekretariatController@sekretariat_reject')->name('sekretariat_reject');
 
 //tu kepeg
 Route::get('/tu/data_recap', 'tuController@tu_recap_files')->name('tu_recap_files');

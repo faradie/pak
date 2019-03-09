@@ -30,6 +30,8 @@
 				</th>
 				<th scope="col">Dibuat pada
 				</th>
+				<th scope="col">Disposisi
+				</th>
 				<th scope="col">Surat Pengantar
 				</th>
 			</tr>
@@ -42,6 +44,8 @@
 				<td>{{$konseptor_file->nip}}</td>
 				<td>{{$konseptor_file->nama}}</td>
 				<td>{{$konseptor_file->created_at}}</td>
+				<td ><button title="Disposisi" data-mytitle="{{ $konseptor_file->id }}" data-mydisp="{{ $konseptor_file->disposition_content }}" data-myby="{{ $konseptor_file->nip }}" data-toggle="modal" data-target="#disposisiModal" class="btn btn-dark"><i class="fa fa-tags" aria-hidden="true"></i>
+				</button></td>
 				<td align="center">  
 					<form action="{{ route('konseptor_make_supeng',$konseptor_file->id) }}" enctype="multipart/form-data" method="POST" >
 						{{ csrf_field() }}
@@ -57,7 +61,9 @@
 							@endif
 						</div>
 						<div class="form-group">
-							<input class="btn btn-info" type="submit" value="Upload & Teruskan" />
+							<button class="btn btn-info" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+</button>
+							
 						</div>
 						</div>
 					</form>
@@ -70,7 +76,27 @@
 	</table>
 </div>
 
+<!-- Logout Modal-->
+<div class="modal fade" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><p id="p1"></p></h5>
+				<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
 
+			<div class="modal-body">
+				<p id="p2">isi</p>
+			</div>
+			<div class="modal-footer">
+				<p id="by"></p>
+			</div>
+
+		</div>
+	</div>
+</div>
 
 <script>
 	function myFunction() {
