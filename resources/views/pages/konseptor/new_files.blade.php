@@ -41,7 +41,7 @@
 			<tr>
 				<th  scope="row">{{$loop->iteration}}</th >
 				<td>{{ strtoupper($konseptor_file->id) }}</td>
-				<td>{{$konseptor_file->nip}}</td>
+				<td>{{$konseptor_file->pemohonID}}</td>
 				<td>{{$konseptor_file->nama}}</td>
 				<td>{{$konseptor_file->created_at}}</td>
 				<td ><button title="Disposisi" data-mytitle="{{ $konseptor_file->id }}" data-mydisp="{{ $konseptor_file->disposition_content }}" data-myby="{{ $konseptor_file->nip }}" data-toggle="modal" data-target="#disposisiModal" class="btn btn-dark"><i class="fa fa-tags" aria-hidden="true"></i>

@@ -12,6 +12,6 @@ class DupakItemScores extends Model
      * @var array
      */
     protected $fillable = [
-        'team_id','_item_id','submission_id','nip','item_score','times','type'
+        'team_id','item_id','submission_id','nip','item_score','times','type'
     ];
 }

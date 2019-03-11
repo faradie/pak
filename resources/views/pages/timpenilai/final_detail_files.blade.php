@@ -83,6 +83,7 @@
                 </script>
               </td>
               <td >
+                @if ($penilaian_submissions->submission_score == null)
                 <div class="form-group">
                  <input onkeypress='validate(event)'  id="{{ $butir->id."timesPenilai" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."timesPenilai") ? ' is-invalid' : '' }}" name="{{ $butir->id."timesPenilai" }}" value="{{ old($butir->id."timesPenilai") }}" required>
                  {{-- @if ($errors->has('{{ $butir->id."timesPenilai" }}'))
@@ -91,31 +92,43 @@
                 </span>
                 @endif --}}
               </div>
+              @else
+              @foreach ($check_available_score as $check_available)
+              @if ($check_available->item_id == $butir->id)
+              <p class="text-center">{{ $check_available->times }}</p>
+              @endif
+              @endforeach
+              @endif
+
             </td>
             <td >
+              @if ($penilaian_submissions->submission_score == null)
               <div class="form-group">
                <input onkeypress='validate(event)'  id="{{ $butir->id."item_score" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."item_score") ? ' is-invalid' : '' }}" name="{{ $butir->id."item_score" }}" value="{{ old($butir->id."item_score") }}" required>
-               {{-- @if ($errors->has('nip'))
-               <span class="invalid-feedback" role="alert">
-                <strong>{{ $errors->first('nip') }}</strong>
-              </span>
-              @endif --}}
-            </div>
-          </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
-  </div>
-  <br>
-</div>
+             </div>
+             @else
+             @foreach ($check_available_score as $check_available)
+             @if ($check_available->item_id == $butir->id)
+             <p class="text-center">{{ $check_available->item_score }}</p>
+             @endif
+             @endforeach
+             @endif
+           </td>
+         </tr>
+         @endforeach
+       </tbody>
+     </table>
+   </div>
+   <br>
+ </div>
 </div>
 
 <br>
 
+@if ($check_score_null->count() == null)
 @if ($penilaian_submissions->lastSubmissionID == null)
 <div class="alert alert-success">
- <h5>Dikarenakan belum adanya data pengajuan sebelumnya, maka lengkapi dahulu data pengajuan sebelumnya untuk user {{ $penilaian_submissions->nip }} </h5>
+ <h5>Dikarenakan belum adanya data pengajuan sebelumnya, maka lengkapi dahulu data pengajuan sebelumnya untuk user {{ $penilaian_submissions->id_pemohon }} </h5>
 </div>
 
 <div class="accordion" id="accordionExample">
@@ -163,23 +176,23 @@
                 <td >
                   <div class="form-group">
                     <input onkeypress='validate(event)'  id="{{ $butir->id.'previousTimes_terampil' }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id.'previousTimes_terampil') ? ' is-invalid' : '' }}" name="{{ $butir->id.'previousTimes_terampil' }}" value="{{ old($butir->id.'previousTimes_terampil') }}" >
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                   <input onkeypress='validate(event)'  id="{{ $butir->id.'previousScore_terampil' }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id.'previousScore_terampil') ? ' is-invalid' : '' }}" name="{{ $butir->id.'previousScore_terampil' }}" value="{{ old($butir->id.'previousScore_terampil') }}" >
                  </div>
                </td>
-               <td>
-                <div class="form-group">
-                 <input onkeypress='validate(event)'  id="{{ $butir->id.'previousScore_terampil' }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id.'previousScore_terampil') ? ' is-invalid' : '' }}" name="{{ $butir->id.'previousScore_terampil' }}" value="{{ old($butir->id.'previousScore_terampil') }}" >
-               </div>
-             </td>
-           </tr>
-           @endforeach
-         </tbody>
-       </table>
+             </tr>
+             @endforeach
+           </tbody>
+         </table>
+       </div>
+       <br>
      </div>
-     <br>
    </div>
  </div>
-</div>
-<div class="card">
+ <div class="card">
   <div class="card-header" id="headingOne">
     <h2 class="mb-0">
       <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -241,10 +254,12 @@
 </div>
 </div>
 @endif
+@endif
 
 <br>
 
 @if ($check_score_null->count() == null)
+@if ($score_submission_check->submission_score == null)
 <div class="container">
   <div class="row justify-content-md-center">
     <div class="col-md-auto">
@@ -253,6 +268,18 @@
     </div>
   </div>
 </div>
+@else
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+      <input class="btn btn-primary" name="submitbutton" type="submit" value="Rincian PAK" />
+      <input class="btn btn-dark" name="submitbutton" type="submit" value="Download" />
+      <input class="btn btn-success" name="submitbutton" type="submit" value="Teruskan" />
+    </div>
+  </div>
+</div>
+@endif
+
 @endif
 
 
@@ -281,4 +308,4 @@
 
 
                     </script>
-@stop
+                    @stop

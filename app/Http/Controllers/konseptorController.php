@@ -20,7 +20,7 @@ class konseptorController extends Controller
 		$konseptor_files = DB::table('submissions')
 		->join('users', 'submissions.nip', '=', 'users.id')
 		->join('dispositions', 'submissions.id', '=', 'dispositions.submission_id')
-		->select('users.*', 'submissions.*','dispositions.*')
+		->select('users.*', 'submissions.*','submissions.nip as pemohonID','dispositions.*')
 		->where('submission_position', '5')
 		->where('submission_status','=','accepted')
 		->where('submissions.nip','!=',auth()->user()->id)
