@@ -45,22 +45,7 @@
       {{-- <a class="dropdown-item" href="#">{{ $notification->data['notification_content'].' oleh '. $notification->data['notification_subject']}}</a>
       <div class="dropdown-divider"></div> --}}
       @endforeach
-      @foreach (auth()->user()->readNotifications->sortByDesc('created_at')->take(2) as $notification)
-      <div class="col dropdown-item" style="max-width: 400px;">
-        <div class="row">
-          <div class="col">
-            <p><strong class="text-info">{{ strtoupper($notification->data['notification_subject']) }}</strong></p>
-          </div>
-          <div class="col">
-            <p>{{ $notification->data['notification_content'] }}</p>
-          </div>
-        </div>
-        <small class="text-danger">{{ $notification->created_at }}</small>  
-      </div>
-      <div class="dropdown-divider"></div>
-      {{-- <a class="dropdown-item" href="#">{{ $notification->data['notification_content'].' oleh '. $notification->data['notification_subject']}}</a>
-      <div class="dropdown-divider"></div> --}}
-      @endforeach
+      
       @else
       <div class="col dropdown-item">
         <div class="row">
@@ -93,8 +78,8 @@
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
       <a class="dropdown-item"><strong>{{auth()->user()->nama}}</strong></a>      
-      <a class="dropdown-item" href="#">Pengajuan Tersimpan</a>
-      <a class="dropdown-item" href="#">Riwayat Pengajuan</a>
+      <a class="dropdown-item" href="{{ route('submission_saved') }}">Pengajuan Tersimpan</a>
+      <a class="dropdown-item" href="{{ route('fetch_history') }}">Riwayat Pengajuan</a>
       <a class="dropdown-item" href="{{ route('user.settings',auth()->user()->id) }}">Pengaturan</a>
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>

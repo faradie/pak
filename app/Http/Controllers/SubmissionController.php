@@ -8,7 +8,6 @@ use App\Item;
 use App\User;
 use App\Submission;
 use App\File;
-use App\Period;
 use App\ItemAdministration;
 use App\Administration;
 use Webpatser\Uuid\Uuid;
@@ -56,9 +55,6 @@ class SubmissionController extends Controller
         $butir_terampil5E = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'E')->get();
         $butir_terampil5F = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'F')->get();
         
-        $periods = Period::where('starts', '<=', \Carbon\Carbon::now())
-        ->where('ends', '>=', \Carbon\Carbon::now())
-        ->get();
 
         $item_administrations = ItemAdministration::orderBy('id', 'DESC')->get();
 
@@ -86,15 +82,11 @@ class SubmissionController extends Controller
                 'nip' => auth()->user()->id,
                 'submission_position' => '0',
                 'submissionType' => 'terampil',
-                'submission_status'=> 'accepted'
-            ]);
-
-            Period::create([
-                'submission_id'=>$idSub,
-                'nip'=>auth()->user()->id,
+                'submission_status'=> 'accepted',
                 'starts' => request('startDate'),
                 'ends' => request('endDate')
             ]);
+
 
             $administrativeFiles =[];
             $nameIDFile=['lastSKUpload','skCPNSUpload','karpegUpload','skpUpload','dupakUpload','pakUpload','suPerUpload'];
@@ -179,6 +171,7 @@ class SubmissionController extends Controller
                 //case pengajuan
 
             case 'Ajukan': 
+
             $format =  \Carbon\Carbon::now()->year.\Carbon\Carbon::now()->format('m').\Carbon\Carbon::now()->format('d');
             $lastSubmission = Submission::select('id')->orderBy('id','desc')->first();
             if ($lastSubmission==null) {
@@ -196,12 +189,7 @@ class SubmissionController extends Controller
             'nip' => auth()->user()->id,
             'submission_position' => '1',
             'submissionType' => 'terampil',
-            'submission_status'=> 'accepted'
-        ]);
-
-        Period::create([
-            'submission_id'=>$idSub,
-            'nip'=>auth()->user()->id,
+            'submission_status'=> 'accepted',
             'starts' => request('startDate'),
             'ends' => request('endDate')
         ]);
@@ -346,14 +334,14 @@ public function detail_saved($id){
     // ->where('ends', '>=', \Carbon\Carbon::now())
     // ->get();
 
-    $periods = Period::where('submission_id',$id)->get();
+    $submission_detail = Submission::find($id);
 
     $administration_items = ItemAdministration::all();
 
     $saved_administrations = Administration::all()->where('submission_id',$id);
     $saved_files = File::all()->where('submission_id',$id);
 
-    return view('pages.user.saved_detail',compact('butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F','periods','saved_files','saved_administrations','administration_items','id'));
+    return view('pages.user.saved_detail',compact('butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F','saved_files','saved_administrations','administration_items','id','submission_detail'));
 }
 
 public function delete_saved_administration($id,Request $request){
@@ -406,7 +394,7 @@ public function save_or_submit_fromSaved($id,Request $request){
             foreach ($files_administration as $index => $ads)
             {
                 if(!empty($ads)){
-                    
+
                 //move file into directory
                     $random_name = Uuid::generate();
                     $ads->move(
@@ -466,7 +454,7 @@ public function save_or_submit_fromSaved($id,Request $request){
         }
 
         //change period
-        $period = Period::where('submission_id',$id);
+        $period = Submission::where('id',$id);
         $period->update([
             'starts' => request('startDate'),
             'ends' => request('endDate')
@@ -558,17 +546,12 @@ public function save_or_submit_fromSaved($id,Request $request){
         // ->where( DB::raw('now()'), '>=', DB::raw('starts') )
         // ->where( DB::raw('now()'), '<=', DB::raw('ends') )->get();
 
-        //change period
-        $period = Period::where('submission_id',$id);
-        $period->update([
-            'starts' => request('startDate'),
-            'ends' => request('endDate')
-        ]);
-
         DB::table('submissions')
         ->where('id', $id)
         ->update([
-            'submission_position' => "1"
+            'submission_position' => "1",
+            'starts' => request('startDate'),
+            'ends' => request('endDate')
         ]);
         $userRoles = User::find(auth()->user()->id);
         // $userRoles->update([

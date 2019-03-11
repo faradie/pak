@@ -5,7 +5,7 @@
   <div class="card-header">
     <h3>Tentukan Tim Penilai</h3>   
   </div>
-  <form action="{{ route('define_team',$submissions->id) }}" method="post">
+  <form action="{{ route('define_teams',$submissions->id) }}" method="post">
     {{ csrf_field() }}
     {{ method_field('PATCH') }}
     <table class="table">
@@ -64,15 +64,15 @@
 
 </div>
 <br>
-
-<div class="container">
+<input class="btn btn-primary btn-block" name="submitbutton" type="submit" value="Buat" />
+<br>
+{{-- <div class="container">
   <div class="row justify-content-md-center">
     <div class="col-md-auto">
       <input class="btn btn-danger" name="submitbutton" type="submit" value="Tolak" />
-      <input class="btn btn-primary" name="submitbutton" type="submit" value="Buat" />
     </div>
   </div>
-</div>
+</div> --}}
 </form>
 <script>
   $(document).ready(function(){  

@@ -91,7 +91,8 @@ public function sekretariat_reject($id,Request $request){
 		$administration_reasons = Input::get('administration_reason');
 		$item_reasons = Input::get('item_reason');
 		$userRoles = User::find($this_submission->nip);
-		foreach ($administration_reasons as $index => $administration_reason) {
+		if ($administration_reasons != null) {
+			foreach ($administration_reasons as $index => $administration_reason) {
 			$administration_item = Administration::where('submission_id',$id)
 			->where('name',$administration_reason);
 			$administration_item->update([
@@ -104,8 +105,10 @@ public function sekretariat_reject($id,Request $request){
 			];
 			Notification::send($userRoles, new allNotification($arr));
 		}
+		}
 
-		foreach ($item_reasons as $index => $item_reason) {
+		if ($item_reasons != null) {
+			foreach ($item_reasons as $index => $item_reason) {
 			$item_file = File::where('submission_id',$id)
 			->where('id',$item_reason);
 			$item_file->update([
@@ -117,6 +120,7 @@ public function sekretariat_reject($id,Request $request){
 				'notification_content'=>'Item '.$item_reason.' tidak sesuai'
 			];
 			Notification::send($userRoles, new allNotification($arr));
+		}
 		}
 
 		if(request('reject_content') != null){

@@ -23,11 +23,11 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="startDate">Mulai Periode</label>
-    <input type="date" class="form-control" name="startDate" id="startDate" value="{{ $periods->first()->starts == null ? old('startDate') : $periods->first()->starts }}" required>
+    <input type="date" class="form-control" name="startDate" id="startDate" value="{{ $submission_detail->starts == null ? old('startDate') : $submission_detail->starts }}" required>
   </div>
   <div class="form-group col-md-6">
     <label for="endDate">Akhir Periode</label>
-    <input type="date" class="form-control" name="endDate" id="endDate" value="{{ $periods->first()->ends == null ? old('endDate') : $periods->first()->ends }}"" required>
+    <input type="date" class="form-control" name="endDate" id="endDate" value="{{ $submission_detail->ends == null ? old('endDate') : $submission_detail->ends }}"" required>
   </div>
 </div>
 <div class="card">

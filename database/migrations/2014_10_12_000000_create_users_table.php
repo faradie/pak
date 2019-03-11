@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('education')->nullable()->default(null);
             $table->string('religion')->nullable()->default(null);
             $table->string('pkPosition')->nullable();
+            $table->string('lastSubmissionID')->nullable();
             // $table->string('Masa Kerja Golongan Lama');
             // $table->string('Masa Kerja Golongan Baru');
             $table->string('birth_place')->nullable()->default(null);

@@ -20,11 +20,12 @@ class CreateSubmissionsTable extends Migration
             $table->string('submission_status')->nullable();        //hold or done or rejected or accepted
             $table->string('series_number')->nullable();              //nomor seri pengajuan
             $table->bigInteger('submission_score')->nullable();     //nilai dupak sebelum dikoreksi tim penilai
-            $table->bigInteger('team_score')->nullable();   //penilaian dari tim sesudah dikoreksi
             $table->string('SKFileUrl')->nullable();     //untuk link SK per pengajuan
             $table->string('submissionType')->nullable();     //untuk link SK per pengajuan
             $table->timestamps();
-
+            $table->date('starts');
+            $table->date('ends');
+            
             $table->foreign('nip')->references('id')->on('users')->onDelete('CASCADE');
         });
     }

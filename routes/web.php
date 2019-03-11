@@ -129,12 +129,6 @@ Route::get('/manage/informations/create', 'adminController@create_information')-
 Route::patch('/manage/informations/create', 'adminController@submit_information')->name('submit_information');
 Route::get('/manage/informations', 'adminController@manage_informations')->name('manage_informations');
 Route::get('/manage/users', 'adminController@manage_users')->name('manage_users');
-Route::get('/periods', 'adminController@manage_period')->name('manage_period');
-Route::get('/periods/create', 'adminController@create_period')->name('create_period');
-Route::delete('/periods/delete/{id}', 'adminController@destroy')->name('delete_period');
-Route::patch('/periods/create', 'adminController@submit_period')->name('submit_period');
-Route::get('/periods/edit/{id}', 'adminController@edit_period')->name('edit_period');
-Route::patch('/periods/edit/{id}', 'adminController@submit_period_edit')->name('submit_period_edit');
 
 
 
@@ -168,7 +162,7 @@ Route::get('/konseptor/data_recap', 'konseptorController@konseptor_recap')->name
 //ketua tim
 Route::get('/ketuatim/new_file', 'ketuaController@ketuatim_new_files')->name('ketuatim_new_files');
 Route::get('/ketuatim/new_file/{id}/define_team', 'ketuaController@make_team_for')->name('make_team_for');
-Route::patch('/ketuatim/new_file/{id}/define_team', 'ketuaController@define_team')->name('define_team');
+Route::patch('/ketuatim/new_file/{id}/define_team', 'ketuaController@define_teams')->name('define_teams');
 
 //tim penilai
 
@@ -177,6 +171,8 @@ Route::get('/timpenilai/new_file/{id}/detail', 'penilaiController@detail_penilai
 Route::patch('/timpenilai/new_file/{id}/detail', 'penilaiController@submit_individual_score')->name('submit_individual_score');
 Route::get('/timpenilai/final', 'penilaiController@define_final_score')->name('define_final_score');
 Route::get('/timpenilai/final/{id}/detail', 'penilaiController@detail_penilaian_final')->name('detail_penilaian_final');
+Route::patch('/timpenilai/final/{id}/detail', 'penilaiController@submit_final_score')->name('submit_final_score');
+
 
 //kesekretariatan
 Route::get('/kesekretariatan/new_file', 'sekretariatController@kesekretariatan_new_file')->name('kesekretariatan_new_file');

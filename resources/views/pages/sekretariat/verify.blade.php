@@ -34,7 +34,7 @@
 <div class="list-group">
 	@foreach ($files as $file)
 	<a href="#" id="{{ $file->id }}" class="list-group-item list-group-item-action">
-		{{ $file->id ." - ".strtoupper($file->type)." - ".$file->item_name }}
+		{{ $file->id ." - Pengali : ".$file->times." - ".strtoupper($file->type)." - ".$file->item_name }}
 	</a>
 	<div id="{{ "di".$file->id }}" style="display:none">
 		<div>

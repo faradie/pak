@@ -101,7 +101,9 @@ class tuController extends Controller
 			]);
 			$allReasons = Input::get('reason');
 			$userRoles = User::find($this_submission->nip);
-			foreach ($allReasons as $index => $allReason) {
+			
+			if ($allReasons != null) {
+				foreach ($allReasons as $index => $allReason) {
 				$administration_item = Administration::where('submission_id',$id)
 				->where('name',$allReason);
 				$administration_item->update([
@@ -114,6 +116,8 @@ class tuController extends Controller
 				];
 				Notification::send($userRoles, new allNotification($arr));
 			}
+			}
+
 			if(request('reject_content') != null){
 				$arr = [
 					'pj'=> auth()->user()->id,

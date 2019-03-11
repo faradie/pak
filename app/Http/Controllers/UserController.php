@@ -8,7 +8,6 @@ use App\User;
 use App\Submission;
 use App\Unit;
 use App\sk;
-use App\Period;
 use App\Information;
 use App\Administration;
 use App\ItemAdministration;
@@ -169,8 +168,6 @@ public function fetch_history_detail($id){
     $butir_terampil5E = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'E')->get();
     $butir_terampil5F = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'F')->get();
 
-    $periods = Period::where('submission_id',$id)->get();
-
     $administration_items = ItemAdministration::orderBy('id', 'DESC')->get();
 
     $submission_this = Submission::find($id);
@@ -184,7 +181,7 @@ public function fetch_history_detail($id){
     $saved_administrations = Administration::orderBy('id', 'DESC')->where('submission_id',$id)->get();
     $saved_files = File::all()->where('submission_id',$id);
 
-    return view('pages.user.detail_submission_history',compact('butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F','periods','saved_files','administration_items','id','submission_this'))->with('saved_administrations',$saved_administrations);
+    return view('pages.user.detail_submission_history',compact('butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F','saved_files','administration_items','id','submission_this'))->with('saved_administrations',$saved_administrations);
 }
 
 public function detail_information($id){
@@ -283,7 +280,7 @@ public function save_or_submit_fromHistory($id,Request $request){
         }
 
         //change period
-        $period = Period::where('submission_id',$id);
+        $period = Submission::where('id',$id);
         $period->update([
             'starts' => request('startDate'),
             'ends' => request('endDate')
@@ -313,7 +310,6 @@ public function save_or_submit_fromHistory($id,Request $request){
                 if(!empty($ads)){
 
                     //delete previous file
-
                     $ad_file = DB::table('administrations')
                     ->where('id', $nameID[$index])->where('submission_id',$id)->first();
                     Storage::delete($ad_file->fileUrl);
@@ -360,6 +356,14 @@ public function save_or_submit_fromHistory($id,Request $request){
                     if($timesItem[$index]==null){
                      return back()->with('result_gagal', 'Gagal Perbarui File (Pengali) ');
                  }else{
+
+                    //delete previous file
+                    $file_file = DB::table('files')
+                    ->where('id', $itemID[$index])->where('submission_id',$id)->first();
+                    Storage::delete($file_file->fileUrl);
+                    $deleteFile_item = File::where('id',$itemID[$index])->where('submission_id',$id);
+                    $deleteFile_item->delete();
+
                         //move file into directory
                     $random_string = Uuid::generate();
                     $file->move(
@@ -382,22 +386,17 @@ public function save_or_submit_fromHistory($id,Request $request){
         // ->where( DB::raw('now()'), '>=', DB::raw('starts') )
         // ->where( DB::raw('now()'), '<=', DB::raw('ends') )->get();
 
-        //change period
-        $period = Period::where('submission_id',$id);
-        $period->update([
+        DB::table('submissions')
+        ->where('id', $id)
+        ->update([
+            'submission_status' => "accepted",
             'starts' => request('startDate'),
             'ends' => request('endDate')
         ]);
 
-        DB::table('submissions')
-        ->where('id', $id)
-        ->update([
-            'submission_status' => "accepted"
-        ]);
-
-        return redirect()->route('submission_saved')->with('result_berhasil', 'Pengajuan Berhasil');
+        return redirect()->route('fetch_history')->with('result_berhasil', 'Pengajuan Berhasil');
     } catch (Exception $e) {
-        return redirect()->route('submission_saved')->with('result_gagal', 'Pengajuan Gagal');
+        return redirect()->route('fetch_history')->with('result_gagal', 'Pengajuan Gagal');
     }
     break;
 }

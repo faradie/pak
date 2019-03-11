@@ -26,7 +26,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/normalize.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/demo.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/component.css') }}" />
- 
+    
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin.css') }}" rel="stylesheet">
@@ -35,10 +35,10 @@
 
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/dropzone.js') }}" type="text/javascript"></script>
+    
+    {{--     <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css" rel="stylesheet" type="text/css" /> --}}
 
-{{--     <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css" rel="stylesheet" type="text/css" /> --}}
-
-   <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/jquery-ui-1.12.1.custom/jquery-ui.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/jquery-ui-1.12.1.custom/jquery-ui.css') }}" />
     <script src="{{ asset('assets/vendor/jquery-ui-1.12.1.custom/jquery-ui.js') }}" type="text/javascript"></script>
     <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
     

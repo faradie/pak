@@ -16,7 +16,7 @@ class CreateDispositionsTable extends Migration
         Schema::create('dispositions', function (Blueprint $table) {
             $table->string('submission_id');
             $table->string('nip');
-            $table->string('disposition_content');
+            $table->longText('disposition_content');
             $table->timestamps();
 
             $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('CASCADE');

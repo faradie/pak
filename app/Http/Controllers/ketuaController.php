@@ -32,16 +32,15 @@ class ketuaController extends Controller
 		return view('pages.ketuatim.define_team',compact('submissions','usersTIM'));
 	}
 
-	public function define_team($id,Request $request){
+	public function define_teams($id,Request $request){
 		try{
 // $activatedUser = User::find($id);
 			switch($request->submitbutton) {
-				case 'Tolak': 
-				$submission = Submission::find($id);
-				return view('pages.tu.tu_reject',compact('submission'));
+				// case 'Tolak': 
+				// $submission = Submission::find($id);
+				// return view('pages.tu.tu_reject',compact('submission'));
 
-				break;
-
+				// break;
 				case 'Buat': 
 
 				$team_id = Uuid::generate();
@@ -79,7 +78,7 @@ class ketuaController extends Controller
 			];
 			Notification::send($userNotif, new allNotification($arr));
 
-			return redirect()->route('ketuatim_new_files')->with('result_berhasil', 'Berhasil buat tim');
+			return redirect()->route('ketuatim_new_files')->with('result_berhasil', 'Berhasil buat tim - Dan berkas telah diterima masing-masing anggota');
 			break;
 		}
 	}catch(\Exception $e){
