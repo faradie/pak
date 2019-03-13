@@ -48,7 +48,8 @@ class buController extends Controller
         $arr = [
         	'pj'=> auth()->user()->id,
             'notification_subject'=>'Pengajuan '.strtoupper($id),
-            'notification_content'=>'Telah diterima di TU Kepegawaian'
+            'notification_content'=>'Telah diterima di TU Kepegawaian',
+            'submission_id' => $id
         ];
         Notification::send($userNotif, new allNotification($arr));
         return redirect()->route('new_files')->with('result_berhasil', 'Berhasil meneruskan ke TU');

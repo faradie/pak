@@ -8,6 +8,8 @@ use App\Administration;
 use App\Submission;
 use App\User;
 use App\Log;
+use App\TmpScores;
+use App\DupakItemScores;
 use App\File;
 use App\Notifications\allNotification;
 use Illuminate\Support\Facades\Notification;
@@ -34,8 +36,25 @@ class sekretariatController extends Controller
 		->where('submission_id', $id)
 		->get();
 		$submission = Submission::find($id);
-		
-		return view('pages.sekretariat.verify',compact('administrations','submission','files'));
+
+		if ($submission->previous_id == $submission->nip) {
+			//cek di tmp_scores
+			$previous_item_scores = DB::table('tmp_scores')
+			->join('items', 'tmp_scores.item_id', '=', 'items.id')
+			->select('items.*', 'tmp_scores.*')
+			->where('submission_id', $submission->nip)
+			->get();
+		}else{
+			// $previous_item_scores = DupakItemScores::where('submission_id',$submission->previous_id)->where('type','final')->get();
+			$previous_item_scores = DB::table('dupak_item_scores')
+			->join('items', 'dupak_item_scores.item_id', '=', 'items.id')
+			->select('items.*', 'dupak_item_scores.*')
+			->where('submission_id', $submission->previous_id)
+			->where('type','final')
+			->get();
+			//cek di dupak item scores where submission id di previous id (submission sebelumnya yg final) itu dan type final
+		}
+		return view('pages.sekretariat.verify',compact('administrations','submission','files','previous_item_scores'));
 	}
 
 	public function sekretariat_verify_files($id,Request $request){
@@ -71,7 +90,8 @@ class sekretariatController extends Controller
 			$arr = [
 				'pj'=> auth()->user()->id,
 				'notification_subject'=>'Pengajuan '.strtoupper($id),
-				'notification_content'=>'Telah diterima di Ketua Tim'
+				'notification_content'=>'Telah diterima di Ketua Tim',
+				'submission_id' => $id
 			];
 			Notification::send($userNotif, new allNotification($arr));
 			return redirect()->route('kesekretariatan_new_file')->with('result_berhasil', 'Berhasil meneruskan ke Ketua Tim');
@@ -93,41 +113,44 @@ public function sekretariat_reject($id,Request $request){
 		$userRoles = User::find($this_submission->nip);
 		if ($administration_reasons != null) {
 			foreach ($administration_reasons as $index => $administration_reason) {
-			$administration_item = Administration::where('submission_id',$id)
-			->where('name',$administration_reason);
-			$administration_item->update([
-				'data_status' => 'hold'
-			]);
-			$arr = [
-				'pj'=> auth()->user()->id,
-				'notification_subject'=>'Pengajuan '.$id.' ditangguhkan',
-				'notification_content'=>'Item '.$administration_reason.' tidak sesuai'
-			];
-			Notification::send($userRoles, new allNotification($arr));
-		}
+				$administration_item = Administration::where('submission_id',$id)
+				->where('name',$administration_reason);
+				$administration_item->update([
+					'data_status' => 'hold'
+				]);
+				$arr = [
+					'pj'=> auth()->user()->id,
+					'notification_subject'=>'Pengajuan '.$id.' ditangguhkan',
+					'notification_content'=>'Item '.$administration_reason.' tidak sesuai',
+					'submission_id' => $id
+				];
+				Notification::send($userRoles, new allNotification($arr));
+			}
 		}
 
 		if ($item_reasons != null) {
 			foreach ($item_reasons as $index => $item_reason) {
-			$item_file = File::where('submission_id',$id)
-			->where('id',$item_reason);
-			$item_file->update([
-				'data_status' => 'hold'
-			]);
-			$arr = [
-				'pj'=> auth()->user()->id,
-				'notification_subject'=>'Pengajuan '.$id.' ditangguhkan',
-				'notification_content'=>'Item '.$item_reason.' tidak sesuai'
-			];
-			Notification::send($userRoles, new allNotification($arr));
-		}
+				$item_file = File::where('submission_id',$id)
+				->where('id',$item_reason);
+				$item_file->update([
+					'data_status' => 'hold'
+				]);
+				$arr = [
+					'pj'=> auth()->user()->id,
+					'notification_subject'=>'Pengajuan '.$id.' ditangguhkan',
+					'notification_content'=>'Item '.$item_reason.' tidak sesuai',
+					'submission_id' => $id
+				];
+				Notification::send($userRoles, new allNotification($arr));
+			}
 		}
 
 		if(request('reject_content') != null){
 			$arr = [
 				'pj'=> auth()->user()->id,
 				'notification_subject'=>'Informasi Tambahan',
-				'notification_content'=> request('reject_content')
+				'notification_content'=> request('reject_content'),
+				'submission_id' => $id
 			];
 			Notification::send($userRoles, new allNotification($arr));
 		}

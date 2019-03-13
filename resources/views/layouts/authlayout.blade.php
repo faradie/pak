@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/my-login.css') }}">
 	<script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
 	<script src="{{ asset('assets/js/select2.js') }}"></script>
+	
 
 	<script type="text/javascript">
 		$(document).ready(function() {

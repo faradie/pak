@@ -43,7 +43,7 @@
         <td>{{$positionName->group}} - {{$positionName->position}}</td>
       </tr>
       <tr>
-        <th scope="row">Kredit</th>
+        <th scope="row">Angka Kredit</th>
         <td>{{$detail_user->credit}}</td>
       </tr>
       <tr>

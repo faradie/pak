@@ -66,7 +66,8 @@ class konseptorController extends Controller
 			$arr = [
 				'pj'=> auth()->user()->id,
 				'notification_subject'=>'Pengajuan '.strtoupper($id),
-				'notification_content'=>'Telah diterima di Kesekretariatan'
+				'notification_content'=>'Telah diterima di Kesekretariatan',
+				'submission_id' => $id
 			];
 			Notification::send($userNotif, new allNotification($arr));
 			return redirect()->route('konseptor_new_files')->with('result_berhasil', 'Berhasil meneruskan ke Kesekretariatan');

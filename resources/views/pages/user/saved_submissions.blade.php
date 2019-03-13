@@ -15,7 +15,7 @@
 	{{ session()->get('result_gagal') }}
 </div>
 @endif
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari dengan nama..">
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari dengan No Pengajuan..">
 <div class="table-responsive">
 	<table id="myTable" class="table table-striped">
 		<thead>
@@ -26,9 +26,11 @@
 				</th>
 				<th scope="col">NIP
 				</th>
-				<th scope="col">Nama
-				</th>
 				<th scope="col">Dibuat pada
+				</th>
+				<th scope="col">Periode Mulai
+				</th>
+				<th scope="col">Periode Akhir
 				</th>
 				<th scope="col">Action
 				</th>
@@ -40,8 +42,9 @@
 				<th  scope="row">{{$loop->iteration}}</th >
 				<td>{{ strtoupper($saved_submission->id) }}</td>
 				<td>{{$saved_submission->nip}}</td>
-				<td>{{$saved_submission->nama}}</td>
 				<td>{{$saved_submission->created_at}}</td>
+				<td>{{ \Carbon\Carbon::parse($saved_submission->starts)->format('d / M / Y') }}</td>
+				<td>{{ \Carbon\Carbon::parse($saved_submission->ends)->format('d / M / Y') }}</td>
 				<td align="center">  
 					<form action="{{ route('detail_saved',$saved_submission->id) }}"><input class="btn btn-info" type="submit" value="Edit" /></form>
 				</td>
@@ -66,7 +69,7 @@
 
               // Loop through all table rows, and hide those who don't match the search query
               for (i = 0; i < tr.length; i++) {
-              	td = tr[i].getElementsByTagName("td")[1];
+              	td = tr[i].getElementsByTagName("td")[0];
               	if (td) {
               		txtValue = td.textContent || td.innerText;
               		if (txtValue.toUpperCase().indexOf(filter) > -1) {

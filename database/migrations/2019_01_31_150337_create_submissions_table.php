@@ -18,8 +18,9 @@ class CreateSubmissionsTable extends Migration
             $table->string('nip');
             $table->string('submission_position');              //posisi file pengajuan
             $table->string('submission_status')->nullable();        //hold or done or rejected or accepted
+            $table->string('previous_id')->nullable();        //for chained id of submission
             $table->string('series_number')->nullable();              //nomor seri pengajuan
-            $table->bigInteger('submission_score')->nullable();     //nilai dupak sebelum dikoreksi tim penilai
+            $table->bigInteger('submission_score')->nullable();     //nilai dupak sesudah dikoreksi tim penilai
             $table->string('SKFileUrl')->nullable();     //untuk link SK per pengajuan
             $table->string('submissionType')->nullable();     //untuk link SK per pengajuan
             $table->timestamps();

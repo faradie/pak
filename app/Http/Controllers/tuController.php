@@ -83,7 +83,8 @@ class tuController extends Controller
 			$arr = [
 				'pj'=> auth()->user()->id,
 				'notification_subject'=>'Pengajuan '.strtoupper($id),
-				'notification_content'=>'Telah diterima di Asesmen dan Bina Pegawai'
+				'notification_content'=>'Telah diterima di Asesmen dan Bina Pegawai',
+				'submission_id' => $id
 			];
 			Notification::send($userNotif, new allNotification($arr));
 			return redirect()->route('tu_new_file')->with('result_berhasil', 'Berhasil meneruskan ke Asesmen dan Bina Pegawai');
@@ -112,7 +113,8 @@ class tuController extends Controller
 				$arr = [
 					'pj'=> auth()->user()->id,
 					'notification_subject'=>'Pengajuan '.$id.' ditangguhkan',
-					'notification_content'=>'Item '.$allReason.' tidak sesuai'
+					'notification_content'=>'Item '.$allReason.' tidak sesuai',
+					'submission_id' => $id
 				];
 				Notification::send($userRoles, new allNotification($arr));
 			}
@@ -122,7 +124,8 @@ class tuController extends Controller
 				$arr = [
 					'pj'=> auth()->user()->id,
 					'notification_subject'=>'Informasi Tambahan',
-					'notification_content'=> request('reject_content')
+					'notification_content'=> request('reject_content'),
+					'submission_id' => $id
 				];
 				Notification::send($userRoles, new allNotification($arr));
 			}

@@ -223,7 +223,7 @@ Route::patch('/submission/history/{id}', 'UserController@save_or_submit_fromHist
 Route::patch('/user/{id}/detailEditHapusManage','UserController@edit')->name('editData');
 
 Route::get('read/{id}',function(){
-      $id = auth()->user()->unreadNotifications[0]->id;
+     $id = auth()->user()->unreadNotifications[0]->id;
      auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
      return redirect('home');
 })->name('readNotif');

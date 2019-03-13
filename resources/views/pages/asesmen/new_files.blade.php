@@ -41,7 +41,7 @@
 			<tr>
 				<th  scope="row">{{$loop->iteration}}</th >
 				<td>{{ strtoupper($asesmen_file->id) }}</td>
-				<td>{{$asesmen_file->nip}}</td>
+				<td>{{$asesmen_file->id_pemohon}}</td>
 				<td>{{$asesmen_file->nama}}</td>
 				<td>{{$asesmen_file->created_at}}</td>
 				<td align="center">  
@@ -94,7 +94,7 @@
 
               // Loop through all table rows, and hide those who don't match the search query
               for (i = 0; i < tr.length; i++) {
-              	td = tr[i].getElementsByTagName("td")[1];
+              	td = tr[i].getElementsByTagName("td")[2];
               	if (td) {
               		txtValue = td.textContent || td.innerText;
               		if (txtValue.toUpperCase().indexOf(filter) > -1) {

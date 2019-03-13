@@ -19,14 +19,13 @@
 </div>
 @endif
 <h4><strong>Periode Pengajuan</strong></h4>
-
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="startDate">Mulai Periode : </label>
     @if ($submission_this->submission_status == "hold")
     <input type="date" class="form-control" name="startDate" id="startDate" value="{{ $submission_this->starts == null ? old('startDate') : $submission_this->starts }}" required>
     @else
-    <h5>{{ \Carbon\Carbon::parse($submission_this->starts)->format('d / M / Y')}}</h5>
+    <h5>{{ \Carbon\Carbon::parse($submission_this->starts)->format('d / M / Y') }}</h5>
     @endif
     
   </div>

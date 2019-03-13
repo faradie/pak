@@ -74,7 +74,8 @@ class ketuaController extends Controller
 			$arr = [
 				'pj'=> auth()->user()->id,
 				'notification_subject'=>'Pengajuan '.strtoupper($id),
-				'notification_content'=>'Telah diterima Tim Penilai'
+				'notification_content'=>'Telah diterima Tim Penilai',
+				'submission_id' => $id
 			];
 			Notification::send($userNotif, new allNotification($arr));
 

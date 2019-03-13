@@ -24,43 +24,56 @@
 
   <script>
     $('#deleteAdministrationFile').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) 
-  var recipient = button.data('nameid') 
-  
-  var modal = $(this)
-  modal.find('.modal-body #name_id').val(recipient)
-})
+      var button = $(event.relatedTarget) 
+      var recipient = button.data('nameid') 
 
-     $('#deleteItemFile').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) 
-  var recipient = button.data('nameid') 
- 
-  var modal = $(this)
-  modal.find('.modal-body #name_id').val(recipient)
-})
+      var modal = $(this)
+      modal.find('.modal-body #name_id').val(recipient)
+    })
 
-     $('#deletePeriodModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) 
-  var recipient = button.data('nameid') 
-  
-  var modal = $(this)
-  modal.find('.modal-body #name_id').val(recipient)
-})
+    $('#deleteItemFile').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) 
+      var recipient = button.data('nameid') 
 
-     $('#disposisiModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) 
-  var title = button.data('mytitle') 
-  var dis = button.data('mydisp')
-  var by = button.data('myby')
-  
-  var modal = $(this)
-  document.getElementById("p1").innerHTML = title;
-  document.getElementById("p2").innerHTML = dis;
-  document.getElementById("by").innerHTML = by;
+      var modal = $(this)
+      modal.find('.modal-body #name_id').val(recipient)
+    })
+
+    $('#deletePeriodModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) 
+      var recipient = button.data('nameid') 
+
+      var modal = $(this)
+      modal.find('.modal-body #name_id').val(recipient)
+    })
+
+    $('#disposisiModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) 
+      var title = button.data('mytitle') 
+      var dis = button.data('mydisp')
+      var by = button.data('myby')
+
+      var modal = $(this)
+      document.getElementById("p1").innerHTML = title;
+      document.getElementById("p2").innerHTML = dis;
+      document.getElementById("by").innerHTML = by;
   // modal.find('.modal-title #title').val(title);
 })
 
-     
+    $('#infoModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) 
+      var title = button.data('mytitleinfo') 
+      var con = button.data('myinfo')
+      var ty = button.data('type')
+
+      var modal = $(this)
+      document.getElementById("p1").innerHTML = title;
+      document.getElementById("p2").innerHTML = con;
+      document.getElementById("by").innerHTML = ty;
+  // modal.find('.modal-title #title').val(title);
+})
+
+
 </script>
 
 

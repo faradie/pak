@@ -54,7 +54,6 @@ class HomeController extends Controller
         return view('pages.all_notifications');
     }
 
-
     // public function guest_index()
     // {
     //     return view('auth.login');

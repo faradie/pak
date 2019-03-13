@@ -32,17 +32,17 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="inputPlace">Tempat Lahir</label>
-    <input type="text" class="form-control" id="inputPlace" name="inputPlace" value="{{ old('birth_place')  }}" placeholder="Mojokerto">
+    <input type="text" class="form-control" id="inputPlace" name="inputPlace" value="{{ old('inputPlace')  }}" placeholder="Mojokerto">
   </div>
   <div class="form-group col-md-6">
     <label for="inputDate">Tanggal Lahir</label>
-    <input type="date" class="form-control" name="inputDate" id="inputDate" value="{{ old('birth_date') }}">
+    <input type="date" class="form-control" name="inputDate" id="inputDate" value="{{ old('inputDate') }}">
   </div>
 </div>
 
 <div class="form-group">
  <label for="inputGender">{{ __('Jenis Kelamin') }}</label>
- <select id="inputGender" name="inputGender" class="form-control">
+ <select id="inputGender" name="inputGender"  class="form-control">
   <option>Pilih...</option> 
   <option value="Laki-Laki" >Laki-Laki</option>
   <option value="Perempuan" >Perempuan</option>
@@ -86,7 +86,7 @@
 </div>
 
 <div class="form-group">
- <label for="credit">{{ __('Kredit') }}</label>
+ <label for="credit">{{ __('Angka Kredit') }}</label>
  <input id="credit" type="number" placeholder="Angka Kredit Terakhir" class="form-control{{ $errors->has('credit') ? ' is-invalid' : '' }}" value="{{ old('credit') }}" name="credit" required>
  @if ($errors->has('credit'))
  <span class="invalid-feedback" role="alert">

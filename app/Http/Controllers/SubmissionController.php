@@ -8,6 +8,7 @@ use App\Item;
 use App\User;
 use App\Submission;
 use App\File;
+use App\TmpScores;
 use App\ItemAdministration;
 use App\Administration;
 use Webpatser\Uuid\Uuid;
@@ -58,13 +59,28 @@ class SubmissionController extends Controller
 
         $item_administrations = ItemAdministration::orderBy('id', 'DESC')->get();
 
-        return view('pages.submission.createTerampil',compact('butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F','item_administrations'));
+        $this_user = User::find(auth()->user()->id);
+
+        return view('pages.submission.createTerampil',compact('butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F','item_administrations','this_user'));
     }
 
     public function submitTerampil(Request $request){
         try {
             switch($request->submitbutton) {
                 case 'Simpan': 
+                $userRoles = User::find(auth()->user()->id);
+                if (auth()->user()->lastSubmissionID != null) {
+                    $find_endDate = Submission::find(auth()->user()->lastSubmissionID);
+                    $validatedData = $request->validate([
+                        'startDate' => 'required|before:endDate|after:'.$find_endDate->ends,
+                        'endDate' => 'required',
+                    ]);
+                }else{
+                    $validatedData = $request->validate([
+                        'startDate' => 'required|before:endDate',
+                        'endDate' => 'required',
+                    ]);
+                }
                 $format =  \Carbon\Carbon::now()->year.\Carbon\Carbon::now()->format('m').\Carbon\Carbon::now()->format('d');
                 $lastSubmission = Submission::select('id')->orderBy('id','desc')->first();
                 if ($lastSubmission==null) {
@@ -77,14 +93,59 @@ class SubmissionController extends Controller
                  //status 1 bu
                 // $shortid = ShortId::create();
              // $idSub = Uuid::generate();
-            Submission::create([
-                'id' => $idSub,
-                'nip' => auth()->user()->id,
-                'submission_position' => '0',
-                'submissionType' => 'terampil',
-                'submission_status'=> 'accepted',
-                'starts' => request('startDate'),
-                'ends' => request('endDate')
+            if (auth()->user()->lastSubmissionID == null) {
+                Submission::create([
+                    'id' => $idSub,
+                    'nip' => auth()->user()->id,
+                    'submission_position' => '0',
+                    'submissionType' => 'terampil',
+                    'submission_status'=> 'accepted',
+                    'starts' => request('startDate'),
+                    'ends' => request('endDate'),
+                    'previous_id' => auth()->user()->id
+                ]);
+                // disini ambil previous score ke tmp_score
+
+                //For items upload
+                $tmp_scores =[];
+                $items = Item::all();
+                foreach ($items as $item) {
+                    if (request($item->id.'previous')){
+                        $tmp_scores[] = request($item->id.'previous');
+                        $tmpItemID[] = $item->id;
+
+                    }
+                }
+                foreach ($tmp_scores as $index => $tmp_score )
+                {
+                    if(!empty($tmp_score)){
+                //create in tmp_scores
+                        TmpScores::create([
+                            'item_id' => $tmpItemID[$index],
+                            'submission_id' => auth()->user()->id,
+                            'item_score' => $tmp_scores[$index]
+                        ]);
+
+                    }
+
+                }
+
+            }else{
+                Submission::create([
+                    'id' => $idSub,
+                    'nip' => auth()->user()->id,
+                    'submission_position' => '0',
+                    'submissionType' => 'terampil',
+                    'submission_status'=> 'accepted',
+                    'starts' => request('startDate'),
+                    'ends' => request('endDate'),
+                    'previous_id' => auth()->user()->lastSubmissionID
+                ]);
+
+            }
+
+            $userRoles->update([
+                'lastSubmissionID'=>$idSub,
             ]);
 
 
@@ -156,22 +217,33 @@ class SubmissionController extends Controller
 
             }
 
-            $userRoles = User::find(auth()->user()->id);
             $arr = [
                 'pj'=> null,
                 'notification_subject'=>'Pengajuan '.$idSub,
-                'notification_content'=>'Telah diterima diSimpan'
+                'notification_content'=>'Telah diterima diSimpan',
+                'submission_id' => $idSub
             ];
             Notification::send($userRoles, new allNotification($arr));
             return redirect()->route('terampil_create')->with('result_berhasil', 'Pengajuan telah berhasil disimpan');
-
 
             break;
 
                 //case pengajuan
 
             case 'Ajukan': 
-
+            $userRoles = User::find(auth()->user()->id);
+            if (auth()->user()->lastSubmissionID != null) {
+                $find_endDate = Submission::find(auth()->user()->lastSubmissionID);
+                $validatedData = $request->validate([
+                    'startDate' => 'required|before:endDate|after:'.$find_endDate->ends,
+                    'endDate' => 'required',
+                ]);
+            }else{
+                $validatedData = $request->validate([
+                    'startDate' => 'required|before:endDate',
+                    'endDate' => 'required',
+                ]);
+            }
             $format =  \Carbon\Carbon::now()->year.\Carbon\Carbon::now()->format('m').\Carbon\Carbon::now()->format('d');
             $lastSubmission = Submission::select('id')->orderBy('id','desc')->first();
             if ($lastSubmission==null) {
@@ -184,14 +256,58 @@ class SubmissionController extends Controller
                  //status 1 bu
                 // $shortid = ShortId::create();
              // $idSub = Uuid::generate();
-        Submission::create([
-            'id' => $idSub,
-            'nip' => auth()->user()->id,
-            'submission_position' => '1',
-            'submissionType' => 'terampil',
-            'submission_status'=> 'accepted',
-            'starts' => request('startDate'),
-            'ends' => request('endDate')
+        if (auth()->user()->lastSubmissionID == null) {
+            Submission::create([
+                'id' => $idSub,
+                'nip' => auth()->user()->id,
+                'submission_position' => '1',
+                'submissionType' => 'terampil',
+                'submission_status'=> 'accepted',
+                'starts' => request('startDate'),
+                'ends' => request('endDate'),
+                'previous_id' => auth()->user()->id
+            ]);
+                // disini ambil previous score ke tmp_score
+
+                //For items upload
+            $tmp_scores =[];
+            $items1 = Item::all();
+            foreach ($items1 as $item) {
+                if (request($item->id.'previous')){
+                    $tmp_scores[] = request($item->id.'previous');
+                    $tmpItemID[] = $item->id;
+                }
+            }
+
+            foreach ($tmp_scores as $index => $tmp_score )
+            {
+                if(!empty($tmp_score)){
+                //create in tmp_scores
+                    TmpScores::create([
+                        'item_id' => $tmpItemID[$index],
+                        'submission_id' => auth()->user()->id,
+                        'item_score' => $tmp_scores[$index]
+                    ]);
+
+                }
+
+            }
+
+        }else{
+            Submission::create([
+                'id' => $idSub,
+                'nip' => auth()->user()->id,
+                'submission_position' => '1',
+                'submissionType' => 'terampil',
+                'submission_status'=> 'accepted',
+                'starts' => request('startDate'),
+                'ends' => request('endDate'),
+                'previous_id' => auth()->user()->lastSubmissionID
+            ]);
+        }
+
+        $userRoles->update([
+            'lastSubmissionID'=>$idSub,
         ]);
 
         // $current_events = DB::table('periods')->select( 'id','starts', 'ends' )
@@ -266,31 +382,25 @@ class SubmissionController extends Controller
 
         }
 
-
-        $userRoles = User::find(auth()->user()->id);
-        $userRoles->update([
-            'status'=>'hold',
-        ]);
         $arr = [
             'pj'=> null,
             'notification_subject'=>'Pengajuan '.$idSub,
-            'notification_content'=>'Telah diterima di Biro Umum'
+            'notification_content'=>'Telah diterima di Biro Umum',
+            'submission_id' => $idSub
         ];
         Notification::send($userRoles, new allNotification($arr));
         return redirect()->route('terampil_create')->with('result_berhasil', 'Pengajuan telah berhasil');
-
         break;
     }
 } catch (Exception $e) {
- return redirect()->route('terampil_create')->with('result_gagal', 'Pengajuan gagal'); 
+    return redirect()->route('terampil_create')->with('result_gagal', 'Pengajuan gagal');
 }
 
 }
 
 public function submission_saved(){
     $saved_submissions = DB::table('submissions')
-    ->join('users', 'submissions.nip', '=', 'users.id')
-    ->select('users.*', 'submissions.*')
+    ->select('submissions.*')
     ->where('submission_position', '0')
     ->where('nip',auth()->user()->id)
     ->get();
@@ -375,6 +485,18 @@ public function save_or_submit_fromSaved($id,Request $request){
         switch($request->submitbutton) {
             case 'Simpan': 
                 //For items upload
+            if (auth()->user()->lastSubmissionID != null) {
+                $find_endDate = Submission::find(auth()->user()->lastSubmissionID);
+                $validatedData = $request->validate([
+                    'startDate' => 'required|before:endDate|after:'.$find_endDate->ends,
+                    'endDate' => 'required',
+                ]);
+            }else{
+                $validatedData = $request->validate([
+                    'startDate' => 'required|before:endDate',
+                    'endDate' => 'required',
+                ]);
+            }
             $files_administration =[];
             $items_administration = ItemAdministration::all();
             foreach ($items_administration as $item) {
@@ -433,8 +555,8 @@ public function save_or_submit_fromSaved($id,Request $request){
                 if(!empty($file)){
                 //create in files
                     if($timesItem[$index]==null){
-                       return back()->with('result_gagal', 'Gagal Perbarui File (Pengali) ');
-                   }else{
+                     return back()->with('result_gagal', 'Gagal Perbarui File (Pengali) ');
+                 }else{
                         //move file into directory
                     $random_string = Uuid::generate();
                     $file->move(
@@ -465,6 +587,18 @@ public function save_or_submit_fromSaved($id,Request $request){
         case 'Ajukan':
         try {
                 //For items upload
+            if (auth()->user()->lastSubmissionID != null) {
+                $find_endDate = Submission::find(auth()->user()->lastSubmissionID);
+                $validatedData = $request->validate([
+                    'startDate' => 'required|before:endDate|after:'.$find_endDate->ends,
+                    'endDate' => 'required',
+                ]);
+            }else{
+                $validatedData = $request->validate([
+                    'startDate' => 'required|before:endDate',
+                    'endDate' => 'required',
+                ]);
+            }
             $files_administration =[];
             $items_administration = ItemAdministration::all();
             foreach ($items_administration as $item) {
@@ -522,8 +656,8 @@ public function save_or_submit_fromSaved($id,Request $request){
                 if(!empty($file)){
                 //create in files
                     if($timesItem[$index]==null){
-                       return back()->with('result_gagal', 'Gagal Perbarui File (Pengali) ');
-                   }else{
+                     return back()->with('result_gagal', 'Gagal Perbarui File (Pengali) ');
+                 }else{
                         //move file into directory
                     $random_string = Uuid::generate();
                     $file->move(
@@ -560,7 +694,8 @@ public function save_or_submit_fromSaved($id,Request $request){
         $arr = [
             'pj'=> null,
             'notification_subject'=>'Pengajuan '.$id,
-            'notification_content'=>'Telah diterima di Biro Umum'
+            'notification_content'=>'Telah diterima di Biro Umum',
+            'submission_id' => $id
         ];
         Notification::send($userRoles, new allNotification($arr));
         return redirect()->route('submission_saved')->with('result_berhasil', 'Pengajuan Berhasil');

@@ -27,6 +27,7 @@ class allNotification extends Notification
             'pj' =>$this->post['pj'],
             'notification_subject' =>   $this->post['notification_subject'],
             'notification_content'=>   $this->post['notification_content'],
+            'submission_id'=>   $this->post['submission_id'],
         ];
     }
 

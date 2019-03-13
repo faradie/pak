@@ -61,6 +61,11 @@
         <span>Riwayat Pengajuan</span></a>
     </li>
     <li class="nav-item active">
+      <a class="nav-link" href="{{ route('fetch_history') }}">
+        {{-- <i class="fas fa-fw fa-user"></i> --}}
+        <span>SK saya</span></a>
+    </li>
+    <li class="nav-item active">
       <a class="nav-link" href="{{ route('user.settings',auth()->user()->id) }}">
         {{-- <i class="fas fa-fw fa-user"></i> --}}
         <span>Pengaturan</span></a>

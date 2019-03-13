@@ -17,7 +17,7 @@ class jftController extends Controller
 		$jft_files = DB::table('submissions')
 		->join('users', 'submissions.nip', '=', 'users.id')
 		->join('dispositions', 'submissions.id', '=', 'dispositions.submission_id')
-		->select('users.*', 'submissions.*','dispositions.*')
+		->select('users.*', 'submissions.*','submissions.nip as id_pemohon','dispositions.*')
 		->where('submission_position', '4')
 		->where('submission_status','=','accepted')
 		->where('submissions.nip','!=',auth()->user()->id)
@@ -48,7 +48,8 @@ class jftController extends Controller
 			$arr = [
 				'pj'=> auth()->user()->id,
 				'notification_subject'=>'Pengajuan '.strtoupper($id),
-				'notification_content'=>'Telah diterima di Konseptor Prakom'
+				'notification_content'=>'Telah diterima di Konseptor Prakom',
+				'submission_id' => $id
 			];
 			Notification::send($userNotif, new allNotification($arr));
 			return redirect()->route('jft_new_files')->with('result_berhasil', 'Berhasil meneruskan ke Konseptor Prakom');

@@ -17,7 +17,7 @@ class asesmenController extends Controller
 		$asesmen_files = DB::table('submissions')
 		->join('users', 'submissions.nip', '=', 'users.id')
 		->join('dispositions', 'submissions.id', '=', 'dispositions.submission_id')
-		->select('users.*', 'submissions.*','dispositions.*')
+		->select('users.*', 'submissions.*','submissions.nip as id_pemohon','dispositions.*')
 		->where('submission_position', '3')
 		->where('submission_status','=','accepted')
 		->where('submissions.nip','!=',auth()->user()->id)
@@ -45,7 +45,8 @@ class asesmenController extends Controller
 			$arr = [
 				'pj'=> auth()->user()->id,
 				'notification_subject'=>'Pengajuan '.strtoupper($id),
-				'notification_content'=>'Telah diterima di Jabatan Fungsional Tertentu'
+				'notification_content'=>'Telah diterima di Jabatan Fungsional Tertentu',
+				'submission_id' => $id
 			];
 			Notification::send($userNotif, new allNotification($arr));
 			return redirect()->route('asesmen_new_file')->with('result_berhasil', 'Berhasil meneruskan ke Jabatan Fungsional Tertentu');

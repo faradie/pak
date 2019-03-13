@@ -22,6 +22,7 @@ class CreateItemsTable extends Migration
             $table->string('executor');
             $table->string('physicalEvidence');
             $table->string('type');
+            $table->longText('info');
         });
     }
 

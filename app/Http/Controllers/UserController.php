@@ -126,7 +126,8 @@ public function acccept_applicant($id,Request $request){
             $arr = [
                 'pj'=>auth()->user()->id,
                 'notification_subject'=> 'Pemberitahuan Akun Aktif',
-                'notification_content'=>'Selamat akun anda telah aktif dan dapat digunakan!'
+                'notification_content'=>'Selamat akun anda telah aktif dan dapat digunakan!',
+                'submission_id' => ''
             ];
             Notification::send($userRoles, new allNotification($arr));
 

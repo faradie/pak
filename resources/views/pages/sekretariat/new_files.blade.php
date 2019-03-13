@@ -15,7 +15,7 @@
 	{{ session()->get('result_gagal') }}
 </div>
 @endif
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari dengan nama..">
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari dengan NIP..">
 <div class="table-responsive">
 	<table id="myTable" class="table table-striped">
 		<thead>
@@ -26,9 +26,11 @@
 				</th>
 				<th scope="col">NIP
 				</th>
-				<th scope="col">Nama
-				</th>
 				<th scope="col">Dibuat pada
+				</th>
+				<th scope="col">Periode Mulai
+				</th>
+				<th scope="col">Periode Akhir
 				</th>
 				<th scope="col">Action
 				</th>
@@ -40,8 +42,9 @@
 				<th  scope="row">{{$loop->iteration}}</th >
 				<td>{{ strtoupper($sekretariat_new_file->id) }}</td>
 				<td>{{$sekretariat_new_file->nip}}</td>
-				<td>{{$sekretariat_new_file->nama}}</td>
 				<td>{{$sekretariat_new_file->created_at}}</td>
+				<td>{{ \Carbon\Carbon::parse($sekretariat_new_file->starts)->format('d / M / Y') }}</td>
+				<td>{{ \Carbon\Carbon::parse($sekretariat_new_file->ends)->format('d / M / Y') }}</td>
 				<td align="center">  
 					<form action="{{ route('sekretariat_verifications',$sekretariat_new_file->id) }}"><input class="btn btn-info" type="submit" value="Verifikasi" /></form>
 				</td>
