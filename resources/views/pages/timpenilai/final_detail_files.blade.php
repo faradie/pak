@@ -38,7 +38,7 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th scope="col">No</th>
+              <th scope="col">Item</th>
               <th scope="col">Butir Kegiatan</th>
               <th scope="col">Satuan Hasil</th>
               <th class="text-right" scope="col">Angka Kredit</th>
@@ -54,7 +54,7 @@
           <tbody>
             @foreach ($penilaian_files as $index => $butir)
             <tr>
-              <td>{{$loop->iteration}}</td>
+              <td><strong>{{ strtoupper(substr($butir->id, 1)) }}</strong></td>
               <th scope="row">{{$butir->item_name}}</th>
               <td >{{$butir->unitResult}}</td>
               <td class="text-right">{{$butir->point}}</td>
@@ -86,22 +86,17 @@
                 @if ($penilaian_submissions->submission_score == null)
                 <div class="form-group">
                  <input onkeypress='validate(event)'  id="{{ $butir->id."timesPenilai" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."timesPenilai") ? ' is-invalid' : '' }}" name="{{ $butir->id."timesPenilai" }}" value="{{ old($butir->id."timesPenilai") }}" required>
-                 {{-- @if ($errors->has('{{ $butir->id."timesPenilai" }}'))
-                 <span class="invalid-feedback" role="alert">
-                  <strong>{{ $errors->first($butir->id."timesPenilai") }}</strong>
-                </span>
-                @endif --}}
-              </div>
-              @else
-              @foreach ($check_available_score as $check_available)
-              @if ($check_available->item_id == $butir->id)
-              <p class="text-center">{{ $check_available->times }}</p>
-              @endif
-              @endforeach
-              @endif
+               </div>
+               @else
+               @foreach ($check_available_score as $check_available)
+               @if ($check_available->item_id == $butir->id)
+               <p class="text-center">{{ $check_available->times }}</p>
+               @endif
+               @endforeach
+               @endif
 
-            </td>
-            <td >
+             </td>
+             <td >
               @if ($penilaian_submissions->submission_score == null)
               <div class="form-group">
                <input onkeypress='validate(event)'  id="{{ $butir->id."item_score" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."item_score") ? ' is-invalid' : '' }}" name="{{ $butir->id."item_score" }}" value="{{ old($butir->id."item_score") }}" required>
@@ -122,139 +117,6 @@
    <br>
  </div>
 </div>
-
-<br>
-
-@if ($check_score_null->count() == null)
-@if ($penilaian_submissions->lastSubmissionID == null)
-<div class="alert alert-success">
- <h5>Dikarenakan belum adanya data pengajuan sebelumnya, maka lengkapi dahulu data pengajuan sebelumnya untuk user {{ $penilaian_submissions->id_pemohon }} </h5>
-</div>
-
-<div class="accordion" id="accordionExample">
-  <div class="card">
-    <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Butir-butir Terampil
-        </button>
-      </h2>
-    </div>
-
-    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-      <div class="card-body">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">Terampil</li>
-          </ol>
-        </nav>
-        <div class="table-responsive">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">No</th>
-                <th scope="col">Butir Kegiatan</th>
-                <th scope="col">Satuan Hasil</th>
-                <th class="text-right" scope="col">Angka Kredit</th>
-                <th scope="col">Batas Penilaian</th>
-                <th scope="col">Pelaksana</th>
-                <th scope="col">Bukti Fisik</th>
-                <th scope="col" class="col-md-2">Pengali</th>
-                <th scope="col" class="col-md-2">Nilai Butir</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($terampil_items as $butir)
-              <tr>
-                <td>{{$loop->iteration}}</td>
-                <th scope="row">{{$butir->item_name}}</th>
-                <td >{{$butir->unitResult}}</td>
-                <td class="text-right">{{$butir->point}}</td>
-                <td >{{$butir->assessmentLimits}}</td>
-                <td >{{$butir->executor}}</td>
-                <td >{{$butir->physicalEvidence}}</td>
-                <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id.'previousTimes_terampil' }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id.'previousTimes_terampil') ? ' is-invalid' : '' }}" name="{{ $butir->id.'previousTimes_terampil' }}" value="{{ old($butir->id.'previousTimes_terampil') }}" >
-                  </div>
-                </td>
-                <td>
-                  <div class="form-group">
-                   <input onkeypress='validate(event)'  id="{{ $butir->id.'previousScore_terampil' }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id.'previousScore_terampil') ? ' is-invalid' : '' }}" name="{{ $butir->id.'previousScore_terampil' }}" value="{{ old($butir->id.'previousScore_terampil') }}" >
-                 </div>
-               </td>
-             </tr>
-             @endforeach
-           </tbody>
-         </table>
-       </div>
-       <br>
-     </div>
-   </div>
- </div>
- <div class="card">
-  <div class="card-header" id="headingOne">
-    <h2 class="mb-0">
-      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-        Butir-butir Ahli
-      </button>
-    </h2>
-  </div>
-
-  <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-    <div class="card-body">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item active" aria-current="page">Ahli</li>
-        </ol>
-      </nav>
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">No</th>
-              <th scope="col">Butir Kegiatan</th>
-              <th scope="col">Satuan Hasil</th>
-              <th class="text-right" scope="col">Angka Kredit</th>
-              <th scope="col">Batas Penilaian</th>
-              <th scope="col">Pelaksana</th>
-              <th scope="col">Bukti Fisik</th>
-              <th scope="col" class="col-md-2">Pengali</th>
-              <th scope="col" class="col-md-2">Nilai Butir</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($terampil_items as $butir)
-            <tr>
-              <td>{{$loop->iteration}}</td>
-              <th scope="row">{{$butir->item_name}}</th>
-              <td >{{$butir->unitResult}}</td>
-              <td class="text-right">{{$butir->point}}</td>
-              <td >{{$butir->assessmentLimits}}</td>
-              <td >{{$butir->executor}}</td>
-              <td >{{$butir->physicalEvidence}}</td>
-              <td >
-                <div class="form-group">
-                 <input onkeypress='validate(event)'  id="{{ $butir->id.'previousTimes_ahli' }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id.'previousTimes_ahli') ? ' is-invalid' : '' }}" name="{{ $butir->id.'previousTimes_ahli' }}" value="{{ old($butir->id.'previousTimes_ahli') }}" >
-               </div>                    
-             </td>
-             <td>
-              <div class="form-group">
-               <input onkeypress='validate(event)'  id="{{ $butir->id.'previousScore_ahli' }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id.'previousScore_ahli') ? ' is-invalid' : '' }}" name="{{ $butir->id.'previousScore_ahli' }}" value="{{ old($butir->id.'previousScore_ahli') }}" >
-             </div>
-           </td>
-         </tr>
-         @endforeach
-       </tbody>
-     </table>
-   </div>
-   <br>
- </div>
-</div>
-</div>
-</div>
-@endif
-@endif
 
 <br>
 

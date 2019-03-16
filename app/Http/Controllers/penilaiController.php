@@ -11,6 +11,7 @@ use App\Submission;
 use App\PkPosition;
 use App\Unit;
 use App\File;
+use PDF;
 
 class penilaiController extends Controller
 {
@@ -208,65 +209,14 @@ class penilaiController extends Controller
 
 				$items = Item::all();
 				
-				if ($penilaian_submissions->lastSubmissionID == null) {
-					foreach ($items as $item) {
-						if (request($item->id.'timesPenilai')){
-							$itemID[] = $item->id;
-							$timesItem[] = request($item->id.'timesPenilai');
-							$scoreItem[] = request($item->id.'item_score');
-						}
-
-						if(request($item->id.'previousTimes_terampil')){
-							$previous_terampilID[] = $item->id;
-							$previous_terampilTimes[] = request($item->id.'previousTimes_terampil');
-							$previous_terampilScore[] = request($item->id.'previousScore_terampil');
-
-							foreach ($previous_terampilID as $key=>$previous_terampil) {
-								DupakItemScores::create([
-									'team_id' =>$team->team_id,
-									'item_id' => $previous_terampilID[$key],
-									'submission_id' => $id,
-									'nip' => auth()->user()->id,
-									'item_score' => $previous_terampilScore[$key],
-									'times' => $previous_terampilTimes[$key],
-									'type' => 'previous_submission'
-								]);
-
-							}
-						}
-
-						if (request($item->id.'previousTimes_ahli')) {
-							$previous_ahliID[] = $item->id;
-							$previous_ahliTimes[] = request($item->id.'previousTimes_ahli');
-							$previous_ahliScore[] = request($item->id.'previousScore_terampil');
-							foreach ($previous_ahliTimes as $key=>$previous_ahli) {
-								DupakItemScores::create([
-									'team_id' =>$team->team_id,
-									'item_id' => $previous_ahliID[$key],
-									'submission_id' => $id,
-									'nip' => auth()->user()->id,
-									'item_score' => $previous_ahliScore[$key],
-									'times' => $previous_ahliTimes[$key],
-									'type' => 'previous_submission'
-								]);
-
-							}
-
-						}
-
-					}
-
-				}else{
-					foreach ($items as $item) {
-						if (request($item->id.'timesPenilai')){
-							$itemID[] = $item->id;
-							$timesItem[] = request($item->id.'timesPenilai');
-							$scoreItem[] = request($item->id.'item_score');
-						}
+				foreach ($items as $item) {
+					if (request($item->id.'timesPenilai')){
+						$itemID[] = $item->id;
+						$timesItem[] = request($item->id.'timesPenilai');
+						$scoreItem[] = request($item->id.'item_score');
 					}
 				}
 
-				
 				$total = array();
 				foreach ($timesItem as $key=>$times) {
 					$total[] = $times * $scoreItem[$key];
@@ -303,7 +253,86 @@ class penilaiController extends Controller
 				break;
 
 				case 'Rincian PAK':
-				$items = Item::all();
+				$butir_terampil1A = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '1')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'A')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil1B = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '1')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'B')->orderByRaw('substr(id, 3)+0 asc')->get();
+
+				$butir_terampil2A = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '2')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'A')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil2B = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '2')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'B')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil2C = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '2')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'C')->orderByRaw('substr(id, 3) asc')->get();
+
+				$butir_terampil3A = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '3')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'A')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil3B = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '3')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'B')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil3C = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '3')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'C')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil3D = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '3')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'D')->orderByRaw('substr(id, 3) asc')->get();
+
+				$butir_terampil4A = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '4')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'A')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil4B = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '4')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'B')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil4C = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '4')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'C')->orderByRaw('substr(id, 3) asc')->get();
+
+				$butir_terampil5A = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'A')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil5B = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'B')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil5C = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'C')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil5D = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'D')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil5E = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'E')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil5F = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'F')->orderByRaw('substr(id, 3) asc')->get();
+
+				$this_submission = DB::table('submissions')
+				->join('users', 'submissions.nip', '=', 'users.id')
+				->select('users.*','users.id as id_pemohon','users.birth_date as tglLahir', 'submissions.*')
+				->where('submissions.id',$id)->first();
+				$pk_Position = PkPosition::find($this_submission->pkPosition);
+				$unit_applicant = Unit::find($this_submission->unit);
+
+				$get_submission_items = DB::table('files')
+				->join('items', 'items.id', '=', 'files.id')
+				->select('items.*','files.*')
+				->where('files.submission_id',$id)->get();
+
+				$get_final_dupak_scores = DB::table('dupak_item_scores')
+				->select('dupak_item_scores.*')
+				->where('dupak_item_scores.submission_id',$id)
+				->where('type','final')->get();
+
+				if($this_submission->previous_id == $this_submission->nip){
+					$get_final_previous_scores = DB::table('tmp_scores')
+					->select('tmp_scores.*')
+					->where('tmp_scores.submission_id',$this_submission->previous_id)
+					->get();
+				}else{
+					$get_final_previous_scores = DB::table('dupak_item_scores')
+					->select('dupak_item_scores.*')
+					->where('dupak_item_scores.submission_id',$this_submission->previous_id)
+					->where('type','final')
+					->get();
+				}
+
+				$pdf = PDF::loadView('pages.timpenilai.detail_pak_terampil',compact('this_submission','pk_Position','unit_applicant','get_submission_items','get_final_dupak_scores','get_final_previous_scores','butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F'));
+				return $pdf->stream('invoice.pdf');
+				break;
+				case 'Download':
+				$butir_terampil1A = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '1')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'A')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil1B = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '1')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'B')->orderByRaw('substr(id, 3)+0 asc')->get();
+
+				$butir_terampil2A = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '2')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'A')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil2B = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '2')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'B')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil2C = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '2')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'C')->orderByRaw('substr(id, 3) asc')->get();
+
+				$butir_terampil3A = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '3')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'A')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil3B = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '3')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'B')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil3C = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '3')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'C')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil3D = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '3')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'D')->orderByRaw('substr(id, 3) asc')->get();
+
+				$butir_terampil4A = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '4')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'A')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil4B = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '4')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'B')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil4C = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '4')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'C')->orderByRaw('substr(id, 3) asc')->get();
+
+				$butir_terampil5A = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'A')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil5B = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'B')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil5C = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'C')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil5D = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'D')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil5E = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'E')->orderByRaw('substr(id, 3) asc')->get();
+				$butir_terampil5F = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '5')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'F')->orderByRaw('substr(id, 3) asc')->get();
+
 				$this_submission = DB::table('submissions')
 				->join('users', 'submissions.nip', '=', 'users.id')
 				->select('users.*','users.id as id_pemohon','users.birth_date as tglLahir', 'submissions.*')
@@ -312,13 +341,16 @@ class penilaiController extends Controller
 				$unit_applicant = Unit::find($this_submission->unit);
 
 				$get_submission_item = File::where('submission_id',$id)->get();
+
+				$pdf = PDF::loadView('pages.timpenilai.download_detail_pak',compact('this_submission','pk_Position','unit_applicant','get_submission_item','butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F'));
+				return $pdf->download('download.pdf');
 				
-				return view('pages.timpenilai.detail_pak',compact('this_submission','items','pk_Position','unit_applicant','get_submission_item'));
 				break;
 			}
 		} catch (Exception $e) {
 			return redirect()->route('detail_penilaian_final',$id)->with('result_gagal', 'Gagal ajukan nilai akhir sidang');
 		}
 	}
+
 
 }

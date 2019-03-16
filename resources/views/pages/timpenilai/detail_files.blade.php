@@ -37,7 +37,7 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th scope="col">No</th>
+              <th scope="col">Item</th>
               <th scope="col">Butir Kegiatan</th>
               <th scope="col">Satuan Hasil</th>
               <th class="text-right" scope="col">Angka Kredit</th>
@@ -46,14 +46,14 @@
               <th scope="col">Bukti Fisik</th>
               <th scope="col">Pengali Pemohon</th>
               <th class="text-center" scope="col">File</th>
-              <th class="text-center" scope="col">Pengali Penilai</th>
-              <th class="text-center" scope="col">Nilai Butir</th>
+              <th class="text-center col-md-2" scope="col">Pengali Penilai</th>
+              <th class="text-center col-md-2" scope="col">Nilai Butir</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($penilaian_files as $index => $butir)
             <tr>
-              <td>{{$loop->iteration}}</td>
+              <td><strong>{{ strtoupper(substr($butir->id, 1)) }}</strong></td>
               <th scope="row">{{$butir->item_name}}</th>
               <td >{{$butir->unitResult}}</td>
               <td class="text-right">{{$butir->point}}</td>

@@ -110,7 +110,7 @@
             <tbody>
               @foreach ($butir_terampil1A as $butir)
               <tr>
-                <td>{{$loop->iteration}}</td>
+                <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
                 <th scope="row">{{$butir->item_name}}</th>
                 <td >{{$butir->unitResult}}</td>
                 <td class="text-right">{{$butir->point}}</td>
@@ -177,14 +177,14 @@
             <tbody>
               @foreach ($butir_terampil1B as $butir)
               <tr>
-                <td>{{$loop->iteration}}</td>
+                <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
                 <th scope="row">{{$butir->item_name}}</th>
                 <td >{{$butir->unitResult}}</td>
                 <td class="text-right">{{$butir->point}}</td>
                 <td >{{$butir->assessmentLimits}}</td>
                 <td >{{$butir->executor}}</td>
                 <td >{{$butir->physicalEvidence}}</td>
-               <td >
+                <td >
                   <div class="form-group">
                     <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
                   </div>
@@ -257,7 +257,7 @@
             <tbody>
               @foreach ($butir_terampil2A as $butir)
               <tr>
-                <td>{{$loop->iteration}}</td>
+                <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
                 <th scope="row">{{$butir->item_name}}</th>
                 <td >{{$butir->unitResult}}</td>
                 <td class="text-right">{{$butir->point}}</td>
@@ -325,7 +325,7 @@
             <tbody>
               @foreach ($butir_terampil2B as $butir)
               <tr>
-                <td>{{$loop->iteration}}</td>
+                <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
                 <th scope="row">{{$butir->item_name}}</th>
                 <td >{{$butir->unitResult}}</td>
                 <td class="text-right">{{$butir->point}}</td>
@@ -393,7 +393,7 @@
             <tbody>
               @foreach ($butir_terampil2C as $butir)
               <tr>
-                <td>{{$loop->iteration}}</td>
+                <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
                 <th scope="row">{{$butir->item_name}}</th>
                 <td >{{$butir->unitResult}}</td>
                 <td class="text-right">{{$butir->point}}</td>
@@ -475,7 +475,7 @@
             <tbody>
               @foreach ($butir_terampil3A as $butir)
               <tr>
-                <td>{{$loop->iteration}}</td>
+                <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
                 <th scope="row">{{$butir->item_name}}</th>
                 <td >{{$butir->unitResult}}</td>
                 <td class="text-right">{{$butir->point}}</td>
@@ -543,14 +543,14 @@
             <tbody>
               @foreach ($butir_terampil3B as $butir)
               <tr>
-                <td>{{$loop->iteration}}</td>
+                <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
                 <th scope="row">{{$butir->item_name}}</th>
                 <td >{{$butir->unitResult}}</td>
                 <td class="text-right">{{$butir->point}}</td>
                 <td >{{$butir->assessmentLimits}}</td>
                 <td >{{$butir->executor}}</td>
                 <td >{{$butir->physicalEvidence}}</td>
-               <td >
+                <td >
                   <div class="form-group">
                     <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
                   </div>
@@ -611,7 +611,7 @@
             <tbody>
               @foreach ($butir_terampil3C as $butir)
               <tr>
-                <td>{{$loop->iteration}}</td>
+                <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
                 <th scope="row">{{$butir->item_name}}</th>
                 <td >{{$butir->unitResult}}</td>
                 <td class="text-right">{{$butir->point}}</td>
@@ -679,7 +679,7 @@
             <tbody>
               @foreach ($butir_terampil3D as $butir)
               <tr>
-                <td>{{$loop->iteration}}</td>
+                <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
                 <th scope="row">{{$butir->item_name}}</th>
                 <td >{{$butir->unitResult}}</td>
                 <td class="text-right">{{$butir->point}}</td>
@@ -753,14 +753,14 @@
               <th class="text-center" scope="col">File</th>
               <th class="text-center" scope="col">Info</th>
               @if ($this_user->lastSubmissionID == null)
-                <th class="text-center" scope="col">AK pengajuan terakhir</th>
-                @endif
+              <th class="text-center" scope="col">AK pengajuan terakhir</th>
+              @endif
             </tr>
           </thead>
           <tbody>
             @foreach ($butir_terampil4A as $butir)
             <tr>
-              <td>{{$loop->iteration}}</td>
+              <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
               <th scope="row">{{$butir->item_name}}</th>
               <td >{{$butir->unitResult}}</td>
               <td class="text-right">{{$butir->point}}</td>
@@ -768,31 +768,31 @@
               <td >{{$butir->executor}}</td>
               <td >{{$butir->physicalEvidence}}</td>
               <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="form-group">
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                    @if ($errors->has('{{$butir->id}}'))
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $errors->first($butir->id) }}</strong>
-                    </span>
-                    @endif
-                  </div>
-                </td>
-                <td >
-                  <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
-                </td>
-                @if ($this_user->lastSubmissionID == null)
-                <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
-                  </div>
-                </td>
-                @endif
+                <div class="form-group">
+                  <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-group">
+                  <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                  <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                  @if ($errors->has('{{$butir->id}}'))
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first($butir->id) }}</strong>
+                  </span>
+                  @endif
+                </div>
+              </td>
+              <td >
+                <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
+              </td>
+              @if ($this_user->lastSubmissionID == null)
+              <td >
+                <div class="form-group">
+                  <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
+                </div>
+              </td>
+              @endif
             </tr>
             @endforeach
           </tbody>
@@ -821,46 +821,46 @@
               <th class="text-center" scope="col">File</th>
               <th class="text-center" scope="col">Info</th>
               @if ($this_user->lastSubmissionID == null)
-                <th class="text-center" scope="col">AK pengajuan terakhir</th>
-                @endif
+              <th class="text-center" scope="col">AK pengajuan terakhir</th>
+              @endif
             </tr>
           </thead>
           <tbody>
             @foreach ($butir_terampil4B as $butir)
             <tr>
-              <td>{{$loop->iteration}}</td>
+              <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
               <th scope="row">{{$butir->item_name}}</th>
               <td >{{$butir->unitResult}}</td>
               <td class="text-right">{{$butir->point}}</td>
               <td >{{$butir->assessmentLimits}}</td>
               <td >{{$butir->executor}}</td>
               <td >{{$butir->physicalEvidence}}</td>
-             <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="form-group">
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                    @if ($errors->has('{{$butir->id}}'))
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $errors->first($butir->id) }}</strong>
-                    </span>
-                    @endif
-                  </div>
-                </td>
-                <td >
-                  <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
-                </td>
-                @if ($this_user->lastSubmissionID == null)
-                <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
-                  </div>
-                </td>
-                @endif
+              <td >
+                <div class="form-group">
+                  <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-group">
+                  <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                  <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                  @if ($errors->has('{{$butir->id}}'))
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first($butir->id) }}</strong>
+                  </span>
+                  @endif
+                </div>
+              </td>
+              <td >
+                <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
+              </td>
+              @if ($this_user->lastSubmissionID == null)
+              <td >
+                <div class="form-group">
+                  <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
+                </div>
+              </td>
+              @endif
             </tr>
             @endforeach
           </tbody>
@@ -889,14 +889,14 @@
               <th class="text-center" scope="col">File</th>
               <th class="text-center" scope="col">Info</th>
               @if ($this_user->lastSubmissionID == null)
-                <th class="text-center" scope="col">AK pengajuan terakhir</th>
-                @endif
+              <th class="text-center" scope="col">AK pengajuan terakhir</th>
+              @endif
             </tr>
           </thead>
           <tbody>
             @foreach ($butir_terampil4C as $butir)
             <tr>
-              <td>{{$loop->iteration}}</td>
+              <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
               <th scope="row">{{$butir->item_name}}</th>
               <td >{{$butir->unitResult}}</td>
               <td class="text-right">{{$butir->point}}</td>
@@ -904,31 +904,31 @@
               <td >{{$butir->executor}}</td>
               <td >{{$butir->physicalEvidence}}</td>
               <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="form-group">
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                    @if ($errors->has('{{$butir->id}}'))
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $errors->first($butir->id) }}</strong>
-                    </span>
-                    @endif
-                  </div>
-                </td>
-                <td >
-                  <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
-                </td>
-                @if ($this_user->lastSubmissionID == null)
-                <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
-                  </div>
-                </td>
-                @endif
+                <div class="form-group">
+                  <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-group">
+                  <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                  <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                  @if ($errors->has('{{$butir->id}}'))
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first($butir->id) }}</strong>
+                  </span>
+                  @endif
+                </div>
+              </td>
+              <td >
+                <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
+              </td>
+              @if ($this_user->lastSubmissionID == null)
+              <td >
+                <div class="form-group">
+                  <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
+                </div>
+              </td>
+              @endif
             </tr>
             @endforeach
           </tbody>
@@ -970,14 +970,14 @@
             <th class="text-center" scope="col">File</th>
             <th class="text-center" scope="col">Info</th>
             @if ($this_user->lastSubmissionID == null)
-                <th class="text-center" scope="col">AK pengajuan terakhir</th>
-                @endif
+            <th class="text-center" scope="col">AK pengajuan terakhir</th>
+            @endif
           </tr>
         </thead>
         <tbody>
           @foreach ($butir_terampil5A as $butir)
           <tr>
-            <td>{{$loop->iteration}}</td>
+            <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
             <th scope="row">{{$butir->item_name}}</th>
             <td >{{$butir->unitResult}}</td>
             <td class="text-right">{{$butir->point}}</td>
@@ -985,31 +985,31 @@
             <td >{{$butir->executor}}</td>
             <td >{{$butir->physicalEvidence}}</td>
             <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="form-group">
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                    @if ($errors->has('{{$butir->id}}'))
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $errors->first($butir->id) }}</strong>
-                    </span>
-                    @endif
-                  </div>
-                </td>
-                <td >
-                  <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
-                </td>
-                @if ($this_user->lastSubmissionID == null)
-                <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
-                  </div>
-                </td>
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="form-group">
+                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                @if ($errors->has('{{$butir->id}}'))
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first($butir->id) }}</strong>
+                </span>
                 @endif
+              </div>
+            </td>
+            <td >
+              <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
+            </td>
+            @if ($this_user->lastSubmissionID == null)
+            <td >
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
+              </div>
+            </td>
+            @endif
           </tr>
           @endforeach
         </tbody>
@@ -1038,46 +1038,46 @@
             <th class="text-center" scope="col">File</th>
             <th class="text-center" scope="col">Info</th>
             @if ($this_user->lastSubmissionID == null)
-                <th class="text-center" scope="col">AK pengajuan terakhir</th>
-                @endif
+            <th class="text-center" scope="col">AK pengajuan terakhir</th>
+            @endif
           </tr>
         </thead>
         <tbody>
           @foreach ($butir_terampil5B as $butir)
           <tr>
-            <td>{{$loop->iteration}}</td>
+            <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
             <th scope="row">{{$butir->item_name}}</th>
             <td >{{$butir->unitResult}}</td>
             <td class="text-right">{{$butir->point}}</td>
             <td >{{$butir->assessmentLimits}}</td>
             <td >{{$butir->executor}}</td>
             <td >{{$butir->physicalEvidence}}</td>
-           <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="form-group">
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                    @if ($errors->has('{{$butir->id}}'))
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $errors->first($butir->id) }}</strong>
-                    </span>
-                    @endif
-                  </div>
-                </td>
-                <td >
-                  <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
-                </td>
-                @if ($this_user->lastSubmissionID == null)
-                <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
-                  </div>
-                </td>
+            <td >
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="form-group">
+                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                @if ($errors->has('{{$butir->id}}'))
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first($butir->id) }}</strong>
+                </span>
                 @endif
+              </div>
+            </td>
+            <td >
+              <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
+            </td>
+            @if ($this_user->lastSubmissionID == null)
+            <td >
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
+              </div>
+            </td>
+            @endif
           </tr>
           @endforeach
         </tbody>
@@ -1106,14 +1106,14 @@
             <th class="text-center" scope="col">File</th>
             <th class="text-center" scope="col">Info</th>
             @if ($this_user->lastSubmissionID == null)
-                <th class="text-center" scope="col">AK pengajuan terakhir</th>
-                @endif
+            <th class="text-center" scope="col">AK pengajuan terakhir</th>
+            @endif
           </tr>
         </thead>
         <tbody>
           @foreach ($butir_terampil5C as $butir)
           <tr>
-            <td>{{$loop->iteration}}</td>
+            <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
             <th scope="row">{{$butir->item_name}}</th>
             <td >{{$butir->unitResult}}</td>
             <td class="text-right">{{$butir->point}}</td>
@@ -1121,31 +1121,31 @@
             <td >{{$butir->executor}}</td>
             <td >{{$butir->physicalEvidence}}</td>
             <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="form-group">
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                    @if ($errors->has('{{$butir->id}}'))
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $errors->first($butir->id) }}</strong>
-                    </span>
-                    @endif
-                  </div>
-                </td>
-                <td >
-                  <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
-                </td>
-                @if ($this_user->lastSubmissionID == null)
-                <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
-                  </div>
-                </td>
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="form-group">
+                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                @if ($errors->has('{{$butir->id}}'))
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first($butir->id) }}</strong>
+                </span>
                 @endif
+              </div>
+            </td>
+            <td >
+              <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
+            </td>
+            @if ($this_user->lastSubmissionID == null)
+            <td >
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
+              </div>
+            </td>
+            @endif
           </tr>
           @endforeach
         </tbody>
@@ -1174,14 +1174,14 @@
             <th class="text-center" scope="col">File</th>
             <th class="text-center" scope="col">Info</th>
             @if ($this_user->lastSubmissionID == null)
-                <th class="text-center" scope="col">AK pengajuan terakhir</th>
-                @endif
+            <th class="text-center" scope="col">AK pengajuan terakhir</th>
+            @endif
           </tr>
         </thead>
         <tbody>
           @foreach ($butir_terampil5D as $butir)
           <tr>
-            <td>{{$loop->iteration}}</td>
+            <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
             <th scope="row">{{$butir->item_name}}</th>
             <td >{{$butir->unitResult}}</td>
             <td class="text-right">{{$butir->point}}</td>
@@ -1189,31 +1189,31 @@
             <td >{{$butir->executor}}</td>
             <td >{{$butir->physicalEvidence}}</td>
             <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="form-group">
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                    @if ($errors->has('{{$butir->id}}'))
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $errors->first($butir->id) }}</strong>
-                    </span>
-                    @endif
-                  </div>
-                </td>
-                <td >
-                  <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
-                </td>
-                @if ($this_user->lastSubmissionID == null)
-                <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
-                  </div>
-                </td>
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="form-group">
+                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                @if ($errors->has('{{$butir->id}}'))
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first($butir->id) }}</strong>
+                </span>
                 @endif
+              </div>
+            </td>
+            <td >
+              <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
+            </td>
+            @if ($this_user->lastSubmissionID == null)
+            <td >
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
+              </div>
+            </td>
+            @endif
           </tr>
           @endforeach
         </tbody>
@@ -1242,14 +1242,14 @@
             <th class="text-center" scope="col">File</th>
             <th class="text-center" scope="col">Info</th>
             @if ($this_user->lastSubmissionID == null)
-                <th class="text-center" scope="col">AK pengajuan terakhir</th>
-                @endif
+            <th class="text-center" scope="col">AK pengajuan terakhir</th>
+            @endif
           </tr>
         </thead>
         <tbody>
           @foreach ($butir_terampil5E as $butir)
           <tr>
-            <td>{{$loop->iteration}}</td>
+            <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
             <th scope="row">{{$butir->item_name}}</th>
             <td >{{$butir->unitResult}}</td>
             <td class="text-right">{{$butir->point}}</td>
@@ -1257,31 +1257,31 @@
             <td >{{$butir->executor}}</td>
             <td >{{$butir->physicalEvidence}}</td>
             <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="form-group">
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                    @if ($errors->has('{{$butir->id}}'))
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $errors->first($butir->id) }}</strong>
-                    </span>
-                    @endif
-                  </div>
-                </td>
-                <td >
-                  <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
-                </td>
-                @if ($this_user->lastSubmissionID == null)
-                <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
-                  </div>
-                </td>
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="form-group">
+                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                @if ($errors->has('{{$butir->id}}'))
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first($butir->id) }}</strong>
+                </span>
                 @endif
+              </div>
+            </td>
+            <td >
+              <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
+            </td>
+            @if ($this_user->lastSubmissionID == null)
+            <td >
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
+              </div>
+            </td>
+            @endif
           </tr>
           @endforeach
         </tbody>
@@ -1310,14 +1310,14 @@
             <th class="text-center" scope="col">File</th>
             <th class="text-center" scope="col">Info</th>
             @if ($this_user->lastSubmissionID == null)
-                <th class="text-center" scope="col">AK pengajuan terakhir</th>
-                @endif
+            <th class="text-center" scope="col">AK pengajuan terakhir</th>
+            @endif
           </tr>
         </thead>
         <tbody>
           @foreach ($butir_terampil5F as $butir)
           <tr>
-            <td>{{$loop->iteration}}</td>
+            <td>{{ strtoupper(substr($butir->id, 3)) }}</td>
             <th scope="row">{{$butir->item_name}}</th>
             <td >{{$butir->unitResult}}</td>
             <td class="text-right">{{$butir->point}}</td>
@@ -1325,31 +1325,31 @@
             <td >{{$butir->executor}}</td>
             <td >{{$butir->physicalEvidence}}</td>
             <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="form-group">
-                    <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
-                    <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
-                    @if ($errors->has('{{$butir->id}}'))
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $errors->first($butir->id) }}</strong>
-                    </span>
-                    @endif
-                  </div>
-                </td>
-                <td >
-                  <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
-                </td>
-                @if ($this_user->lastSubmissionID == null)
-                <td >
-                  <div class="form-group">
-                    <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
-                  </div>
-                </td>
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."times" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."times") ? ' is-invalid' : '' }}" name="{{ $butir->id."times" }}" value="{{ old($butir->id."times") }}">
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="form-group">
+                <input accept="application/pdf" type="file" name="{{$butir->id}}" id="{{$butir->id}}" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" />
+                <label for="{{$butir->id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Cari&hellip;</span></label>
+                @if ($errors->has('{{$butir->id}}'))
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first($butir->id) }}</strong>
+                </span>
                 @endif
+              </div>
+            </td>
+            <td >
+              <a href="#" type="button" title="Info" data-mytitleinfo="{{ $butir->item_name }}" data-myinfo="{{ $butir->info }}"  data-type="{{ $butir->type }}" data-toggle="modal" data-target="#infoModal" class="btn btn-dark">Info</a>
+            </td>
+            @if ($this_user->lastSubmissionID == null)
+            <td >
+              <div class="form-group">
+                <input onkeypress='validate(event)'  id="{{ $butir->id."previous" }}" min="0" maxlength="18" type="text" class="form-control{{ $errors->has($butir->id."previous") ? ' is-invalid' : '' }}" name="{{ $butir->id."previous" }}" value="{{ old($butir->id."previous") }}">
+              </div>
+            </td>
+            @endif
           </tr>
           @endforeach
         </tbody>

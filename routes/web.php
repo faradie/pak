@@ -165,7 +165,6 @@ Route::get('/ketuatim/new_file/{id}/define_team', 'ketuaController@make_team_for
 Route::patch('/ketuatim/new_file/{id}/define_team', 'ketuaController@define_teams')->name('define_teams');
 
 //tim penilai
-
 Route::get('/timpenilai/new_file', 'penilaiController@timpenilai_new_files')->name('timpenilai_new_files');
 Route::get('/timpenilai/new_file/{id}/detail', 'penilaiController@detail_penilaian')->name('detail_penilaian');
 Route::patch('/timpenilai/new_file/{id}/detail', 'penilaiController@submit_individual_score')->name('submit_individual_score');
