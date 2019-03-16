@@ -283,31 +283,65 @@ class penilaiController extends Controller
 				$pk_Position = PkPosition::find($this_submission->pkPosition);
 				$unit_applicant = Unit::find($this_submission->unit);
 
+				//for baru institusion from submission files
 				$get_submission_items = DB::table('files')
 				->join('items', 'items.id', '=', 'files.id')
 				->select('items.*','files.*')
 				->where('files.submission_id',$id)->get();
 
+				// get final score in dupak_item_scores
 				$get_final_dupak_scores = DB::table('dupak_item_scores')
 				->select('dupak_item_scores.*')
 				->where('dupak_item_scores.submission_id',$id)
 				->where('type','final')->get();
 
+				//get previous score per items
 				if($this_submission->previous_id == $this_submission->nip){
 					$get_final_previous_scores = DB::table('tmp_scores')
 					->select('tmp_scores.*')
 					->where('tmp_scores.submission_id',$this_submission->previous_id)
 					->get();
+
+					$get_jml_institusions = DB::table('items')
+					->join('files', 'items.id', '=', 'files.id')
+					->join('tmp_scores','tmp_scores.item_id','=','items.id')
+					->select('items.*','files.*','tmp_scores.*','files.times as files_times','tmp_scores.item_score as dupak_item_scores_item_score')
+					->where('tmp_scores.submission_id',$this_submission->previous_id)
+					->where('files.submission_id',$id)->get();
+
+					$get_jml_penilai = DB::table('dupak_item_scores')
+					->join('tmp_scores','tmp_scores.item_id','=','dupak_item_scores.item_id')
+					->select('tmp_scores.*','tmp_scores.item_score as dupak_item_scores_item_score','dupak_item_scores.*')
+					->where('tmp_scores.submission_id',$this_submission->previous_id)
+					->where('dupak_item_scores.submission_id',$id)
+					->where('dupak_item_scores.type','final')->get();
+
 				}else{
 					$get_final_previous_scores = DB::table('dupak_item_scores')
 					->select('dupak_item_scores.*')
 					->where('dupak_item_scores.submission_id',$this_submission->previous_id)
 					->where('type','final')
 					->get();
+
+					$get_jml_institusions = DB::table('items')
+					->join('files', 'items.id', '=', 'files.id')
+					->join('dupak_item_scores','dupak_item_scores.item_id','=','items.id')
+					->select('items.*','files.*','dupak_item_scores.*','files.times as files_times','dupak_item_scores.item_score as dupak_item_scores_item_score')
+					->where('dupak_item_scores.type','final')
+					->where('dupak_item_scores.submission_id',$this_submission->previous_id)
+					->where('files.submission_id',$id)->get();
+
+					//untuk kedua isi ketika telah ada pengajuan baru
+					$get_jml_penilai = DB::table('dupak_item_scores')
+					->select('dupak_item_scores.*')
+					->where('submission_id',$id)
+					->where('type','final')
+					->get();
+
 				}
 
-				$pdf = PDF::loadView('pages.timpenilai.detail_pak_terampil',compact('this_submission','pk_Position','unit_applicant','get_submission_items','get_final_dupak_scores','get_final_previous_scores','butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F'));
-				return $pdf->stream('invoice.pdf');
+				$pdf = PDF::loadView('pages.timpenilai.detail_pak_terampil',compact('this_submission','pk_Position','unit_applicant','get_submission_items','get_final_dupak_scores','get_final_previous_scores','get_jml_institusions','get_jml_penilai','butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F'));
+				return $pdf->stream('detail_submission.pdf');
 				break;
 				case 'Download':
 				$butir_terampil1A = Item::where('type','terampil')->where(\DB::raw('substr(id, 2, 1)'), '=' , '1')->where(\DB::raw('substr(id, 3, 1)'), '=' , 'A')->orderByRaw('substr(id, 3) asc')->get();
@@ -340,10 +374,65 @@ class penilaiController extends Controller
 				$pk_Position = PkPosition::find($this_submission->pkPosition);
 				$unit_applicant = Unit::find($this_submission->unit);
 
-				$get_submission_item = File::where('submission_id',$id)->get();
+				//for baru institusion from submission files
+				$get_submission_items = DB::table('files')
+				->join('items', 'items.id', '=', 'files.id')
+				->select('items.*','files.*')
+				->where('files.submission_id',$id)->get();
 
-				$pdf = PDF::loadView('pages.timpenilai.download_detail_pak',compact('this_submission','pk_Position','unit_applicant','get_submission_item','butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F'));
-				return $pdf->download('download.pdf');
+				// get final score in dupak_item_scores
+				$get_final_dupak_scores = DB::table('dupak_item_scores')
+				->select('dupak_item_scores.*')
+				->where('dupak_item_scores.submission_id',$id)
+				->where('type','final')->get();
+
+				//get previous score per items
+				if($this_submission->previous_id == $this_submission->nip){
+					$get_final_previous_scores = DB::table('tmp_scores')
+					->select('tmp_scores.*')
+					->where('tmp_scores.submission_id',$this_submission->previous_id)
+					->get();
+
+					$get_jml_institusions = DB::table('items')
+					->join('files', 'items.id', '=', 'files.id')
+					->join('tmp_scores','tmp_scores.item_id','=','items.id')
+					->select('items.*','files.*','tmp_scores.*','files.times as files_times','tmp_scores.item_score as dupak_item_scores_item_score')
+					->where('tmp_scores.submission_id',$this_submission->previous_id)
+					->where('files.submission_id',$id)->get();
+
+					$get_jml_penilai = DB::table('dupak_item_scores')
+					->join('tmp_scores','tmp_scores.item_id','=','dupak_item_scores.item_id')
+					->select('tmp_scores.*','tmp_scores.item_score as dupak_item_scores_item_score','dupak_item_scores.*')
+					->where('tmp_scores.submission_id',$this_submission->previous_id)
+					->where('dupak_item_scores.submission_id',$id)
+					->where('dupak_item_scores.type','final')->get();
+
+				}else{
+					$get_final_previous_scores = DB::table('dupak_item_scores')
+					->select('dupak_item_scores.*')
+					->where('dupak_item_scores.submission_id',$this_submission->previous_id)
+					->where('type','final')
+					->get();
+
+					$get_jml_institusions = DB::table('items')
+					->join('files', 'items.id', '=', 'files.id')
+					->join('dupak_item_scores','dupak_item_scores.item_id','=','items.id')
+					->select('items.*','files.*','dupak_item_scores.*','files.times as files_times','dupak_item_scores.item_score as dupak_item_scores_item_score')
+					->where('dupak_item_scores.type','final')
+					->where('dupak_item_scores.submission_id',$this_submission->previous_id)
+					->where('files.submission_id',$id)->get();
+
+					//untuk kedua isi ketika telah ada pengajuan baru
+					$get_jml_penilai = DB::table('dupak_item_scores')
+					->select('dupak_item_scores.*')
+					->where('submission_id',$id)
+					->where('type','final')
+					->get();
+
+				}
+
+				$pdf = PDF::loadView('pages.timpenilai.detail_pak_terampil',compact('this_submission','pk_Position','unit_applicant','get_submission_items','get_final_dupak_scores','get_final_previous_scores','get_jml_institusions','get_jml_penilai','butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F'));
+				return $pdf->download($this_submission->id.'.pdf');
 				
 				break;
 			}

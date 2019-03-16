@@ -203,7 +203,7 @@ assets/img/kementerian_logo.png
 <body>
     <header>
       <div class="logo">
-        {{-- <img src="{{ URL::to('/')."/assets/img/kementerian_logo.png" }}"> --}}
+        <img src="{{ URL::to('/')."/assets/img/kementerian_logo.png" }}">
     </div>
     <h4>DAFTAR USULAN PENETAPAN ANGKA KREDIT</h4>
     
@@ -247,7 +247,7 @@ assets/img/kementerian_logo.png
             <th class="desc">Tanyakan</th>
         </tr><tr>
             <th class="service">Jabatan Pranata Komputer</th>
-            <th class="desc">{{ $pk_Position->position }}</th>
+            <th class="desc">{{ $pk_Position->group." - ".$pk_Position->position }}</th>
         </tr><tr>
             <th class="service">Masa Kerja Golongan Lama</th>
             <th class="desc">Tanyakan</th>
@@ -326,7 +326,66 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+            
+            {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                            @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                            @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
+    {{-- mulainya 6  --}}
     <td class="qty">
         @if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
@@ -361,7 +420,87 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        
+        {{-- hasilkeduanyakedua --}}
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -422,7 +561,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -455,7 +651,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -519,7 +792,64 @@ assets/img/kementerian_logo.png
     -
     @endif
 </td>
-<td class="qty">jml</td>
+<td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -552,7 +882,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-<td class="total">jml</td>
+<td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -614,7 +1021,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -647,7 +1111,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -708,7 +1249,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -741,7 +1339,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -805,7 +1480,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -838,7 +1570,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -899,7 +1708,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -932,7 +1798,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -993,7 +1936,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -1026,7 +2026,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -1087,7 +2164,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -1120,7 +2254,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -1184,7 +2395,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -1217,7 +2485,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -1278,7 +2623,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -1311,7 +2713,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -1372,7 +2851,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -1405,7 +2941,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -1470,7 +3083,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -1503,7 +3173,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -1565,7 +3312,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -1598,7 +3402,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -1659,7 +3540,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -1692,7 +3630,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -1754,7 +3769,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -1787,7 +3859,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -1848,7 +3997,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -1881,7 +4087,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>
@@ -1943,7 +4226,64 @@ assets/img/kementerian_logo.png
         -
         @endif
     </td>
-    <td class="qty">jml</td>
+    <td class="qty">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_submission_items->contains('id',$butir->id))
+        {{-- cek tmp / dupak scores --}}
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- ini sudah ketika ada previous --}}
+                @if ($get_jml_institusions->contains('id',$butir->id))
+                    @foreach ($get_jml_institusions as $get_jml_institusion)
+                        @if ($get_jml_institusion->id == $butir->id)
+                            {{ ($get_jml_institusion->item_score*$get_jml_institusion->times)+($get_jml_institusion->point*$get_jml_institusion->files_times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @else
+            @if ($get_final_previous_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_previous_scores as $get_final_previous_score)
+            @if ($get_final_previous_score->item_id == $butir->id)
+            {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+            @endif
+            @endforeach
+            @else
+            -
+            @endif
+        @endif
+        @elseif($get_submission_items->contains('id',$butir->id))
+            @foreach ($get_submission_items as $get_submission_item)
+            @if ($get_submission_item->id == $butir->id)
+            {{ $get_submission_item->times*$get_submission_item->point }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
     <td class="qty">@if ($this_submission->previous_id == $this_submission->nip)
             @if ($get_final_previous_scores->contains('item_id',$butir->id))
             @foreach ($get_final_previous_scores as $get_final_previous_score)
@@ -1976,7 +4316,84 @@ assets/img/kementerian_logo.png
    -
    @endif
 </td>
-    <td class="total">jml</td>
+    <td class="total">
+        @if ($get_final_previous_scores->contains('item_id',$butir->id) && $get_final_dupak_scores->contains('item_id',$butir->id))
+        @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->dupak_item_scores_item_score)+($get_jml_penilai_item->item_score*$get_jml_penilai_item->times) }}
+                        @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+            {{-- asdasd --}}
+                @if ($get_jml_penilai->contains('item_id',$butir->id) && $get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                                @foreach ($get_final_previous_scores as $get_final_previous_score)
+                                    @if ($get_final_previous_score->item_id == $get_jml_penilai_item->item_id)
+                                        {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score)+($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+
+                                    @else
+                                        
+                                    @endif
+                                @endforeach
+                        @else
+                            
+                        @endif
+                        @endforeach
+                @elseif($get_jml_penilai->contains('item_id',$butir->id))
+                    @foreach ($get_jml_penilai as $get_jml_penilai_item)
+                        @if ($get_jml_penilai_item->item_id == $butir->id)
+                            {{ ($get_jml_penilai_item->times*$get_jml_penilai_item->item_score) }}
+                        @endif
+                    @endforeach
+                @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                            {{ ($get_final_previous_score->item_score*$get_final_previous_score->times) }}
+                        @endif
+                    @endforeach
+                @else
+                    0
+                @endif
+            @endif
+        
+        @elseif($get_final_previous_scores->contains('item_id',$butir->id))
+            @if ($this_submission->previous_id == $this_submission->nip)
+                @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                    @foreach ($get_final_previous_scores as $get_final_previous_score)
+                    @if ($get_final_previous_score->item_id == $butir->id)
+                    {{ $get_final_previous_score->item_score }}
+                    @endif
+                    @endforeach
+                @else
+                -
+                @endif
+            @else
+                    @if ($get_final_previous_scores->contains('item_id',$butir->id))
+                        @foreach ($get_final_previous_scores as $get_final_previous_score)
+                        @if ($get_final_previous_score->item_id == $butir->id)
+                        {{ $get_final_previous_score->item_score*$get_final_previous_score->times }}
+                        @endif
+                        @endforeach
+                    @else
+                    -
+                    @endif
+            @endif
+        @elseif($get_final_dupak_scores->contains('item_id',$butir->id))
+            @foreach ($get_final_dupak_scores as $get_final_dupak_score)
+            @if ($get_final_dupak_score->item_id == $butir->id)
+            {{ $get_final_dupak_score->times*$get_final_dupak_score->item_score }}
+            @endif
+            @endforeach
+        @else
+            0
+        @endif
+    </td>
 </tr>
 @endforeach
 </tbody>

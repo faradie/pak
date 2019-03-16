@@ -50,7 +50,7 @@ class sekretariatController extends Controller
 			->join('items', 'dupak_item_scores.item_id', '=', 'items.id')
 			->select('items.*', 'dupak_item_scores.*')
 			->where('submission_id', $submission->previous_id)
-			->where('type','final')
+			->where('dupak_item_scores.type','final')
 			->get();
 			//cek di dupak item scores where submission id di previous id (submission sebelumnya yg final) itu dan type final
 		}
