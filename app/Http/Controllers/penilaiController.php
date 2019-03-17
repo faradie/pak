@@ -428,7 +428,6 @@ class penilaiController extends Controller
 					->where('submission_id',$id)
 					->where('type','final')
 					->get();
-
 				}
 
 				$pdf = PDF::loadView('pages.timpenilai.detail_pak_terampil',compact('this_submission','pk_Position','unit_applicant','get_submission_items','get_final_dupak_scores','get_final_previous_scores','get_jml_institusions','get_jml_penilai','butir_terampil1A','butir_terampil1B','butir_terampil2A','butir_terampil2B','butir_terampil2C','butir_terampil3A','butir_terampil3B','butir_terampil3C','butir_terampil3D','butir_terampil4A','butir_terampil4B','butir_terampil4C','butir_terampil5A','butir_terampil5B','butir_terampil5C','butir_terampil5D','butir_terampil5E','butir_terampil5F'));

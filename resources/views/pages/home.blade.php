@@ -39,13 +39,50 @@
             <td>{{$positionName->group}} - {{$positionName->position}}</td>
           </tr>
           <tr>
+            <th scope="row">Unit Kerja</th>
+            <td>{{$unitsName->workUnit}}</td>
+          </tr>
+          <tr>
             <th scope="row">Alamat</th>
             <td>{{auth()->user()->address}}</td>
           </tr>
-
           <tr>
             <th scope="row">Angka Kredit</th>
             <td>{{auth()->user()->credit}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Golongan</th>
+            <td>
+              @if (auth()->user()->credit >= 25 && auth()->user()->credit < 40)
+                II/a
+              @elseif(auth()->user()->credit >= 40 && auth()->user()->credit < 60)  
+                II/b
+              @elseif(auth()->user()->credit >= 60 && auth()->user()->credit < 80)
+                II/c
+              @elseif(auth()->user()->credit >= 80 && auth()->user()->credit < 100)
+                II/d
+              @elseif(auth()->user()->credit >= 100 && auth()->user()->credit < 150)
+                III/a
+              @elseif(auth()->user()->credit >= 150 && auth()->user()->credit < 200)
+                III/b
+              @elseif(auth()->user()->credit >= 200 && auth()->user()->credit < 300)
+                III/c
+              @elseif(auth()->user()->credit >= 300 && auth()->user()->credit < 400)
+                III/d
+              @elseif(auth()->user()->credit >= 400 && auth()->user()->credit < 550)
+                IV/a
+              @elseif(auth()->user()->credit >=550 && auth()->user()->credit < 700)
+                IV/b
+              @elseif(auth()->user()->credit >= 700 && auth()->user()->credit < 850)
+                IV/c
+              @elseif(auth()->user()->credit >= 850 && auth()->user()->credit < 1050)
+                IV/d
+              @elseif(auth()->user()->credit >= 1050)
+                IV/e
+              @else
+                Golongan tidak tersedia      
+              @endif
+            </td>
           </tr>
         </tbody>
       </table>

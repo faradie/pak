@@ -55,8 +55,20 @@ class User extends Authenticatable
 
 
     public function sendClientAddedNotification($client)
-{
-    $this->notify(new allNotification($client));
-}
-   
+    {
+        $this->notify(new allNotification($client));
+    }
+
+    // public function getCreatedAtAttribute()
+    // {
+    //     return \Carbon\Carbon::parse($this->attributes['created_at'])
+    //     ->format('d, M Y H:i');
+    // }
+
+    // public function getUpdatedAtAttribute()
+    // {
+    //     return \Carbon\Carbon::parse($this->attributes['updated_at'])
+    //     ->diffForHumans();
+    // }
+
 }
